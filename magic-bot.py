@@ -16,34 +16,34 @@ class Game:
         self.begin = False
         self.post = False
 
-    def handle_command(message_obj):
+    def handle_command(self, message_obj):
         command = message_obj.content[6:]
         args = command.split(" ")
 
         if args[0] == "player":
-            if not begin:
-                self.players.append( {args[1], args[2]} )
+            if not self.begin:
+                self.players.append( [args[1], args[2]] )
                 return "{player} is playing {deck}".format(player=args[1], deck=args[2])
             else:
                 return "Can't add player—game has already started"
 
         if args[0] == "first":
-            if not begin:
-                self.first.append( {args[1], args[2]} )
+            if not self.begin:
+                self.first.append( [args[1], args[2]] )
                 self.begin = True
                 return "{player} goes first!  Good luck!".format(player=args[1])
             else:
                 return "{player} can't go first because the game has already started!".format(player=args[1])
 
         if args[0] == "elim" or args[0] == "eliminated":
-            if begin:
+            if self.begin:
                 self.eliminated.append(args[1])
                 return "Ouch! Better luck next time, {player}!".format(player=args[1])
             else:
                 return "{player} could not have been eliminated because the game has not started yet!".format(player=args[1])
 
-        if args[0] == "win" or args[0] = "victory" or args[0] == "winner":
-            if begin:
+        if args[0] == "win" or args[0] == "victory" or args[0] == "winner":
+            if self.begin:
                 self.winner.append(args[1])
                 if args[1] == "draw":
                     return "Welp, that must have been interesting."
@@ -59,9 +59,11 @@ class Game:
             player_str = "\n\n"
 
             if self.players:
-                separator = ", "
-                player_str += "Players: " 
-                player_str += separator.join(self.players)
+                
+                pl_list = map(lambda p: p[0], self.players)
+                player_str += "Players: "
+                player_str += ", ".join(self.pl_list)
+                
             else:
                 player_str += "No players have been added yet."
             
@@ -96,7 +98,8 @@ class Game:
 
         if args[0] == "end":
             return "end"
-
+        else:
+            return ""
 
 @client.event
 async def on_ready():
@@ -117,6 +120,7 @@ async def on_message(message):
         if current_game is None:
             # Make a new game
             current_game = Game()
+            await message.channel.send("Started a new game!")
 
         # have the game handle it
         response = current_game.handle_command(message)
@@ -127,7 +131,14 @@ async def on_message(message):
             # close out the game
             current_game = None
 
-        else :
+            # confirmation message
+            await message.channel.send("Thanks for playing!")
+
+
+        elif response == "":
+            pass
+
+        else:
             # send the reponse as a message
             await message.channel.send(response)
 
