@@ -94,7 +94,8 @@ class Game:
 
             return state_str
 
-
+        if args[0] == "end":
+            return "end"
 
 
 @client.event
@@ -120,7 +121,14 @@ async def on_message(message):
         # have the game handle it
         response = current_game.handle_command(message)
 
-        # send the reponse as a message
-        await message.channel.send(response)
+        if response == "end":
+            # store game data
+            
+            # close out the game
+            current_game = None
+
+        else :
+            # send the reponse as a message
+            await message.channel.send(response)
 
 client.run(config.bot_token)
