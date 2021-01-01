@@ -42,10 +42,19 @@ class Game:
 
         if args[0] == "first":
             if not self.begin:
-                self.first.append( args[1] )
-                self.first.append( args[2] )
-                self.begin = True
-                return "{player} goes first!  Good luck!".format(player=args[1])
+
+                player_index = self.get_player_index(args[1])
+
+                # -1 is our failure mode
+                if player_index == -1:
+                    return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
+
+                # If the player was found, we get their information from the player list and mark them as eliminated
+                else:
+                    self.first = self.players[player_index]
+                    self.begin = True
+                    return "{player} goes first!  Good luck!".format(player=args[1])
+
             else:
                 return "{player} can't go first because the game has already started!".format(player=args[1])
 
@@ -122,7 +131,7 @@ class Game:
                 else:
                     win_str += self.winner + " won the game!"
             else:
-                win_str += "The game is in progress."
+                win_str += "The game is not finished yet."
 
             state_str += win_str
 
@@ -137,10 +146,10 @@ class Game:
         if not self.players:
             return
         else:
-            player_arr = map(lambda p: p[0] + ":" + p[1])
+            player_arr = map(lambda p: p[0] + ":" + p[1], self.players)
             player_str = "&".join(player_arr)
             first_str = self.first[0] + ":" + self.first[1]
-            elim_str = map(lambda p: p[0] + ":" + p[1])
+            elim_str = map(lambda p: p[0] + ":" + p[1], self.players)
             win_str = ""
             if self.winner == "draw":
                 win_str += "draw"
