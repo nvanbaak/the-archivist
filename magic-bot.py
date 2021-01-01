@@ -4,9 +4,6 @@ import config
 client = discord.Client()
 current_game = None
 
-# with open("gamehistory.txt") as games:
-#     games.read()
-
 class Game:
     def __init__(self):
         self.players = []
@@ -15,6 +12,22 @@ class Game:
         self.winner = []
         self.begin = False
         self.post = False
+
+    # Given the name of a player, tracks them down in the player list. Returns -1 if not found.  Used to get deck information with spellchecking as a useful consequence.
+    def get_player_index(self, player_name):
+        
+        # search for player in the player list
+        index = 0
+        for p in self.players:
+            # break out of the for loop if we found the name
+            if self.players[index][0] == args[1]:
+                return index
+            # otherwise increment
+            else:
+                index += 1
+        # We only get here if the name wasn't in the list, so return -1
+        return -1
+
 
     def handle_command(self, message_obj):
         command = message_obj.content[6:]
@@ -29,7 +42,8 @@ class Game:
 
         if args[0] == "first":
             if not self.begin:
-                self.first.append( [args[1], args[2]] )
+                self.first.append( args[1] )
+                self.first.append( args[2] )
                 self.begin = True
                 return "{player} goes first!  Good luck!".format(player=args[1])
             else:
@@ -37,18 +51,36 @@ class Game:
 
         if args[0] == "elim" or args[0] == "eliminated":
             if self.begin:
-                self.eliminated.append(args[1])
-                return "Ouch! Better luck next time, {player}!".format(player=args[1])
+
+                player_index = self.get_player_index(args[1])
+
+                # -1 is our failure mode
+                if player_index == -1:
+                    return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
+
+                # If the player was found, we get their information from the player list and mark them as eliminated
+                else:
+                    self.eliminated.append(self.players[player_index])
+                    return "Ouch! Better luck next time, {player}!".format(player=args[1])
             else:
                 return "{player} could not have been eliminated because the game has not started yet!".format(player=args[1])
 
         if args[0] == "win" or args[0] == "victory" or args[0] == "winner":
             if self.begin:
-                self.winner.append(args[1])
+
                 if args[1] == "draw":
+                    self.winner = "draw"
                     return "Welp, that must have been interesting."
+
                 else:
-                    return "Congratulations {player}!".format(player=args[1])
+                    player_index = self.get_player_index(args[1])
+
+                    if player_index > -1:
+                        self.winner = self.players[player_index]
+
+                        return "Congratulations {player}!".format(player=args[1])
+                    else:
+                        return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
             else:
                 return "{player} could not have been won because the game has not started yet!".format(player=args[1])
 
@@ -78,7 +110,7 @@ class Game:
 
             state_str += first_str
 
-            death_str = "\n" + "\n".join(self.eliminated)
+            death_str = "\n".join(self.eliminated)
 
             state_str += death_str
 
@@ -100,6 +132,30 @@ class Game:
             return "end"
         else:
             return ""
+
+    def store_data(self, destination):
+        if not self.players:
+            return
+        else:
+            player_arr = map(lambda p: p[0] + ":" + p[1])
+            player_str = "&".join(player_arr)
+            first_str = self.first[0] + ":" + self.first[1]
+            elim_str = map(lambda p: p[0] + ":" + p[1])
+            win_str = ""
+            if self.winner == "draw":
+                win_str += "draw"
+            else:
+                win_str = self.winner[0] + ":" + self.winner[1]
+            
+            game_str = " ".join([player_str, first_str, elim_str, win_str])
+
+            with open(destination, "a") as gamehist:
+                gamehist.write(game_str + "\n")
+
+
+
+
+
 
 @client.event
 async def on_ready():
@@ -126,13 +182,13 @@ async def on_message(message):
 
         if response == "end":
             # store game data
+            current_game.store_data("gamehistory.txt")
             
             # close out the game
             current_game = None
 
             # confirmation message
             await message.channel.send("Thanks for playing!")
-
 
         elif response == "":
             pass
