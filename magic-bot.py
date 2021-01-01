@@ -62,8 +62,8 @@ class Game:
                 
                 pl_list = map(lambda p: p[0], self.players)
                 player_str += "Players: "
-                player_str += ", ".join(self.pl_list)
-                
+                player_str += ", ".join(pl_list)
+
             else:
                 player_str += "No players have been added yet."
             
@@ -107,7 +107,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    print(message)
     if message.author == client.user:
         return
     
