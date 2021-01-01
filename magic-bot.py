@@ -20,7 +20,7 @@ class Game:
         index = 0
         for p in self.players:
             # break out of the for loop if we found the name
-            if self.players[index][0] == args[1]:
+            if self.players[index][0] == player_name:
                 return index
             # otherwise increment
             else:
@@ -93,7 +93,7 @@ class Game:
             else:
                 return "{player} could not have been won because the game has not started yet!".format(player=args[1])
 
-        if args[0] == "state":
+        if args[0] == "state" or args[0] == "status":
 
             state_str = "Game state:"
 
@@ -119,7 +119,13 @@ class Game:
 
             state_str += first_str
 
-            death_str = "\n".join(self.eliminated)
+            death_str = "\n"
+
+            if self.eliminated:
+                for p in self.eliminated:
+                    death_str += p[0] + " has been eliminated."
+            else:
+                death_str += "Everyone's still alive... for now."
 
             state_str += death_str
 
