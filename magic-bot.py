@@ -61,7 +61,7 @@ class Game:
 
         if args[0] == "rename":
             player_index = self.get_player_index(args[1])
-
+            self.players[player_index][0] = args[2]
 
         if args[0] == "first":
             if not self.begin:
@@ -543,9 +543,10 @@ class Statistics:
         win_rate = round((games_won / total_games) * 100, 2)
         baseline_win_chance = round(baseline_win_chance, 2)
         projected_win_rate = round((baseline_win_chance / total_games) * 100, 2)
+        efficiency = round((win_rate / baseline_win_chance) * 100, 2)
 
         log_str += "\n • **{num} games** played with a win rate of {win_rate}%".format(num=total_games, win_rate=win_rate)
-        log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins}".format(actual_wins=games_won, projected_wins=baseline_win_chance)
+        log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins} ({efficiency}% efficiency)".format(actual_wins=games_won, projected_wins=baseline_win_chance,efficiency=efficiency)
 
         if winning_games:
             example_win = random.choice(winning_games)
