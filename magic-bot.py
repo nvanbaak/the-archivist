@@ -439,7 +439,6 @@ class Statistics:
                     break
             # skip this game if it's missing a required player
             if not fits_player_require:
-                print("ending consideration due to disqual")
                 continue
             
             # check blacklist
@@ -506,11 +505,53 @@ class Statistics:
                 del args[0]
                 return self.set_filters(args)
 
+        if args[0] == "player":
+            del args[0]
+            return self.player_stats(args)
+
         if args[0] == "refresh":
             return self.refresh()
 
         else:
             return ""
+
+    # stats reference function for looking at player performance
+    def player_stats(self, args):
+        log_str = "Here are the stats on {name}:".format(name=args[0])
+
+        total_games = 0
+        games_won = 0
+        baseline_win_chance = 0
+
+        winning_games = []
+
+        for game in self.games:
+            index = game.get_player_index(args[0])
+            if index > -1:
+                total_games += 1
+
+                if game.winner[0] == args[0]:
+                    games_won += 1
+                    winning_games.append(game)
+            
+                average_win = round(1 / game.pod_size(), 2)
+                baseline_win_chance += average_win
+
+        win_rate = round((games_won / total_games) * 100, 2)
+        baseline_win_chance = round(baseline_win_chance, 2)
+        projected_win_rate = round((baseline_win_chance / total_games) * 100, 2)
+
+        log_str += "\n • **{num} games** played with a win rate of {win_rate}%".format(num=total_games, win_rate=win_rate)
+        log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins}".format(actual_wins=games_won, projected_wins=baseline_win_chance)
+
+        if winning_games:
+            example_win = random.choice(winning_games)
+            example_note = random.choice(example_win.notes)
+
+            log_str += '\n • A sample note from a victorious game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+
+        return log_str
+
 
     # stats reference function for analyzing game breakdown
     def game_stats(self, args):
