@@ -300,6 +300,70 @@ class Statistics:
         self.require_elim = []
         self.block_elim = []
 
+    # filters the total set of games according to criteria
+    def set_filters(self, args):
+
+        allow_pod_modifier: True
+        log_str = "Filtering game data..."
+
+        for arg in args:
+
+            # pod size filters
+            if "pod" in arg:
+                arg = arg.replace("pod", "")
+
+                # do we allow or disallow these pod sizes?
+                permission = False
+                perm_str = "Disallowed"
+
+                if "+" in arg:
+                    permission = True
+                    perm_str = "Allowed"
+                    arg = arg.replace("+", "")
+
+                elif "-" in arg:
+                    arg = arg.replace("-", "")
+
+
+                # "hard equals" that restricts all results to a specific size; only works on true
+                if "==" in arg:
+                    arg = arg.replace("==", "")
+                    for size in pods:
+                        size = False
+                    self.pods[int(arg) - 2] = True
+                    log_str += "\n • Restricted pod size to {num}".format(num=int(arg))
+
+                # pods with smaller sizes than the given number
+                if "<" in arg:
+                    arg = arg.replace("<", "")
+                    index = int(arg) - 3
+                    while index > -1:
+                        self.pods[index] = permission
+                        index -= 1
+
+                    log_str += "\n • {permission} pod sizes below {index}".format(permission=perm_str, index=index+2)
+
+                # pods larger than the given number
+                if ">" in arg:
+                    arg = arg.replace(">", "")
+                    index = int(arg) - 2
+                    while index < 6:
+                        self.pods[index] = permission
+                        index += 1
+
+                    log_str += "\n • {permission} pod sizes above {index}".format(permission=perm_str, index=index+2)
+
+                # pods equal to the given number
+                if "=" in arg:
+                    arg = arg.replace("=", "")
+                    self.pods[int(arg) - 2] = permission
+                    log_str += "\n • {permission} pod sizes of {index}".format(permission=perm_str, index=int(arg))
+
+        return log_str
+
+    def fliter_games(self):
+        
+
     def reset_filters(self):
         self.pods = [True, True, True, True, True, True]
         self.require_players = []
@@ -320,16 +384,22 @@ class Statistics:
                 new_game = Game()
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
+        
+        return "Successfully loaded game history!"
 
     def handle_command(self, message_obj):
         args = message_obj.content[7:].split(" ")
 
-        if args[0] == "games" or args[1] == "game":
+        if args[0] == "games" or args[0] == "game":
             del args[0]
             return self.game_stats(args)
 
+        if args[0] == "filter":
+            del args[0]
+            return self.set_filters(args)
+
         if args[0] == "refresh":
-            self.refresh()
+            return self.refresh()
 
         else:
             return ""
@@ -393,20 +463,21 @@ class Statistics:
                             arr_length += 1
                 
                 # then we sort the array; NB sort() modifies the original array
-                commanders.sort(lambda d: d[1])
+                commanders.sort(reverse=True, key=lambda d: d[1])
 
                 # Now that we have our data, we can present it
                 response_str = "Here are the most common commanders in my records:"
                 index = 0
-                # we only return the 10 most played to avoid completely swamping the chat
+                # we only return the 20 most played to avoid completely swamping the chat
                 for deck in commanders:
-                    if index < 10:
+                    if index < 20:
                         response_str += "\n • {cmdr}: {total} games".format(cmdr=deck[0], total=deck[1])
                         index += 1
                     else:
                         break
                 # then we close up
-                response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-10)
+                if arr_length > 20:
+                    response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-20)
 
                 return response_str
 
