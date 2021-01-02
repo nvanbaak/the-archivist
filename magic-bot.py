@@ -388,6 +388,34 @@ class Statistics:
         self.filter_games()
         return log_str
 
+    def filter_settings(self):
+        log_str = "These are the current filter settings:"
+
+        # pod filters
+        log_str += "\n Allowed pod sizes: "
+        index = 0
+        pod_arr = []
+        # add the pod sizes current set to true
+        while index < 6:
+            if self.pods[index]:
+                pod_arr.append("{num}".format(num=index+2))
+            index += 1
+        # join into a string and concat
+        log_str += ", ".join(pod_arr)
+
+        # player filters
+        if self.require_players:
+            log_str += "\nThese players are required in all games:"
+            for pl in self.require_players:
+                log_str += "\n • {player}".format(player=pl)
+        
+        if self.block_players:
+            log_str += "\nExcluding games with these players:"
+            for pl in self.block_players:
+                log_str += "\n • {player}".format(player=pl)
+
+        return log_str
+
     # filters the game set based on the established filter rules
     def filter_games(self):
         # set up new array to filter into
@@ -396,11 +424,38 @@ class Statistics:
         # iterate through games
         for game in self.games:
 
-            # check against pod size constraints and append if they check out
+            # check against pod size constraints
             index = game.pod_size() - 2
-            if self.pods[index]:
-                new_game_array.append(game)
+            # if it's false, we skip the rest of the loop
+            if not self.pods[index]:
+                continue
 
+            # check player require list
+            fits_player_require = True
+            for player in self.require_players:
+                index = game.get_player_index(player)
+                if index == -1:
+                    fits_player_require = False
+                    break
+            # skip this game if it's missing a required player
+            if not fits_player_require:
+                print("ending consideration due to disqual")
+                continue
+            
+            # check blacklist
+            fits_blacklist = True
+            for player in self.block_players:
+                index = game.get_player_index(player)
+                if index > -1:
+                    fits_blacklist = False
+                    break
+            # skip this game if it has a blacklisted player in it
+            if not fits_blacklist:
+                continue
+
+            # if we made it here that means we haven't been disqualified, so we can append
+            new_game_array.append(game)
+            
         # once we're done, change the games reference to the new array
         self.games = new_game_array
 
@@ -413,6 +468,9 @@ class Statistics:
         self.block_cmdrs = []
         self.require_elim = []
         self.block_elim = []
+
+        self.games = []
+        self.refresh()
 
     # Pull a fresh set of data from memory
     def refresh(self):
@@ -441,6 +499,8 @@ class Statistics:
             if args[1] == "reset":
                 self.reset_filters()
                 return "All filters reset."
+            elif args[1] == "setting" or args[1] == "settings":
+                return self.filter_settings()
             else:
                 del args[0]
                 return self.set_filters(args)
