@@ -10,8 +10,9 @@ class Game:
         self.first = []
         self.eliminated = []
         self.winner = []
+        self.notes = []
         self.begin = False
-        self.post = False
+        self.game_over = False
 
     # Given the name of a player, tracks them down in the player list. Returns -1 if not found.  Used to get deck information with spellchecking as a useful consequence.
     def get_player_index(self, player_name):
@@ -40,7 +41,6 @@ class Game:
                 index += 1
         # We only get here if the name wasn't in the list, so return -1
         return -1
-
 
     def handle_command(self, message_obj):
         command = message_obj.content[6:]
@@ -71,7 +71,7 @@ class Game:
             else:
                 return "{player} can't go first because the game has already started!".format(player=args[1])
 
-        if args[0] == "elim" or args[0] == "eliminated":
+        if args[0] == "elim" or args[0] == "eliminated" or args[0] == "defeat":
             if self.begin:
 
                 player_index = self.get_player_index(args[1])
@@ -99,8 +99,13 @@ class Game:
 
                     if player_index > -1:
                         self.winner = self.players[player_index]
+                        self.game_over = True
 
-                        return "Congratulations {player}!".format(player=args[1])
+                        win_str = "Congratulations {player}!".format(player=args[1])
+
+                        win_str += "\n Anyone who wants to comment on the game can now do so by typing:\n```$game note [your note here]```\n"
+
+                        return win_str
                     else:
                         return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
             else:
@@ -167,8 +172,22 @@ class Game:
 
             return state_str
 
+        if args[0] == "note":
+            if self.game_over:
+                # Get author of message
+                author = message_obj.author.name
+                # Delete the first word of the note (which is "note")
+                del args[0]
+                # Rejoin to store as a single string
+                note_str = " ".join(args)
+                self.notes.append( (author, note_str) )
+                return "Thanks, {player}".format(player=author)
+            else:
+                return "The game is not over.  History cannot be written until after it happens."
+
         if args[0] == "end":
             return "end"
+
         else:
             return ""
 
@@ -178,24 +197,25 @@ class Game:
         else:
             player_arr = map(lambda p: p[0] + ":" + p[1], self.players)
             player_str = "&".join(player_arr)
+
             first_str = self.first[0] + ":" + self.first[1]
-            elim_arr = map(lambda p: p[0] + ":" + p[1], self.players)
+
+            elim_arr = map(lambda p: p[0] + ":" + p[1], self.eliminated)
             elim_str = "&".join(elim_arr)
+
             win_str = ""
             if self.winner == "draw":
                 win_str += "draw"
             else:
                 win_str = self.winner[0] + ":" + self.winner[1]
+
+            note_arr = map(lambda n: n[0] + ":" + n[1], self.notes)
+            note_str = "&".join(note_arr)
             
-            game_str = " ".join([player_str, first_str, elim_str, win_str])
+            game_str = "|".join([player_str, first_str, elim_str, win_str, note_str])
 
             with open(destination, "a") as gamehist:
                 gamehist.write(game_str + "\n")
-
-
-
-
-
 
 @client.event
 async def on_ready():
@@ -212,7 +232,14 @@ async def on_message(message):
     if message.content.startswith('$game'):
         # Check if there is is a game
         global current_game
-        if current_game is None:
+
+        # user might just be checking if there's a game; we don't need to start a new one in that case
+        status_update = message.content.startswith('$game status') or message.content.startswith('$game state')
+
+        if current_game is None and status_update:
+            await message.channel.send("There is currently no active game.")
+
+        elif current_game is None:
             # Make a new game
             current_game = Game()
             await message.channel.send("Started a new game!")
