@@ -488,7 +488,7 @@ class Statistics:
                 self.games.append(new_game)
 
         self.filter_games()
-        return "Successfully loaded game history!"
+        return "Successfully loaded game history! Sample set now {num} games.".format(num=len(self.games))
 
     # called by the bot to invoke various methods
     def handle_command(self, message_obj):
@@ -497,6 +497,11 @@ class Statistics:
         if args[0] == "games" or args[0] == "game":
             del args[0]
             return self.game_stats(args)
+
+        if args[0] == "reset":
+            if args[1] == "filter" or args[1] == "filters":
+                self.reset_filters()
+                return "All filters reset."
 
         if args[0] == "filter":
             if args[1] == "reset":
@@ -555,7 +560,6 @@ class Statistics:
             log_str += '\n • A sample note from a victorious game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
 
         return log_str
-
 
     # stats reference function for analyzing game breakdown
     def game_stats(self, args):
@@ -681,6 +685,50 @@ class Statistics:
                     response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-10)
 
                 return response_str
+
+            # "...winner"
+            if args[1] == "winner" or args[1] == "winners" or args[1] == "wins" or args[1] == "win":
+                # Empty array of players to start
+                winners = []
+                arr_length = 0
+
+                # Iterate through all games
+                for game in self.games:
+                    win_str = game.winner[0] #+ " (" + game.winner[1] + ")"
+
+                    # check against list
+                    index = 0
+                    for winner in winners:
+                        # if the name matches, increment the count
+                        if winner[0] == win_str:
+                            winner[1] += 1
+                            break
+                        index += 1
+
+                    # if the index matches the array length, our target wasn't there, so we add it with a count of 1
+                    if index == arr_length:
+                        winners.append([win_str, 1])
+                        arr_length += 1
+
+                # then sort
+                winners.sort(reverse=True, key=lambda d: d[1])
+
+                # Now that we have our data, we can present it
+                response_str = "These are the players in my records:"
+                index = 0
+                # we only return the 10 most played
+                for player in winners:
+                    if index < 10:
+                        response_str += "\n • {player}: {total} victories".format(player=player[0], total=player[1])
+                        index += 1
+                    else:
+                        break
+                # then we close up
+                if arr_length > 10:
+                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-10)
+
+                return response_str
+
 
 
             else:
