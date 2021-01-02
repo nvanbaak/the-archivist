@@ -473,30 +473,39 @@ class Statistics:
                 continue
 
             # Iterate through players to hit player and commander requirements
-            fits_player_require = False     # If we find the required player, these get turned on
-            fits_cmdr_require = False       
+            
+            # These two are true by default but go to false if any requirements exist.
+            # We'll toggle them back to true later if we find the required items
+            fits_player_require = True
+            fits_cmdr_require = True
+
+            if self.require_players:
+                fits_player_require = False     
+            if self.require_cmdrs:
+                fits_cmdr_require = False
+
+            # these two are just true
             fits_player_blacklist = True    # These get turned off if we find them in the game
             fits_cmdr_blacklist = True
             for player in game.players:
-                if player[0] is in self.require_players:
+                if player[0] in self.require_players:
                     fits_player_require = True
-                if player[1] is in self.require_cmdrs:
+                if player[1] in self.require_cmdrs:
                     fits_cmdr_require = True
                 
                 # these two break because either condition disqualifies the whole game, so no need to keep evaluating
-                if player[0] is in self.block_players:
+                if player[0] in self.block_players:
                     fits_player_blacklist = False
                     break
-                if player[1] is in self.block_cmdrs:
+                if player[1] in self.block_cmdrs:
                     fits_cmdr_blacklist = False
                     break
             
-            # if anything went wrong we skip the rest of the eval
-            if not fits_cmdr_blacklist and fits_cmdr_require and fits_player_blacklist and fits_player_require:
-                continue
-
             # if we made it here that means we haven't been disqualified, so we can append
-            new_game_array.append(game)
+            if fits_cmdr_blacklist and fits_cmdr_require and fits_player_blacklist and fits_player_require:
+                new_game_array.append(game)
+
+
             
         # once we're done, change the games reference to the new array
         self.games = new_game_array
@@ -546,7 +555,7 @@ class Statistics:
         if args[0] == "filter":
             if args[1] == "reset":
                 self.reset_filters()
-                return "All filters reset."
+                return "All filters reset. New sample set is {num} games.".format(num=len(self.games))
             elif args[1] == "setting" or args[1] == "settings":
                 return self.filter_settings()
             else:
