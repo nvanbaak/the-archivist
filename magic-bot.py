@@ -361,8 +361,23 @@ class Statistics:
 
         return log_str
 
-    def fliter_games(self):
-        
+    def filter_games(self):
+        # set up new array to filter into
+        new_game_array = []
+
+        # iterate through games
+        for game in self.games:
+
+            # check against pod size constraints and append if they check out
+            index = game.pod_size() - 2
+            if self.pods[index]:
+                new_game_array.append(game)
+
+        # once we're done, change the games reference to the new array
+        self.games = new_game_array
+
+    
+
 
     def reset_filters(self):
         self.pods = [True, True, True, True, True, True]
