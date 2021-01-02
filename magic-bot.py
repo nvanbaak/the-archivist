@@ -5,9 +5,6 @@ import random
 client = discord.Client()
 current_game = None
 
-
-
-
 class Game:
     def __init__(self):
         self.players = []
@@ -122,8 +119,39 @@ class Game:
                 return "{player} could not have been won because the game has not started yet!".format(player=args[1])
 
         if args[0] == "state" or args[0] == "status":
+            game_state()
+            
 
-            state_str = "Game state:"
+        if args[0] == "threat":
+            target = random.choice(self.players)
+            return "Considered analysis of the situation suggests that {target} is the biggest threat".format(target=target)
+
+        if args[0] == "note":
+            if self.game_over:
+                # Get author of message
+                author = message_obj.author.name
+                # Delete the first word of the note (which is "note")
+                del args[0]
+                # Rejoin to store as a single string
+                note_str = " ".join(args)
+
+                note_str = note_str.replace(":", " ")
+                note_str = note_str.replace("&", " ")
+                note_str = note_str.replace("|", " ")
+
+                self.notes.append( (author, note_str) )
+                return "Thanks, {player}".format(player=author)
+            else:
+                return "The game is not over.  History cannot be written until after it happens."
+
+        if args[0] == "end":
+            return "end"
+
+        else:
+            return ""
+
+    def game_state(self):
+        state_str = "Game state:"
 
             player_str = "\n\n"
 
@@ -182,33 +210,42 @@ class Game:
 
             return state_str
 
-        if args[0] == "threat":
-            target = random.choice(self.players)
-            return "Considered analysis of the situation suggests that {target} is the biggest threat".format(target=target)
+    # Parses information from stored games
+    def parse_data(self, game_data):
+        # Break up the string into data chunks
+        data_arr = game_data.split("|")
 
-        if args[0] == "note":
-            if self.game_over:
-                # Get author of message
-                author = message_obj.author.name
-                # Delete the first word of the note (which is "note")
-                del args[0]
-                # Rejoin to store as a single string
-                note_str = " ".join(args)
+        # Start by separating the players
+        player_arr = data_arr[0].split("&")
+        # split up players and their decks, then append to player list
+        for player in player_arr:
+            self.players.append(player.split(":"))
 
-                note_str = note_str.replace(":", " ")
-                note_str = note_str.replace("&", " ")
-                note_str = note_str.replace("|", " ")
+        # We need to split player from deck but otherwise first player can slot right in
+        self.first = data_arr[1].split(":")
 
-                self.notes.append( (author, note_str) )
-                return "Thanks, {player}".format(player=author)
-            else:
-                return "The game is not over.  History cannot be written until after it happens."
+        # There might not have been eliminations so we check first
+        if data_arr[2]:
+            elim_arr = data_arr[2].split("&")
+            for victim in elim_arr:
+                self.eliminated.append(victim.split(":"))
+        
+        # Winner is simple like first player
+        self.winner = data_arr[3].split(":")
 
-        if args[0] == "end":
-            return "end"
+        # Finally we get the notes
+        if data_arr[5]:
+            notes_arr = data_arr[5].split("&")
+            for note in notes_arr:
+                self.notes.append(note.split(":"))
 
-        else:
-            return ""
+        # This probably won't come up, but if we're reading data the game is long over
+        self.begin = True
+        self.game_over = True
+
+
+
+
 
     # Writes the game state to a text file
     def store_data(self, destination):
@@ -236,6 +273,26 @@ class Game:
 
             with open(destination, "a") as gamehist:
                 gamehist.write(game_str + "\n")
+
+
+class Statistics:
+    def __init__(self):
+
+        # Read game history from file
+        self.games = []
+        with open("gamehistory.txt", "r") as gamehistory:
+            history_arr = gamehistory.read().split("\n")
+            for game_data in history_arr:
+                new_game = Game()
+                new_game.parse_data(game_data)
+                self.games.append(new_game)
+
+
+
+
+
+
+stats = Statistics()
 
 @client.event
 async def on_ready():
