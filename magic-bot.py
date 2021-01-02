@@ -359,6 +359,7 @@ class Statistics:
                     self.pods[int(arg) - 2] = permission
                     log_str += "\n • {permission} pod sizes of {index}".format(permission=perm_str, index=int(arg))
 
+        self.filter_games()
         return log_str
 
     def filter_games(self):
@@ -375,9 +376,6 @@ class Statistics:
 
         # once we're done, change the games reference to the new array
         self.games = new_game_array
-
-    
-
 
     def reset_filters(self):
         self.pods = [True, True, True, True, True, True]
@@ -410,8 +408,12 @@ class Statistics:
             return self.game_stats(args)
 
         if args[0] == "filter":
-            del args[0]
-            return self.set_filters(args)
+            if args[1] == "reset"
+                self.reset_filters()
+                return "All filters reset."
+            else:
+                del args[0]
+                return self.set_filters(args)
 
         if args[0] == "refresh":
             return self.refresh()
@@ -496,7 +498,53 @@ class Statistics:
 
                 return response_str
 
-            
+            # "...player"
+            if args[1] == "player" or args[1] == "players":
+                # Empty array of players to start
+                players = []
+                arr_length = 0
+
+                # Iterate through all games
+                for game in self.games:
+
+                    # Get player names
+                    for player in game.players:
+                        name_str = player[0]
+
+                        # search for it in the arr
+                        index = 0
+                        for player_name in players:
+                            # if the name matches, increment the count
+                            if player_name[0] == name_str:
+                                player_name[1] += 1
+                                break
+                            index += 1
+
+                        # if the index matches the array length, our target wasn't there, so we add it with a count of 1
+                        if index == len(players):
+                            players.append([name_str, 1])
+                            arr_length += 1
+                
+                # then we sort the array; NB sort() modifies the original array
+                players.sort(reverse=True, key=lambda d: d[1])
+
+                # Now that we have our data, we can present it
+                response_str = "These are the players in my records:"
+                index = 0
+                # we only return the 10 most played
+                for player in players:
+                    if index < 10:
+                        response_str += "\n • {player}: {total} games".format(player=player[0], total=player[1])
+                        index += 1
+                    else:
+                        break
+                # then we close up
+                if arr_length > 10:
+                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-10)
+
+                return response_str
+
+
             else:
                 return ""
 
