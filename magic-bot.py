@@ -149,6 +149,9 @@ class Game:
         if args[0] == "end":
             return "end"
 
+        if args[0] == "cancel":
+            return "cancel"
+
         else:
             return ""
 
@@ -723,8 +726,25 @@ async def on_message(message):
         # user might just be checking if there's a game; we don't need to start a new one in that case
         status_update = message.content.startswith('$game status') or message.content.startswith('$game state')
 
+
         if status_update and current_game is None:
             await message.channel.send("There is currently no active game.")
+            return
+
+        # likewise, if they're just using the help menu, we don't need a new game either
+        elif message.content.startswith('$game help'):
+
+            help_str = "The $game menu is used to track __ongoing games of EDH__."
+            help_str += "\n Begin by adding your name and deck with the following command:"
+            help_str += "\n```$game player [your name] [commander name]```"
+            help_str += "(note that there can't be any spaces in your commander's name or the bot will just take the first word)"
+            help_str += "\n Once all players are added, start the game with this command:"
+            help_str += "\n```$game first [name of the player who's going first]```"
+            help_str += "Once in game, keep track of eliminations using the ```$game elim [player]``` command.  Posterity will thank you when you can point out that you're much more likely to die first and therefore not a threat!"
+            help_str += "\n Declare victory with ```$game winner [player]``` Afterward, you can add commentary to the game record so everyone knows how awesome you are, or alternately how little your opponent deserved the win."
+            help_str += "\n Once you're done, type ```$game end``` to store the game in memory. That's it!  You're done!"
+
+            await message.channel.send(help_str)
             return
 
         elif current_game is None:
@@ -747,6 +767,11 @@ async def on_message(message):
 
             # confirmation message
             await message.channel.send("Thanks for playing!")
+
+        # this is the "quit without saving" option
+        if response == "cancel":
+            current_game = None
+            await message.channel.send("I have cancelled the game for you.")
 
         elif response == "":
             pass
