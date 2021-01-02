@@ -290,8 +290,6 @@ class Statistics:
     def __init__(self):
         # We start with an empty games array and read all past games from memory
         self.games = []
-        self.refresh()
-
         self.pods = [True, True, True, True, True, True]
         self.require_players = []
         self.block_players = []
@@ -299,6 +297,10 @@ class Statistics:
         self.block_cmdrs = []
         self.require_elim = []
         self.block_elim = []
+
+        self.refresh()
+
+        
 
     # filters the total set of games according to criteria
     def set_filters(self, args):
@@ -346,12 +348,12 @@ class Statistics:
                 # pods larger than the given number
                 if ">" in arg:
                     arg = arg.replace(">", "")
-                    index = int(arg) - 2
+                    index = int(arg) - 1
                     while index < 6:
                         self.pods[index] = permission
                         index += 1
 
-                    log_str += "\n • {permission} pod sizes above {index}".format(permission=perm_str, index=int(arg) - 2)
+                    log_str += "\n • {permission} pod sizes above {index}".format(permission=perm_str, index=int(arg))
 
                 # pods equal to the given number
                 if "=" in arg:
@@ -397,7 +399,8 @@ class Statistics:
                 new_game = Game()
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
-        
+
+        self.filter_games()
         return "Successfully loaded game history!"
 
     def handle_command(self, message_obj):
