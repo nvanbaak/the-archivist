@@ -44,6 +44,9 @@ class Game:
         # We only get here if the name wasn't in the list, so return -1
         return -1
 
+    def pod_size(self):
+        return len(self.players)
+
     # the main workhorse function of the class; performs a number of basic data commands based on user input
     def handle_command(self, message_obj):
         command = message_obj.content[6:]
@@ -283,11 +286,28 @@ class Game:
             with open(destination, "a") as gamehist:
                 gamehist.write(game_str + "\n")
 
-
 class Statistics:
     def __init__(self):
+        # We start with an empty games array and read all past games from memory
         self.games = []
         self.refresh()
+
+        self.pods = [True, True, True, True, True, True]
+        self.require_players = []
+        self.block_players = []
+        self.require_cmdrs = []
+        self.block_cmdrs = []
+        self.require_elim = []
+        self.block_elim = []
+
+    def reset_filters(self):
+        self.pods = [True, True, True, True, True, True]
+        self.require_players = []
+        self.block_players = []
+        self.require_cmdrs = []
+        self.block_cmdrs = []
+        self.require_elim = []
+        self.block_elim = []
 
     def refresh(self):
         # Read game history from file
@@ -300,6 +320,102 @@ class Statistics:
                 new_game = Game()
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
+
+    def handle_command(self, message_obj):
+        args = message_obj.content[7:].split(" ")
+
+        if args[0] == "games" or args[1] == "game":
+            del args[0]
+            return self.game_stats(args)
+
+        if args[0] == "refresh":
+            self.refresh()
+
+        else:
+            return ""
+
+    def game_stats(self, args):
+
+        # "$stats game totals"
+        if args[0] == "total" or args[0] == "totals":
+            return "I have records of {total} games.".format(total=len(self.games))
+
+        # "$stats games by ..."
+        if args[0] == "by":
+
+            # "...pod"
+            if args[1] == "pod":
+                # define an array of possible pod sizes, with the first index representing 1v1
+                pod_size = [0, 0, 0, 0, 0]
+                # For each game, count the players and increment appropriately
+                for game in self.games:
+                    pod_size[game.pod_size()-2] += 1
+                
+                response_str = "Here's a breakdown of my records by pod size:"
+
+                # define an index to iterate with the array
+                index = 0
+                for tally in pod_size:
+                    # if there's no games with that pod size we don't print them
+                    if tally > 0:
+                        response_str += "\n• [{index_value}]: {tally} games".format(index_value=index+2, tally=tally)
+                    # increment the index either way
+                    index += 1
+
+                return response_str
+
+            # "...deck"
+            if args[1] == "deck" or args[1] == "commander":
+
+                # Empty array of commanders to start
+                commanders = []
+                arr_length = 0
+
+                # Iterate through all games
+                for game in self.games:
+
+                    # Get commander names
+                    for player in game.players:
+                        deck_str = player[1] + " (" + player[0] + ")"
+
+                        # search for it in the arr
+                        index = 0
+                        for deck in commanders:
+                            # if the name matches, increment the count
+                            if deck[0] == deck_str:
+                                deck[1] += 1
+                                break
+                            index += 1
+
+                        # if the index matches the array length, our target wasn't there, so we add it with a count of 1
+                        if index == len(commanders):
+                            commanders.append([deck_str, 1])
+                            arr_length += 1
+                
+                # then we sort the array; NB sort() modifies the original array
+                commanders.sort(lambda d: d[1])
+
+                # Now that we have our data, we can present it
+                response_str = "Here are the most common commanders in my records:"
+                index = 0
+                # we only return the 10 most played to avoid completely swamping the chat
+                for deck in commanders:
+                    if index < 10:
+                        response_str += "\n • {cmdr}: {total} games".format(cmdr=deck[0], total=deck[1])
+                        index += 1
+                    else:
+                        break
+                # then we close up
+                response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-10)
+
+                return response_str
+
+            
+            else:
+                return ""
+
+
+        else: return ""
 
     def random_game(self):
         return random.choice(self.games).game_state()
@@ -322,6 +438,16 @@ async def on_message(message):
 
     if message.content.startswith('$randomEDH'):
         await message.channel.send(stats.random_game())
+
+    if message.content.startswith('$stats'):
+        response = stats.handle_command(message)
+
+        if response == "":
+            pass
+        else:
+            await message.channel.send(response)
+
+
 
     if message.content.startswith('$game'):
         # Check if there is is a game

@@ -19,8 +19,6 @@ Tim:GrixisRamos&Nick:DaxosReturned|Tim:GrixisRamos||Nick:DaxosReturned|Jaeil:Ram
 Tim:GrixisRamos&Nick:Killigan|Tim:GrixisRamos||Nick:Killigan|Jaeil:Killigan played an early Assemble the Legion thanks to Ramos' Urza's Filter and overran Ramos with tokens
 Tim:GrixisRamos&Nick:NivMizzetF|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:NM drew no red mana, quickly ran out of usable resources and scooped to double Bolas
 Blaine:Xenagod&Nick:DaxosReturned (Victor)&Tim:GrixisRamos&Alex:Zegana (Ian)&Nick:MarchesaBR|Blaine:Xenagod|Blaine:Xenagod&Tim:GrixisRamos&Alex:Zegana (Ian)|Nick:MarchesaBR|Jaeil:Ramos voltron'd Xenagod early, Marchesa alpha striked Ramos, Zegana conceded to Marchesa's lethal, Marchesa killed Daxos with direct damage
-Tim:KozilekBT (emperor) & Alex&Nick:Breya (emperor) & Stephen|Tim:KozilekBT (emperor) & Alex||Tim:KozilekBT (emperor) & Alex|Jaeil:Kozilek flipped Sanctum of the Sun, instagibbed Xenagod with 4 Mimic Vat'd Metalworks Colossus, opponents conceded
-Nick:Muldrotha (emperor) & Tim&Nick:DaxosReturned (Victor) & Alex|Nick:Muldrotha (emperor) & Tim||Nick:Muldrotha (emperor) & Tim|Jaeil:Tim!Ur-Dragon cast an early Ur-Dragon with Fist of Suns and killed Blaine!Ur-Dragon, then Daxos conceded
 Stephen:Karlov&Nick:NivMizzetF&Tim:GrixisRamos|Stephen:Karlov|Nick:NivMizzetF|Tim:GrixisRamos|Jaeil:Karlov killed NM with drain and a big Sunscorch Regent, Ramos killed Karlov with reanimated Regent and two clones of it
 Nick:DaxosReturned&Tim:GrixisRamos&Stephen:Karador|Nick:DaxosReturned|Stephen:Karador|Tim:GrixisRamos|Jaeil:Karador scooped to several graveyard wipes and IRL obligation, Daxos scooped to time and boardstate
 Tim:GrixisRamos&Nick:Muldrotha|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Muldrotha flooded, Ramos won by commander beats
