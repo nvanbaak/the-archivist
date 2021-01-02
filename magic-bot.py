@@ -28,6 +28,19 @@ class Game:
         # We only get here if the name wasn't in the list, so return -1
         return -1
 
+    def get_elim_index(self, player_name):
+        # search for player in the elimination list
+        index = 0
+        for p in self.elimination:
+            # break out of the for loop if we found the name
+            if self.elimination[index][0] == player_name:
+                return index
+            # otherwise increment
+            else:
+                index += 1
+        # We only get here if the name wasn't in the list, so return -1
+        return -1
+
 
     def handle_command(self, message_obj):
         command = message_obj.content[6:]
@@ -101,7 +114,19 @@ class Game:
 
             if self.players:
                 
-                pl_list = map(lambda p: p[0], self.players)
+                pl_list = []
+
+                # for each player
+                for pl in players:
+                    elim_index = self.get_elim_index(pl[0])
+
+                    # if they're eliminated, add strikethrough
+                    if elim_index > -1:
+                        pl_list.append("~~" + pl[0] + "~~")
+                    # otherwise just add the name
+                    else:
+                        pl_list.append(pl[0])
+
                 player_str += "Players: "
                 player_str += ", ".join(pl_list)
 
@@ -122,8 +147,7 @@ class Game:
             death_str = "\n"
 
             if self.eliminated:
-                for p in self.eliminated:
-                    death_str += p[0] + " has been eliminated."
+                death_str += p[0] + " died first."
             else:
                 death_str += "Everyone's still alive... for now."
 
@@ -135,7 +159,7 @@ class Game:
                 if self.winner == "draw":
                     win_str += "The game was a draw.  Somehow."
                 else:
-                    win_str += self.winner + " won the game!"
+                    win_str += self.winner[0] + " won the game!"
             else:
                 win_str += "The game is not finished yet."
 
@@ -155,7 +179,8 @@ class Game:
             player_arr = map(lambda p: p[0] + ":" + p[1], self.players)
             player_str = "&".join(player_arr)
             first_str = self.first[0] + ":" + self.first[1]
-            elim_str = map(lambda p: p[0] + ":" + p[1], self.players)
+            elim_arr = map(lambda p: p[0] + ":" + p[1], self.players)
+            elim_str = "&".join(elim_arr)
             win_str = ""
             if self.winner == "draw":
                 win_str += "draw"
