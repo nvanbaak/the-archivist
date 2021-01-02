@@ -119,9 +119,8 @@ class Game:
                 return "{player} could not have been won because the game has not started yet!".format(player=args[1])
 
         if args[0] == "state" or args[0] == "status":
-            game_state()
+            self.game_state()
             
-
         if args[0] == "threat":
             target = random.choice(self.players)
             return "Considered analysis of the situation suggests that {target} is the biggest threat".format(target=target)
@@ -153,62 +152,70 @@ class Game:
     def game_state(self):
         state_str = "Game state:"
 
-            player_str = "\n\n"
+        player_str = "\n\n"
 
-            if self.players:
-                
-                pl_list = []
-
-                # for each player
-                for pl in self.players:
-                    elim_index = self.get_elim_index(pl[0])
-
-                    # if they're eliminated, add strikethrough
-                    if elim_index > -1:
-                        pl_list.append("~~" + pl[0] + "~~")
-                    # otherwise just add the name
-                    else:
-                        pl_list.append(pl[0])
-
-                player_str += "Players: "
-                player_str += ", ".join(pl_list)
-
-            else:
-                player_str += "No players have been added yet."
+        if self.players:
             
-            state_str += player_str
+            pl_list = []
 
-            first_str = "\n"
+            # for each player
+            for pl in self.players:
+                elim_index = self.get_elim_index(pl[0])
 
-            if self.first:
-                first_str += self.first[0] + " went first."
-            else:
-                first_str += "The game has not started yet."
-
-            state_str += first_str
-
-            death_str = "\n"
-
-            if self.eliminated:
-                death_str += self.eliminated[0][0] + " died first."
-            else:
-                death_str += "Everyone's still alive... for now."
-
-            state_str += death_str
-
-            win_str = "\n"
-
-            if self.winner:
-                if self.winner == "draw":
-                    win_str += "The game was a draw.  Somehow."
+                # if they're eliminated, add strikethrough
+                if elim_index > -1:
+                    pl_list.append("~~" + pl[0] + "~~")
+                # otherwise just add the name
                 else:
-                    win_str += self.winner[0] + " won the game!"
+                    pl_list.append(pl[0])
+
+            player_str += "Players: "
+            player_str += ", ".join(pl_list)
+
+        else:
+            player_str += "No players have been added yet."
+        
+        state_str += player_str
+
+        first_str = "\n"
+
+        if self.first:
+            first_str += self.first[0] + " went first."
+        else:
+            first_str += "The game has not started yet."
+
+        state_str += first_str
+
+        death_str = "\n"
+
+        if self.eliminated:
+            death_str += self.eliminated[0][0] + " died first."
+        else:
+            death_str += "Everyone's still alive... for now."
+
+        state_str += death_str
+
+        win_str = "\n"
+
+        if self.winner:
+            if self.winner == "draw":
+                win_str += "The game was a draw.  Somehow."
             else:
-                win_str += "The game is not finished yet."
+                win_str += self.winner[0] + " won the game!"
+        else:
+            win_str += "The game is not finished yet."
 
-            state_str += win_str
+        state_str += win_str
 
-            return state_str
+        if self.notes:
+            notes_str = "\n\n Contemporary witnesses said:"
+            for note in self.notes:
+                notes_str += '\n"' + note[1] + '"'
+                notes_str += '\n — ' + note[0]
+            
+            state_str += notes_str
+
+        return state_str
 
     # Parses information from stored games
     def parse_data(self, game_data):
@@ -234,18 +241,14 @@ class Game:
         self.winner = data_arr[3].split(":")
 
         # Finally we get the notes
-        if data_arr[5]:
-            notes_arr = data_arr[5].split("&")
+        if data_arr[4]:
+            notes_arr = data_arr[4].split("&")
             for note in notes_arr:
                 self.notes.append(note.split(":"))
 
         # This probably won't come up, but if we're reading data the game is long over
         self.begin = True
         self.game_over = True
-
-
-
-
 
     # Writes the game state to a text file
     def store_data(self, destination):
@@ -277,20 +280,23 @@ class Game:
 
 class Statistics:
     def __init__(self):
-
-        # Read game history from file
         self.games = []
+        self.refresh()
+
+    def refresh(self):
+        # Read game history from file
         with open("gamehistory.txt", "r") as gamehistory:
             history_arr = gamehistory.read().split("\n")
+            # delete the last entry because we know it's a newline
+            del history_arr[-1]
+            # For each game, create a Game object and append it to the Stats object
             for game_data in history_arr:
                 new_game = Game()
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
 
-
-
-
-
+    def random_game(self):
+        return random.choice(self.games).game_state
 
 stats = Statistics()
 
@@ -303,6 +309,8 @@ async def on_message(message):
     if message.author == client.user:
         return
     
+    print(message)
+
     if message.content.startswith('$hello'):
         await message.channel.send('Hello {message.author.name}!'.format(message=message))
 
