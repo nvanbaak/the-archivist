@@ -300,8 +300,6 @@ class Statistics:
 
         self.refresh()
 
-        
-
     # sets the filters that define the game set
     def set_filters(self, args):
 
@@ -386,8 +384,10 @@ class Statistics:
                         del self.require_players[index]
 
         self.filter_games()
+        log_str += "\n...Done. New sample set is {num} games.".format(num=len(self.games))
         return log_str
 
+    # returns a breakdown of the filter settings currently in effect
     def filter_settings(self):
         log_str = "These are the current filter settings:"
 
@@ -485,6 +485,7 @@ class Statistics:
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
 
+        self.filter_games()
         return "Successfully loaded game history!"
 
     # called by the bot to invoke various methods
@@ -674,8 +675,6 @@ async def on_message(message):
         else:
             await message.channel.send(response)
 
-
-
     if message.content.startswith('$game'):
         # Check if there is is a game
         global current_game
@@ -686,7 +685,6 @@ async def on_message(message):
         if status_update and current_game is None:
             await message.channel.send("There is currently no active game.")
             return
-
 
         elif current_game is None:
             # Make a new game
@@ -699,6 +697,9 @@ async def on_message(message):
         if response == "end":
             # store game data
             current_game.store_data("gamehistory.txt")
+
+            #refresh stats engine
+            stats.refresh()
             
             # close out the game
             current_game = None
