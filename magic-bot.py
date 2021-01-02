@@ -31,9 +31,9 @@ class Game:
     def get_elim_index(self, player_name):
         # search for player in the elimination list
         index = 0
-        for p in self.elimination:
+        for p in self.eliminated:
             # break out of the for loop if we found the name
-            if self.elimination[index][0] == player_name:
+            if self.eliminated[index][0] == player_name:
                 return index
             # otherwise increment
             else:
@@ -117,7 +117,7 @@ class Game:
                 pl_list = []
 
                 # for each player
-                for pl in players:
+                for pl in self.players:
                     elim_index = self.get_elim_index(pl[0])
 
                     # if they're eliminated, add strikethrough
@@ -147,7 +147,7 @@ class Game:
             death_str = "\n"
 
             if self.eliminated:
-                death_str += p[0] + " died first."
+                death_str += self.eliminated[0][0] + " died first."
             else:
                 death_str += "Everyone's still alive... for now."
 
