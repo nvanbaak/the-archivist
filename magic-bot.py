@@ -303,6 +303,10 @@ class Statistics:
 
         self.refresh()
 
+    ##################################
+    #         FILTER METHODS         #
+    ##################################
+
     # sets the filters that define the game set
     def set_filters(self, args):
 
@@ -312,12 +316,12 @@ class Statistics:
         for arg in args:
 
             # determine whether we're requiring or blocking
-            permission = False
-            if "+" in arg:
-                permission = True
-                arg = arg.replace("+", "")
-            elif "-" in arg:
+            permission = True
+            if "-" in arg:
+                permission = False
                 arg = arg.replace("-", "")
+            elif "+" in arg:
+                arg = arg.replace("+", "")
 
             # pod size filters
             if "pod" in arg:
@@ -386,6 +390,30 @@ class Statistics:
                         index = self.require_players.index(arg)
                         del self.require_players[index]
 
+            # commander filters
+            elif "cmdr" in arg or "commander" in arg:
+                arg = arg.replace("cmdr_","")
+                arg = arg.replace("commander_","")
+
+                # if requiring:
+                if permission:
+                    # add to require array
+                    self.require_cmdrs.append(arg)
+                    log_str += "\n • Required {cmdr} in all games".format(cmdr=arg)
+                    # remove from block array
+                    if arg in self.block_cmdrs:
+                        log_str += " and removed them from blacklist"
+                        index = self.block_cmdrs.index(arg)
+                        del self.block_cmdrs[index]
+                else:
+                    self.block_cmdrs.append(arg)
+                    log_str += "\n • Disallowed games with {cmdr}".format(cmdr=arg)
+                    # remove from block array
+                    if arg in self.require_cmdrs:
+                        log_str += " and removed them from require list"
+                        index = self.require_cmdrs.index(arg)
+                        del self.require_cmdrs[index]
+
         self.filter_games()
         log_str += "\n...Done. New sample set is {num} games.".format(num=len(self.games))
         return log_str
@@ -417,6 +445,17 @@ class Statistics:
             for pl in self.block_players:
                 log_str += "\n • {player}".format(player=pl)
 
+        # commander filters
+        if self.require_cmdrs:
+            log_str += "\nThese commanders are required in all games:"
+            for cmdr in self.require_cmdrs:
+                log_str += "\n • {cmdr}".format(cmdr=cmdr)
+        
+        if self.block_cmdrs:
+            log_str += "\nExcluding games with these commanders:"
+            for cmdr in self.block_cmdrs:
+                log_str += "\n • {cmdr}".format(cmdr=cmdr)
+
         return log_str
 
     # filters the game set based on the established filter rules
@@ -433,26 +472,27 @@ class Statistics:
             if not self.pods[index]:
                 continue
 
-            # check player require list
-            fits_player_require = True
-            for player in self.require_players:
-                index = game.get_player_index(player)
-                if index == -1:
-                    fits_player_require = False
+            # Iterate through players to hit player and commander requirements
+            fits_player_require = False     # If we find the required player, these get turned on
+            fits_cmdr_require = False       
+            fits_player_blacklist = True    # These get turned off if we find them in the game
+            fits_cmdr_blacklist = True
+            for player in game.players:
+                if player[0] is in self.require_players:
+                    fits_player_require = True
+                if player[1] is in self.require_cmdrs:
+                    fits_cmdr_require = True
+                
+                # these two break because either condition disqualifies the whole game, so no need to keep evaluating
+                if player[0] is in self.block_players:
+                    fits_player_blacklist = False
                     break
-            # skip this game if it's missing a required player
-            if not fits_player_require:
-                continue
+                if player[1] is in self.block_cmdrs:
+                    fits_cmdr_blacklist = False
+                    break
             
-            # check blacklist
-            fits_blacklist = True
-            for player in self.block_players:
-                index = game.get_player_index(player)
-                if index > -1:
-                    fits_blacklist = False
-                    break
-            # skip this game if it has a blacklisted player in it
-            if not fits_blacklist:
+            # if anything went wrong we skip the rest of the eval
+            if not fits_cmdr_blacklist and fits_cmdr_require and fits_player_blacklist and fits_player_require:
                 continue
 
             # if we made it here that means we haven't been disqualified, so we can append
@@ -522,6 +562,10 @@ class Statistics:
 
         else:
             return ""
+
+    ##################################
+    #          STATS METHODS         #
+    ##################################
 
     # stats reference function for looking at player performance
     def player_stats(self, args):
@@ -714,7 +758,7 @@ class Statistics:
                 winners.sort(reverse=True, key=lambda d: d[1])
 
                 # Now that we have our data, we can present it
-                response_str = "These are the players in my records:"
+                response_str = "My records show the following victories:"
                 index = 0
                 # we only return the 10 most played
                 for player in winners:
@@ -745,7 +789,7 @@ stats = Statistics()
 
 @client.event
 async def on_ready():
-    print('Bot successfully logged in as: {0.user}'.format(client))
+    print('Bot successfully logged in as: {user}'.format(user=client))
 
 @client.event
 async def on_message(message):
