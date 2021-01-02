@@ -162,12 +162,14 @@ class Game:
             for pl in self.players:
                 elim_index = self.get_elim_index(pl[0])
 
+                pl_str = pl[0] + " (" + pl[1] + ")"
+
                 # if they're eliminated, add strikethrough
                 if elim_index > -1:
-                    pl_list.append("~~" + pl[0] + "~~")
+                    pl_list.append("~~" + pl_str + "~~")
                 # otherwise just add the name
                 else:
-                    pl_list.append(pl[0])
+                    pl_list.append(pl_str)
 
             player_str += "Players: "
             player_str += ", ".join(pl_list)
@@ -186,14 +188,16 @@ class Game:
 
         state_str += first_str
 
-        death_str = "\n"
+        death_str = ""
 
         if self.eliminated:
-            death_str += self.eliminated[0][0] + " died first."
+            death_str += "\n" + self.eliminated[0][0] + " died first."
+        elif len(self.players) < 3:
+            pass
         elif self.game_over:
-            death_str += "No one died early."
+            death_str += "\nNo one died early."
         else:
-            death_str += "Everyone's still alive... for now."
+            death_str += "\nEveryone's still alive... for now."
 
         state_str += death_str
 
