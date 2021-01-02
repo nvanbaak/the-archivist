@@ -150,9 +150,9 @@ class Game:
             return ""
 
     def game_state(self):
-        state_str = "Game state:"
+        state_str = ""
 
-        player_str = "\n\n"
+        player_str = ""
 
         if self.players:
             
@@ -190,6 +190,8 @@ class Game:
 
         if self.eliminated:
             death_str += self.eliminated[0][0] + " died first."
+        elif self.game_over:
+            death_str += "No one died early."
         else:
             death_str += "Everyone's still alive... for now."
 
@@ -211,7 +213,7 @@ class Game:
             notes_str = "\n\n Contemporary witnesses said:"
             for note in self.notes:
                 notes_str += '\n"' + note[1] + '"'
-                notes_str += '\n — ' + note[0]
+                notes_str += '\n — ' + note[0] + '\n'
             
             state_str += notes_str
 
@@ -296,7 +298,7 @@ class Statistics:
                 self.games.append(new_game)
 
     def random_game(self):
-        return random.choice(self.games).game_state
+        return random.choice(self.games).game_state()
 
 stats = Statistics()
 
@@ -314,6 +316,9 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello {message.author.name}!'.format(message=message))
 
+    if message.content.startswith('$randomEDH'):
+        await message.channel.send(stats.random_game())
+
     if message.content.startswith('$game'):
         # Check if there is is a game
         global current_game
@@ -323,6 +328,8 @@ async def on_message(message):
 
         if status_update and current_game is None:
             await message.channel.send("There is currently no active game.")
+            return
+
 
         elif current_game is None:
             # Make a new game
