@@ -1,8 +1,12 @@
 import discord
 import config
+import random
 
 client = discord.Client()
 current_game = None
+
+
+
 
 class Game:
     def __init__(self):
@@ -29,6 +33,7 @@ class Game:
         # We only get here if the name wasn't in the list, so return -1
         return -1
 
+    # Checks to see if a player has been eliminated
     def get_elim_index(self, player_name):
         # search for player in the elimination list
         index = 0
@@ -42,6 +47,7 @@ class Game:
         # We only get here if the name wasn't in the list, so return -1
         return -1
 
+    # the main workhorse function of the class; performs a number of basic data commands based on user input
     def handle_command(self, message_obj):
         command = message_obj.content[6:]
         args = command.split(" ")
@@ -52,6 +58,10 @@ class Game:
                 return "{player} is playing {deck}".format(player=args[1], deck=args[2])
             else:
                 return "Can't add player—game has already started"
+
+        if args[0] == "rename":
+            player_index = self.get_player_index(args[1])
+
 
         if args[0] == "first":
             if not self.begin:
@@ -172,6 +182,10 @@ class Game:
 
             return state_str
 
+        if args[0] == "threat":
+            target = random.choice(self.players)
+            return "Considered analysis of the situation suggests that {target} is the biggest threat".format(target=target)
+
         if args[0] == "note":
             if self.game_over:
                 # Get author of message
@@ -180,6 +194,11 @@ class Game:
                 del args[0]
                 # Rejoin to store as a single string
                 note_str = " ".join(args)
+
+                note_str = note_str.replace(":", " ")
+                note_str = note_str.replace("&", " ")
+                note_str = note_str.replace("|", " ")
+
                 self.notes.append( (author, note_str) )
                 return "Thanks, {player}".format(player=author)
             else:
@@ -191,6 +210,7 @@ class Game:
         else:
             return ""
 
+    # Writes the game state to a text file
     def store_data(self, destination):
         if not self.players:
             return
@@ -236,7 +256,7 @@ async def on_message(message):
         # user might just be checking if there's a game; we don't need to start a new one in that case
         status_update = message.content.startswith('$game status') or message.content.startswith('$game state')
 
-        if current_game is None and status_update:
+        if status_update and current_game is None:
             await message.channel.send("There is currently no active game.")
 
         elif current_game is None:
@@ -244,7 +264,7 @@ async def on_message(message):
             current_game = Game()
             await message.channel.send("Started a new game!")
 
-        # have the game handle it
+        # There's an active game either way at this point, so we have it handle the message
         response = current_game.handle_command(message)
 
         if response == "end":

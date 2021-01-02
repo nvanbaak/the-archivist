@@ -1,2 +1,385 @@
-Adam:Baral&Stephen:Atraxa&Nik:Chandra&Tim:Kozilek Tim:Kozilek Adam:Baral&Stephen:Atraxa&Nik:Chandra&Tim:Kozilek Stephen:Atraxa
-Tim:Kozilek&Nik:Muldrotha|Tim:Kozilek||Nik:Muldrotha|St_Trollmore:Muldrotha won despite Phoebe Worst Fears-ing and taking out boardstate; remind Nick of this every time he complains
+Tim:Phoebe&Nick:Muldrotha&Blaine:Sir Guinelot&Alex:Will/Rowan|Tim:Phoebe||Nick:Muldrotha|Jaeil:Muldrotha won despite Phoebe Worst Fears-ing and taking out boardstate; remind Nick of this every time he complains
+Tim:KozilekBT&Stephen:Karador&Nick:Marath&Blaine:Ur-Dragon&Alex:Alesha|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Star game, Kozilek abused Oracle's Vault, copied Ulamog trigger twice against Ur-Dragon and Oblivion Sower'd the lands
+Blaine:Ur-Dragon&Alex:Alesha&Tim:Zedruu&Nick:Muldrotha|Blaine:Ur-Dragon||Tim:Zedruu|Jaeil:Alesha conceded to Muldrotha's BG Garruk ult, Muldrotha died to Ur-Dragon, Zedruu proxy-suicided Ur-Dragon
+Nick:NivMizzetF&Tim:KozilekBT|Nick:NivMizzetF||Tim:KozilekBT|Jaeil:NM almost wheel-comboed, but was stopped by a Spine of Ish Sah coming out of a Pyxis of Pandemonium, then died
+Nick:NivMizzetF&Tim:KozilekBT|Nick:NivMizzetF||Nick:NivMizzetF|Jaeil:NM Entered the Infinite and swung for lethal with Diviner's Wand creature
+Tim:KozilekBT&Nick:NivMizzetF|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Kozilek flipped Azor's Gateway on turn 5 with Voltainc Key, NM conceded
+Tim:Ur-Dragon&Nick:NivMizzetF|Tim:Ur-Dragon||Nick:NivMizzetF|Jaeil:NM had too much ping power, Ur-Dragon couldn't keep a board
+Tim:KozilekBT&Nick:Marath|Tim:KozilekBT||Nick:Marath|Jaeil:Marath ramped too hard and Kozilek's Chaos Wand into Primal Surge couldn't make up for it
+Tim:Ur-Dragon&Nick:NivMizzetF|Tim:Ur-Dragon||Nick:NivMizzetF|Jaeil:Ur-Dragon drew no creatures and died to Great Distortion beats
+Tim:Ur-Dragon&Nick:NivMizzetF|Tim:Ur-Dragon||Tim:Ur-Dragon|Jaeil:Ur-Dragon rushed with hasty dragons
+Nick:ObNixilisBO&Tim:Ur-Dragon|Nick:ObNixilisBO||Nick:ObNixilisBO|Jaeil:Mana screwed Dragon couldn't recover from combat trick blowout and Imp's Mischief
+Tim:Phoebe&Nick:ObNixilisBO|Tim:Phoebe||Nick:ObNixilisBO|Jaeil:Phoebe drew mostly lands and died to Ob drawing creatures
+Tim:KozilekBT&Nick:NivMizzetF|Tim:KozilekBT||Nick:NivMizzetF|Jaeil:NM resolved Omniscience, accidentally milled Kozilek's entire library with Tunnel Vision
+Tim:KozilekBT&Nick:Chandra|Tim:KozilekBT||Nick:Chandra Fire of Kaladesh|Jaeil:Kozilek folded to Burning Wished Vandalblast
+Nick:NivMizzetF&Tim:KozilekBT|Nick:NivMizzetF||Nick:NivMizzetF|Jaeil:Kozilek flipped Sanctum of the Sun, but NM Entered the Infinite with NM out
+Tim:KozilekBT&Nick:DaxosReturned|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Daxos flipped Brisela, but Kozilek ground him out with copied It That Betrays trigger
+Stephen:QueenMarchesa (Nick)&Stephen:Memnarch&Tim:Ur-Dragon|Stephen:QueenMarchesa (Nick)||Stephen:QueenMarchesa (Nick)|Jaeil:Memnarch started well, then died to dragons after Marchesa's Merciless Eviction, Ur-Dragon couldn't stand up to the control afterwards
+Tim:GrixisRamos&Nick:DaxosReturned|Tim:GrixisRamos||Nick:DaxosReturned|Jaeil:Ramos' board folded to Skybind, then couldn't keep up with Phyrexian Reclamation despite casting Crux of Fate 5 times
+Tim:GrixisRamos&Nick:Killigan|Tim:GrixisRamos||Nick:Killigan|Jaeil:Killigan played an early Assemble the Legion thanks to Ramos' Urza's Filter and overran Ramos with tokens
+Tim:GrixisRamos&Nick:NivMizzetF|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:NM drew no red mana, quickly ran out of usable resources and scooped to double Bolas
+Blaine:Xenagod&Nick:DaxosReturned (Victor)&Tim:GrixisRamos&Alex:Zegana (Ian)&Nick:MarchesaBR|Blaine:Xenagod||Nick:MarchesaBR|Jaeil:Ramos voltron'd Xenagod early, Marchesa alpha striked Ramos, Zegana conceded to Marchesa's lethal, Marchesa killed Daxos with direct damage
+Tim:KozilekBT (emperor) & Alex&Nick:Breya (emperor) & Stephen|Tim:KozilekBT (emperor) & Alex||Tim:KozilekBT (emperor) & Alex|Jaeil:Kozilek flipped Sanctum of the Sun, instagibbed Xenagod with 4 Mimic Vat'd Metalworks Colossus, opponents conceded
+Nick:Muldrotha (emperor) & Tim&Nick:DaxosReturned (Victor) & Alex|Nick:Muldrotha (emperor) & Tim||Nick:Muldrotha (emperor) & Tim|Jaeil:Tim!Ur-Dragon cast an early Ur-Dragon with Fist of Suns and killed Blaine!Ur-Dragon, then Daxos conceded
+Stephen:Karlov&Nick:NivMizzetF&Tim:GrixisRamos|Stephen:Karlov||Tim:GrixisRamos|Jaeil:Karlov killed NM with drain and a big Sunscorch Regent, Ramos killed Karlov with reanimated Regent and two clones of it
+Nick:DaxosReturned&Tim:GrixisRamos&Stephen:Karador|Nick:DaxosReturned||Tim:GrixisRamos|Jaeil:Karador scooped to several graveyard wipes and IRL obligation, Daxos scooped to time and boardstate
+Tim:GrixisRamos&Nick:Muldrotha|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Muldrotha flooded, Ramos won by commander beats
+Tim:GrixisRamos&Nick:Muldrotha|Tim:GrixisRamos||Nick:Muldrotha|Jaeil:Ramos mana screwed, Muldrotha beats him to death
+Nick:Muldrotha&Tim:GrixisRamos|Nick:Muldrotha||Tim:GrixisRamos|Jaeil:Ramos out-values Muldrotha after stealing, killing, and exiling Muldrotha's World Shaper
+Tim:GrixisRamos&Nick:Killigan|Tim:GrixisRamos||Nick:Killigan|Jaeil:Killigan ulted Elspeth for indestructibility, eliminated two Bolases with Worst Fears, resurrected massive army with Glory's Rise
+Nick:Ashling&Tim:GrixisRamos|Nick:Ashling||Tim:GrixisRamos|Jaeil:Ashling nearly killed Ramos with commander damage, but died to double Bolas
+Tim:GrixisRamos&Stephen:Karlov|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Ramos put X into Karlov's hand and stole all the good cards
+Stephen:Karlov&Tim:GrixisRamos|Stephen:Karlov||Tim:GrixisRamos|Jaeil:Karlov was short on lands and died to flying beats
+Stephen:Karlov&Tim:GrixisRamos|Stephen:Karlov||Stephen:Karlov|Jaeil:Karlov gained 14 off Death to the Debtless, made Karlov big off Cradle of Vitality, swung for lethal
+Tim:GrixisRamos&Stephen:Memnarch|Tim:GrixisRamos||Stephen:Memnarch|Jaeil:Mana screwed Ramos eventually died to Colossus of Akros
+Tim:GrixisRamos&Stephen:Karador|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Ramos crippled Karador's boardstate with a timely Nicol Bolas, Planeswalker, Karador couldn't recover
+Stephen:Karador&Tim:KozilekBT|Stephen:Karador||Stephen:Karador|Jaeil:Karador crippled Kozilek's boardstate with artifact removal and Elesh Norn pumped for lethal
+Tim:KozilekBT&Stephen:Karador|Tim:KozilekBT||Stephen:Karador|Jaeil:Kozilek started slow and Karador beat him with creatures
+Tim:KozilekBT&Stephen:Karlov|Tim:KozilekBT||Stephen:Karlov|Jaeil:Kozilek started slow and Karlov beat him with creatures
+Nick:DaxosReturned&Tim:GrixisRamos|Nick:DaxosReturned||Nick:DaxosReturned|Jaeil:Ramos screwed on blue, almost regains control of the game but dies to massive lifegain + Aetherflux
+Nick:Killigan&Tim:GrixisRamos&Stephen:Atraxa|Nick:Killigan||Nick:Killigan|Jaeil:Killigan aggros Ramos and Burns Atraxa at the Stake
+Tim:GrixisRamos&Stephen:Atraxa&Nick:DaxosReturned|Tim:GrixisRamos||Nick:DaxosReturned|Jaeil:Ramos and Atraxa fought for the game, then unceremoniously died to Vizkopa Guildmage and Beacon of Immortality
+Stephen:Atraxa&Nick:NivMizzetF&Tim:GrixisRamos|Stephen:Atraxa||Nick:NivMizzetF|Jaeil:NM made ten copies of Verdous Gearhulk, beat Atraxa to death with a giant Azami, stormed off to kill Ramos
+Stephen:Karador&Nick:Ashling&Tim:GrixisRamos|Stephen:Karador||Nick:Ashling|Jaeil:Ashling voltroned Karador to death, then blew up Ramos' board and killed him
+Stephen:Memnarch&Nick:Chandra&Tim:GrixisRamos|Stephen:Memnarch||Nick:Chandra|Jaeil:Memnarch took chip damage until Chandra swung and killed him, then Chandra voltroned Ramos with Stuffy Doll
+Nick:Marath&Tim:Zedruu&Stephen:QueenMarchesa|Nick:Marath||Nick:Marath|Jaeil:Zedruu assembled the suicide combo pieces, but couldn't pull it off despite slaving Marath. Zedruu boardwiped, lost lead, slaved Marchesa, and eventually died just before Approach to a timely Total Ownage. Marath comboed Marchesa to death.
+Stephen:Atraxa&Nick:Marath&Tim:GrixisRamos|Stephen:Atraxa||Nick:Marath|Jaeil:Marath comboed off with Harnened Scales and Mycoloth to kill Ramos and Atraxa
+Tim:GrixisRamos&Stephen:Atraxa&Nick:Chandra|Tim:GrixisRamos||Nick:Chandra|Jaeil:Chandra ulted Koth early, played a damage doubler later and pinged everything to death
+Stephen:Memnarch&Nick:Marath&Tim:KozilekBT|Stephen:Memnarch||Tim:KozilekBT|Jaeil:Kozilek ramped out an early hasty Kozilek, everyone scooped
+Nick:Breya&Tim:KozilekBT&Stephen:Karador|Nick:Breya||Nick:Breya|Jaeil:Kozilek spiraled out of control early, killed Karador, died to Sharding Sphinx + Impact Tremors
+Tim:KozilekBT&Stephen:Karador&Nick:Marath|Tim:KozilekBT||Nick:Marath|Jaeil:Marath cast Primal Surge
+Nick:Chandra&Alex:Brudiclad&Tim:GrixisRamos|Nick:Chandra||Nick:Chandra|Jaeil:Chandra copied Molten Psyche three times and killed the table out of nowhere
+Tim:GrixisRamos&Nick:NivMizzetF&Alex:Brudiclad|Tim:GrixisRamos||Alex:Brudiclad|Jaeil:Niv-Mizzet countered Ramos' counter on Brudiclad's Brass Bounty, allowing him to kill everyone with an army of Self-Replicators
+Tim:GrixisRamos&Nick:NivMizzetF&Alex:Zegana|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:After 3-4 Dominus of Fealty copies made it on board, Ramos stole Zegana's Doubling Season and killed Zegana and Niv
+Nick:NivMizzetF&Alex:Brudiclad&Tim:GrixisRamos|Nick:NivMizzetF||Nick:NivMizzetF|Jaeil:Niv comboed off with Niv and Puzzlebox
+Tim:GrixisRamos&Nick:ErtaiCorrupted&Alex:Brudiclad|Tim:GrixisRamos||Alex:Brudiclad|Jaeil:Brudiclad Vandalblasted Ramos' and Ertai's mana rocks, they never recovered before dying to beats
+Nick:ErtaiCorrupted&Alex:Brudiclad&Tim:GrixisRamos|Nick:ErtaiCorrupted||Alex:Brudiclad|Jaeil:Brudiclad rebuilt fastest after a Ramos boardwipe, then copied It That Betrays 9 times
+Nick:DaxosReturned&Tim:Ur-Dragon|Nick:DaxosReturned||Tim:Ur-Dragon|Jaeil:Daxos didn't draw a second Plains, died to beats
+Nick:DaxosReturned&Tim:Ur-Dragon|Nick:DaxosReturned||Tim:Ur-Dragon|Jaeil:Ur-Dragon landed an early Ur-Dragon and beat Daxos to death
+Nick:DaxosReturned&Tim:GrixisRamos|Nick:DaxosReturned||Tim:GrixisRamos|Jaeil:Ramos played most of his rocks and killed Daxos with flying beats
+Nick:SilasRenn&Tim:GrixisRamos|Nick:SilasRenn||Tim:GrixisRamos|Jaeil:Ramos played Renn's deck with a Havengul Lich and won with Blood Tyrant beats
+Nick:SigardaHoH&Tim:GrixisRamos|Nick:SigardaHoH||Tim:GrixisRamos|Jaeil:Ramos removed Sigarda with Void then quick-ulted Bolas with Dark Intimations to cripple Sigarda
+Nick:SigardaHoH&Tim:GrixisRamos|Nick:SigardaHoH||Nick:SigardaHoH|Jaeil:Sigarda killed Ramos's Bolases and set up a pillowfort, then Ramos accidentally wiped his own board
+Nick:BruseTarl&Tim:GrixisRamos|Nick:BruseTarl||Tim:GrixisRamos|Jaeil:Bruse paid 36 life into Moltensteel Dragon, then Ramos killed it
+Nick:Mazirek&Tim:KozilekBT|Nick:Mazirek||Tim:KozilekBT|Jaeil:Mazirek conceded to Kozilek ramping too hard
+Nick:BruseTarl&Tim:KozilekBT|Nick:BruseTarl||Nick:BruseTarl|Jaeil:Bruse gained 12 life off two attacks and T6 Aetherfluxed Kozilek
+Tim:KozilekBT&Nick:PatronMoon|Tim:KozilekBT||Nick:PatronMoon|Jaeil:Patron removed or countered all Kozilek's creatures and beat him down with Metallurgic Summoning tokens
+Tim:KozilekBT&Nick:Mazirek|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Mazirek couldn't keep up with Kozilek's Eldrazi
+Nick:SigardaHoH&Tim:KozilekBT|Nick:SigardaHoH||Nick:SigardaHoH|Jaeil:Kozilek died helplessly to Sigarda beats
+Nick:Samut&Tim:GrixisRamos|Nick:Samut||Nick:Samut|Jaeil:Ramos didn't draw blue and Samut beat him to death
+Tim:KozilekBT&Nick:Samut|Tim:KozilekBT||Tim:GrixisRamos|Jaeil:Ramos got Samut's GiselaBoG with a T4 Extract from Darkness, Samut conceded
+Nick:Samut&Tim:GrixisRamos|Nick:Samut||Nick:Samut|Jaeil:Samut beat Ramos to death
+Nick:Ezuri&Tim:GrixisRamos|Nick:Ezuri||Tim:GrixisRamos|Jaeil:Ezuri popped a Pyxis and regretted it as Ramos stormed off with Urza's Filter
+Tim:KozilekBT&Nick:MarchesaBR|Tim:KozilekBT||Nick:MarchesaBR|Jaeil:Marchesa beat Kozilek to death
+Tim:KozilekBT&Nick:MarchesaBR|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Kozilek landed too many Eldrazi with Conduit of Ruin and Oracle's Vault
+Nick:MarchesaBR&Tim:KozilekBT|Nick:MarchesaBR||Tim:KozilekBT|Jaeil:Kozilek let a Mind Unbound stay until Marchesa drew Hex Parasite, then Emrakuled her and paid her life into it
+Nick:Mazirek&Tim:Oviya|Nick:Mazirek||Tim:Oviya|Jaeil:Mazirek couldn't attack because of Sandworm Convergence, Oviya Overran for the win
+Tim:Oviya&Nick:Mazirek|Tim:Oviya||Nick:Mazirek|Jaeil:Oviya died to Mazirek beats
+Nick:Mazirek&Tim:KozilekBT|Nick:Mazirek||Tim:KozilekBT|Jaeil:Mazirek only got Kozilek to 2 before Kozilek swung for lethal with Rogue's Passage
+Tim:GrixisRamos&Nick:PatronMoon|Tim:GrixisRamos||Nick:PatronMoon|Jaeil:Ramos ran out of cards before Guile ran out of counterspells
+Tim:Ur-Dragon&Nick:Muldrotha|Tim:Ur-Dragon||Tim:Ur-Dragon|Jaeil:Ur-Dragon wiped Muldrotha's field twice, beat down with dragons
+Tim:GrixisRamos&Nick:Muldrotha|Tim:GrixisRamos||Nick:Muldrotha|Jaeil:Ramos conceded to loss of tempo from no third land for two turns
+Tim:GrixisRamos&Nick:Muldrotha|Tim:GrixisRamos||Nick:Muldrotha|Jaeil:Ramos hung on to control of the board, but couldn't deliver a killing blow before Mindslaver crippled him
+Tim:GrixisRamos&Nick:Marath|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Marath conceded to time because Ramos was slowly stealing his board
+Nick:Marath&Stephen:Memnarch|Nick:Marath||Nick:Marath|Jaeil:Marath swung with Enduring Scalelord for 32
+Stephen:Atraxa&Nick:Marath|Stephen:Atraxa||Stephen:Atraxa|Jaeil:Ajani gave Atraxa double strike, swung for lethal
+Nick:Marath&Stephen:Atraxa|Nick:Marath||Stephen:Atraxa|Jaeil:Marath conceded to mana screw
+Nick:Marath&Stephen:Karlov|Nick:Marath||Nick:Marath|Jaeil:Marath kept Karlov off the board
+Stephen:Karlov&Nick:Marath|Stephen:Karlov||Nick:Marath|Jaeil:Karlov conceded to mana screw
+Stephen:Karlov&Nick:Marath|Stephen:Karlov||Nick:Marath|Jaeil:Karlov is mana screwed again
+Stephen:Karador&Nick:Marath|Stephen:Karador||Stephen:Karador|Jaeil:Karador exiled everything with Ashen Rider and Panharmonicon
+Victor:Aminatou&Alex:LazavDM&Tim:GrixisRamos|Victor:Aminatou||Tim:GrixisRamos|Jaeil:Aminatou miracled Entreat the Angels for 6, wiped opponents' creatures, swung into Lazav for lethal, but left no blockers and died to Ramos swinging once
+Alex:Melek&Tim:GrixisRamos|Alex:Melek||Tim:GrixisRamos|Jaeil:Ramos activated Grusilda twice, Melek couldn't compete with the value
+Alex:LazavDM&Tim:GrixisRamos|Alex:LazavDM||Alex:LazavDM|Jaeil:Lazav comboed Jace's Archivist and Sphinx's Tutelage to mill Ramos out
+Tim:KozilekBT&Nick:Marath|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Kozilek stole Marath's Sunhome with Oblivion Sower, then gave Ulamog unblockable and double strike
+Nick:Marath&Tim:KozilekBT|Nick:Marath||Tim:KozilekBT|Jaeil:Kozilek wiped Marath with an early All is Dust, Marath conceded when Kozilek began developing a boardstate
+Nick:Marath&Tim:KozilekBT|Nick:Marath||Tim:KozilekBT|Jaeil:Kozilek Prototype Portaled a Thought Vessel, Chaos Wanded into Marath's Primal Surge to get 4 lands, eventually used massive boardstate to tutor up Emrakul and Marath conceded
+Nick:Marath&Tim:GrixisRamos|Nick:Marath||Nick:Marath|Jaeil:Marath T2 Hardened Scales
+Tim:GrixisRamos&Nick:Marath|Tim:GrixisRamos||Nick:Marath|Jaeil:Ramos started slow, Marath beat him to death
+Stephen:QueenMarchesa&Tim:Zedruu&Nick:MarchesaBR|Stephen:QueenMarchesa||Tim:Zedruu|Jaeil:Zedruu casts Approach, MBR concedes to Mindslaver when Queen Marchesa can't stop Zedruu from casting Approach again
+Nick:MarchesaBR&Stephen:QueenMarchesa&Tim:GrixisRamos|Nick:MarchesaBR||Nick:MarchesaBR|Jaeil:MBR had too many cards and controlled the board until beating down the others
+Stephen:Memnarch&Tim:KozilekBT&Nick:Mazirek|Stephen:Memnarch||Tim:KozilekBT|Jaeil:Kozilek ulted Spawnsire and killed everyone with Flayer Drone triggers
+Tim:Ur-Dragon&Nick:Mazirek|Tim:Ur-Dragon||Tim:Ur-Dragon|Jaeil:Scourge of Valkas pings off all Mazirek's creatures, Mazirek concedes to the inevitable
+Nick:Mazirek&Tim:Ur-Dragon|Nick:Mazirek||Tim:Ur-Dragon|Jaeil:Mazirek dies to getting hit in the face by dragons
+Nick:Samut&Tim:Ur-Dragon|Nick:Samut||Nick:Samut|Jaeil:Ur-Dragon dies to getting hit in the face by Samut
+Stephen:Memnarch&Nick:PatronMoon|Stephen:Memnarch||Stephen:Memnarch|Jaeil:Memnarch stabilized and outscaled Patron by the skin of his teeth
+Nick:Samut&Stephen:Memnarch|Nick:Samut||Stephen:Memnarch|Jaeil:Samut couldn't fight through a resolved Memnarch
+Stephen:Memnarch&Nick:MarchesaBR|Stephen:Memnarch||Nick:MarchesaBR|Jaeil:Marchesa beat Memnarch to death with a cloned Darksteel Juggernaut
+Tim:Oviya&Nick:SilasRenn|Tim:Oviya||Tim:Oviya|Jaeil:Silas couldn't recover from Oviya casting Increasing Savagery twice
+Nick:BruseTarl&Tim:Oviya|Nick:BruseTarl||Nick:BruseTarl|Jaeil:Oviya chumped creatures with lifelink until Bruse dropped Aetherflux
+Tim:Oviya&Nick:SigardaHoH|Tim:Oviya||Tim:Oviya|Jaeil:Oviya put 5 counters on a Wild Beastmaster and beat Sigarda down
+Nick:SigardaHoH&Tim:Oviya|Nick:SigardaHoH||Nick:SigardaHoH|Jaeil:Oviya held out behind Sandworm Convergence until Sigarda removed it
+Nick:NivMizzetF&Tim:GrixisRamos|Nick:NivMizzetF||Tim:GrixisRamos|Jaeil:Niv-Mizzet attempt to Lab Man win, but Ramos kills Lab Man
+Tim:GrixisRamos&Nick:DaxosReturned|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Daxos draws too many lands, Ramos beats him with commander damage
+Nick:DaxosReturned&Tim:GrixisRamos|Nick:DaxosReturned||Tim:GrixisRamos|Jaeil:Daxos nearly drained Ramos with Aetherflux and Sanguine Bond, but died to Consuming Aberration beats
+Tim:BantRamos&Nick:DaxosReturned|Tim:BantRamos||Nick:DaxosReturned|Jaeil:Daxos killed Ramos with an unblockable DS-lifelink Karlov
+Tim:BantRamos&Nick:NivMizzetF|Tim:BantRamos||Nick:NivMizzetF|Jaeil:Ramos's boardstate crumpled to interaction
+Tim:BantRamos&Nick:SilasRenn|Tim:BantRamos||Tim:BantRamos|Jaeil:Ramos gave Rampaging Monument flying and lots of counters
+Nick:SilasRenn&Tim:BantRamos|Nick:SilasRenn||Tim:BantRamos|Jaeil:Ramos stacked buffs on a Rashmi and flew her into Silas
+Nick:SilasRenn&Tim:BantRamos|Nick:SilasRenn||Tim:BantRamos|Jaeil:Ramos reset the board from behind with Great Aurora, then won out
+Nick:SilasRenn&Tim:BantRamos|Nick:SilasRenn||Nick:SilasRenn|Jaeil:Ramos Great Aurora'd Silas into Dramatic Scepter and immediately died
+Tim:BantRamos&Nick:Breya|Tim:BantRamos||Tim:BantRamos|Jaeil:Ramos killed Breya in two swings with a big Ramos
+Nick:Breya&Tim:BantRamos|Nick:Breya||Nick:Breya|Jaeil:Breya removed everything Ramos played
+Tim:GrixisRamos&Nick:MarchesaBR|Tim:GrixisRamos||Nick:MarchesaBR|Jaeil:Marchesa removed everything Ramos played
+Nick:SigardaHoH&Tim:Ur-Dragon|Nick:SigardaHoH||Tim:Ur-Dragon|Jaeil:Dragon removed Sigarda's pillowfort pieces, swung with dragons
+Nick:BruseTarl&Tim:Ur-Dragon|Nick:BruseTarl||Nick:BruseTarl|Jaeil:Bruse beat Dragon to death
+Tim:Ur-Dragon&Nick:Muldrotha|Tim:Ur-Dragon||Nick:Muldrotha|Jaeil:Dragon was suppressed by removal
+Tim:KozilekBT&Nick:Chandra|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Chandra began comboing with Burning Wish, but Kozilek beat her to death anyway
+Nick:Chandra&Tim:KozilekBT|Nick:Chandra||Nick:Chandra|Jaeil:Chandra killed Kozilek on the eve of his dooter's wedding
+Tim:Kozilek&Nick:Chandra|Tim:Kozilek||Tim:KozilekBT|Jaeil:Kozilek ramped out an early Kozilek with Strionic
+Tim:BantRamos&Nick:Thantis|Tim:BantRamos||Tim:BantRamos|Jaeil:Ramos comboed out a big Ramos and Enduring Scalelord
+Nick:Thantis&Tim:BantRamos|Nick:Thantis||Nick:Thantis|Jaeil:Thantis removed all of Ramos' creatures with a Violent Ultimatum, Ramos was out of cards
+Tim:BantRamos&Nick:Thantis|Tim:BantRamos||Tim:BantRamos|Jaeil:Ramos voltroned Thantis
+Nick:Thantis&Tim:GrixisRamos|Nick:Thantis||Nick:Thantis|Jaeil:Ramos drew no lands
+Tim:GrixisRamos&Nick:Thantis|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Thantis flooded, Ramos activated Grusilda
+Nick:Thantis&Tim:GrixisRamos|Nick:Thantis||Tim:GrixisRamos|Jaeil:Ramos ramped an early Blood Tyrant, Thantis tried to meme Ramos to death and died to a Rakdos Charm
+Tim:Oviya&Nick:BrunaLoA|Tim:Oviya||Tim:Oviya|Jaeil:Bruna neutered by Sandwurm Convergence, Oviya eventually outpaced board with Death's Presence
+Nick:BrunaLoA&Tim:GrixisRamos|Nick:BrunaLoA||Nick:BrunaLoA|Jaeil:Ramos died to Bruna beats
+Tim:KozilekBT&Nick:BrunaLoA|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Bruna died to T2 Total Ownage
+Tim:KozilekBT&Nick:BrunaLoA|Tim:KozilekBT||Nick:BrunaLoA|Jaeil:Kozilek popped 20-card Pyxis to stop Bruna swing, got rekt by Azorius Guildmage
+Tim:BantRamos&Nick:ShuYun|Tim:BantRamos||Tim:BantRamos|Jaeil:Great Aurora wrecked Shu's mana base, Ramos beat him to death
+Nick:SigardaHoH&Tim:KozilekBT|Nick:SigardaHoH||Tim:KozilekBT|Jaeil:Sigarda died to mana screw
+Nick:SigardaHoH&Tim:KozilekBT|Nick:SigardaHoH||Tim:KozilekBT|Jaeil:Kozilek tutored Emrakul with Conduit of Ruin, Sigarda dumped own board and didn't recover
+Nick:ShuYun&Stephen:Karlov|Nick:ShuYun||Nick:ShuYun|Jaeil:Karlov died to mana screw
+Stephen:Karlov&Nick:BrunaLoA|Stephen:Karlov||Nick:BrunaLoA|Jaeil:Bruna milled Karlov with Sphinx's Tutelage and Memory Corrosion
+Stephen:QueenMarchesa&Tim:GrixisRamos&Nick:Thantis|Stephen:QueenMarchesa||Tim:GrixisRamos|Jaeil:Ramos stormed off, Marchesa was mana screwed, both conceded
+Stephen:QueenMarchesa&Tim:BantRamos&Nick:Thantis|Stephen:QueenMarchesa||Nick:Thantis|Jaeil:Ramos two-shot Marchesa with commander damage, Thantis bolted Ramos to death with Borborygmos
+Tim:KozilekBT&Nick:ShuYun|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Kozilek ramped some early Eldrazi
+Nick:ShuYun&Tim:KozilekBT|Nick:ShuYun||Tim:KozilekBT|Jaeil:Kozilek ulted Spawnsire of Ulamog, Shu was just barely unable to stop the Eldrazi hate train
+Tim:Oviya&Nick:ShuYun|Tim:Oviya||Tim:Oviya|Jaeil:Shu died to beats
+Nick:ShuYun&Tim:BantRamos|Nick:ShuYun||Nick:ShuYun|Jaeil:Ramos drew no blockers, died to Shu beats
+Tim:GrixisRamos&Nick:ShuYun|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Ramos beat Shu through pillowfort with help from a timely Bolas
+Nick:ShuYun&Tim:KozilekBT|Nick:ShuYun||Nick:ShuYun|Jaeil:Kozilek started too slow, died to Shu beats
+Tim:Zedruu&Nick:ShuYun|Tim:Zedruu||Nick:ShuYun|Jaeil:Shu stalled Zedruu by giving himself hexproof until Shu drew most of deck and burned Zedruu with doubling effects
+Nick:BrunaLoA&Tim:KozilekBT|Nick:BrunaLoA||Tim:KozilekBT|Jaeil:Kozilek flipped Azor's Gateway
+Nick:BrunaLoA&Tim:KozilekBT|Nick:BrunaLoA||Nick:BrunaLoA|Jaeil:Bruna 2-shot Kozilek with Bruna
+Tim:KozilekBT&Nick:ShuYun|Tim:KozilekBT||Nick:ShuYun|Jaeil:Kozilek died to having no blockers for two swings
+Tim:GrixisRamos&Nick:SigardaHoH|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Sigarda's Rites of Flourishing ramped Ramos into beating Sigarda with flying creatures
+Nick:SigardaHoH&Tim:GrixisRamos|Nick:SigardaHoH||Nick:SigardaHoH|Jaeil:Sigarda played Iona on black, Ramos was locked out and died to Iona beats
+Tim:KozilekBT&Nick:Padeem|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Kozilek flipped Azor's Gateway and cast Emrakul
+Nick:Padeem&Tim:KozilekBT|Nick:Padeem||Nick:Padeem|Jaeil:Padeem flipped Azor's Gateway
+Nick:Marath&Tim:GrixisRamos|Nick:Marath||Tim:GrixisRamos|Jaeil:Ramos stabilized with Nicol Bolas Planeswalker and Crux of Fate, ulted
+Nick:Marath&Tim:GrixisRamos|Nick:Marath||Nick:Marath|Jaeil:Marath used Warstorm Surge, Bloodspore Thrinax on 5, and some elementals to kill Ramos
+Tim:Oviya&Nick:Killigan|Tim:Oviya||Tim:Oviya|Jaeil:Oviya developed too fast, got too much aggro in with Experiment One and Predator Ooze, Killigan conceded
+Nick:BruseTarl&Tim:Oviya|Nick:BruseTarl||Nick:BruseTarl|Jaeil:Oviya nearly died to Bruse'd Moltensteel Dragon, but Bruse got around Sandwurm Convergence with Elemental Mastery
+Tim:BantRamos&Nick:MarchesaBR|Tim:BantRamos||Nick:MarchesaBR|Jaeil:Ramos dropped too low, then Marchesa finished with Flayer and sac outlet
+Tim:BantRamos&Nick:MarchesaBR|Tim:BantRamos||Nick:MarchesaBR|Jaeil:Ramos's boardstate crumpled to interaction
+Tim:GrixisRamos&Nick:Thantis&Stephen:Windgrace|Tim:GrixisRamos||Stephen:Windgrace|Jaeil:WIndgrace comboed with land sacrifice, Impact Tremors, and Titania
+Tim:KozilekBT&Stephen:Windgrace|Tim:KozilekBT||Stephen:Windgrace|Jaeil:Windgrace wiped Kozilek's manabase, then powered out a lethal Hailfire with Squandered Resources
+Tim:KozilekBT&Stephen:Karlov|Tim:KozilekBT||Stephen:Karlov|Jaeil:Kozilek died to having no blockers
+Tim:KozilekBT&Stephen:Atraxa|Tim:KozilekBT||Tim:Kozilek|Jaeil:Atraxa ulted Dovin Baan, but Kozilek flipped Sanctum of the Sun and didn't care
+Stephen:Atraxa&Tim:KozilekBT|Stephen:Atraxa||Stephen:Atraxa|Jaeil:Atraxa ground Kozilek out with planeswalker value
+Nick:NivMizzetF&Tim:NayaRamos|Nick:NivMizzetF||Tim:NayaRamos|Jaeil:Ramos ramped into a bunch of tokens and Elesh Norn
+Nick:NivMizzetF&Tim:NayaRamos|Nick:NivMizzetF||Nick:NivMizzetF|Jaeil:Niv killed Ramos with Tunnel Vision
+Tim:NayaRamos&Nick:NivMizzetF|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos tapped down Niv's blockers with Glare of Subdual and swung with Gahiji and some tokens
+Nick:Chandra&Tim:NayaRamos|Nick:Chandra||Nick:Chandra|Jaeil:Chandra took out most of Ramos's health with Blact + Impact Resonance on Stuffy Doll
+Tim:NayaRamos&Nick:Chandra|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Chandra narrowly avoided dying to Onward to Glory, topdecked Obliterate, and died to a leftover Assemble the Legion
+Nick:SilasTymna&Tim:NayaRamos|Nick:SilasTymna||Tim:NayaRamos|Jaeil:Ramos beat ST down with Rapacious One + Glare of Subdual
+Nick:SilasTymna&Tim:NayaRamos|Nick:SilasTymna||Tim:NayaRamos|Jaeil:Ramos broke a board stall with Elesh Norn
+Nick:SilasTymna&Tim:NayaRamos|Nick:SilasTymna||Nick:SilasTymna|Jaeil:ST lived through a Storm Herd with Odric giving lifelink, then won on the swingback
+Stephen:Windgrace&Tim:NayaRamos|Stephen:Windgrace||Stephen:Windgrace|Jaeil:A turn from death, Windgrace won with Retreat to Hagra, Scapeshift, and Squandered Resources
+Nick:SilasTymna&Tim:KozilekBT&Stephen:Windgrace|Nick:SilasTymna||Nick:SilasTymna|Jaeil:Windgrace conceded to losing his graveyard, Kozilek died to ST having creatures
+Stephen:QueenMarchesa&Nick:SilasTymna&Tim:Kozilek|Stephen:QueenMarchesa||Tim:KozilekBT|Jaeil:Kozilek spiraled out of control with ramp, then Clock of Omens, then Oracle's Vault; opponents conceded when Strionic was up to copy both Kozilek's annihilator and Emrakul's cast trigger
+Nick:SilasTymna&Tim:Oviya|Nick:SilasTymna||Nick:SilasTymna|Jaeil:ST played Oviya's deck better than Oviya with a Clone Legion and stolen Forest
+Tim:GrixisRamos&Stephen:QueenMarchesa&Nick:SilasTymna|Tim:GrixisRamos||Nick:SilasTymna|Jaeil:Ramos became archenemy with double Bolas, but died to the concerted effort of opponents, then ST Aetherfluxed Marchesa
+Nick:SilasTymna&Tim:BantRamos|Nick:SilasTymna||Tim:BantRamos|Jaeil:Ramos won with flying beats
+Nick:SilasTymna&Tim:BantRamos|Nick:SilasTymna||Tim:BantRamos|Jaeil:Ramos stole Chasm Skulker, made a bunch of squid, won despite Clone Legion
+Nick:SilasTymna&Tim:JundRamos|Nick:SilasTymna||Tim:JundRamos|Jaeil:Ramos controled with removal until using Violent Ultimatum to clear fliers and swing for the win
+Nick:SilasTymna&Tim:EsperRamos|Nick:SilasTymna||Tim:EsperRamos|Jaeil:Ramos assembled Clocknapper + Mistmeadow Witch
+Nick:SilasTymna&Tim:EsperRamos|Nick:SilasTymna||Tim:EsperRamos|Jaeil:ST scooped to mana screw
+Nick:SilasTymna&Tim:EsperRamos|Nick:SilasTymna||Tim:EsperRamos|Jaeil:Ramos held Worst Fears until the turn before ST ccould activate Aetherflux, ST scooped instead
+Nick:NivMizzetF&Tim:EsperRamos|Nick:NivMizzetF||Nick:NivMizzetF|Jaeil:Niv bottomed X with Amass the Components, then topdecked Tunnel Vision later
+Tim:BantRamos&Stephen:Atraxa|Tim:BantRamos||Stephen:Atraxa|Jaeil:Ramos flooded out
+Tim:BantRamos&Stephen:Atraxa|Tim:BantRamos||Tim:BantRamos|Jaeil:Ramos hit Atraxa with Shattered Identity, removed any flying blockers, killed with third Ramos swings
+Stephen:Atraxa&Tim:BantRamos|Stephen:Atraxa||Stephen:Atraxa|Jaeil:Ramos drowned underneath planeswalker value
+Nick:Chandra&Tim:EsperRamos|Nick:Chandra||Tim:EsperRamos|Jaeil:Ramos got 6 Stuffy Dolls with Evil Twin and Rite of Replication, Worst Feas Chandra to ping them all for lethal
+Nick:ShuYun&Tim:EsperRamos|Nick:ShuYun||Tim:EsperRamos|Jaeil:Ramos fogged with Soul Sculptor, landed a Notion Thief and got too far ahead, Shu conceded
+Nick:Muldrotha&Tim:EsperRamos|Nick:Muldrotha||Nick:Muldrotha|Jaeil:Ramos drew no gas, Muldrotha rolled over him with value
+Nick:Muldrotha&Tim:JundRamos|Nick:Muldrotha||Nick:Muldrotha|Jaeil:Muldrotha Mindslavered Ramos and paid 32 life into Underrealm Lich
+Tim:EsperRamos&Nick:DaxosReturned|Tim:EsperRamos||Nick:DaxosReturned|Jaeil:Ramos failed to recover from ananscrew
+Tim:NayaRamos&Nick:MarchesaBR|Tim:NayaRamos||Nick:MarchesaBR|Jaeil:Ramos mana screwed
+Tim:GrixisRamos&Nick:MarchesaBR|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Ramos removed blockers for 3 commander swings
+Nick:MarchesaBR&Tim:BantRamos|Nick:MarchesaBR||Tim:BantRamos|Jaeil:Ramos reset with Cataclysmic Gearhulk, refuled with Loreseeker's Stone, Marchesa drew mostly lands and died
+Nick:MarchesaBR&Tim:NayaRamos|Nick:MarchesaBR||Tim:NayaRamos|Jaeil:Ramos took 27 from Rakdos Charm, survived a swing at 1 life, and did exactly lethal on the swingback
+Nick:MarchesaBR&Tim:JundRamos|Nick:MarchesaBR||Nick:MarchesaBR|Jaeil:Marchesa outcontrolled Ramos
+Tim:EsperRamos&Nick:MarchesaBR|Tim:EsperRamos||Tim:EsperRamos|Jaeil:Ramos outcontrolled Marchesa using value from two Ramos procs
+Nick:Killigan&Tim:NayaRamos|Nick:Killigan||Nick:Killigan|Jaeil:Ramos just died to running out of blockers for Killigan
+Nick:Thantis&Tim:GrixisRamos|Nick:Thantis||Tim:GrixisRamos|Jaeil:Reanimated Sire of Stagnation made Thantis keep lands back, Cruel Ultimatum killing Thantis and a Bolas sealed the deal
+Tim:JundRamos&Nick:Thantis|Tim:JundRamos||Tim:JundRamos|Jaeil:Ramos couldn't keep creatures alive with Thantis on the board
+Nick:Yeva&Tim:JundRamos|Nick:Yeva||Tim:JundRamos|Jaeil:Ramos stabilized with a Savage Twister, then Grusilda'd twice while Yeva drew lands
+Tim:JundRamos&Nick:Hapatra|Tim:JundRamos||Nick:Hapatra|Jaeil:Ramos let an infect creature through too many times, then died to proliferation
+Tim:8.5Tails&Nick:Yeva|Tim:8.5Tails||Nick:Yeva|Jaeil:Yeva destroys two of Tails's lands and he doesn't recover
+Tim:8.5Tails&Nick:Yeva|Tim:8.5Tails||Nick:Yeva|Jaeil:Tails doesn't start fast enough, gets beat down
+Tim:8.5Tails&Nick:Hapatra|Tim:8.5Tails||Nick:Hapatra|Jaeil:Mana screw
+Tim:EsperRamos&Nick:Yeva|Tim:EsperRamos||Nick:Yeva|Jaeil:Ramos took a bit too much commander damage after Yeva returned post-boardwipe
+Tim:GrixisRamos&Nick:RuneTail|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Rune-Tail drew too many lands, lost blockers to removal
+Nick:Pheldagriff&Tim:BantRamos|Nick:Pheldagriff||Tim:BantRamos|Jaeil:Pheldagriff drew library off of Vanish Into Memory on a massive Galloping Lizrog, Ramos barely managed to remove enough combo pieces to avoid dying, Pheldagriff played The Great Aurora, Ramos drew into removal for the remaining combo pieces
+Stephen:QueenMarchesa&Nick:Pheldagriff&Tim:NayaRamos|Stephen:QueenMarchesa||Tim:NayaRamos|Jaeil:Ramos equalized after mana screw with Razia's Purification, got out Ramos and Realm Razer with floating mana for Harvest Season for 4 lands, opponents conceded
+Nick:Pheldagriff&Tim:GrixisRamos&Stephen:Windgrace|Nick:Pheldagriff||Nick:Pheldagriff|Jaeil:Pheldagriff killed Windgrace out of nowhere with Ancestral Mask, Ramos nearly killed an infinite-life Pheldagriff with commander damage, but barely died to repeated Jace ults milling for 20
+Stephen:QueenMarchesa&Tim:GrixisRamos|Stephen:QueenMarchesa||Tim:GrixisRamos|Jaeil:Ramos got Marchesa to 9 by removing obstacles to Blood Tyrant, then recovered with control spells after merciless Eviction
+Stephen:Atraxa&Tim:JundRamos|Stephen:Atraxa||Tim:JundRamos|Jaeil:Atraxa died to mana screw
+Stephen:Atraxa&Tim:EsperRamos|Stephen:Atraxa||Tim:EsperRamos|Jaeil:Ramos prevented attacks with HP of Penance and Teysa, and wore Atraxa down with fliers and unblockables
+Stephen:Windgrace&Tim:JundRamos|Stephen:Windgrace||Stephen:Windgrace|Jaeil:Windgrace wiped Ramos with Wildfire, then killed him with Torment of Hailfire
+Tim:NayaRamos&Stephen:Windgrace|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos got a bunch of Eldrazi Spawn with Sunhome and Rapacious One, then killed Windgrace with a Biomass Mutation
+Nick:Thantis&Stephen:Windgrace&Tim:JundRamos|Nick:Thantis||Nick:Thantis|Jaeil:Windgrace cast Wildfire to stop Thantis, somehow neutering everyone but Thantis, who then beat everyone to death
+Tim:JundRamos&Nick:Thantis&Stephen:Windgrace|Tim:JundRamos||Tim:JundRamos|Jaeil:Ramos couldn't attack Thantis because Sandwurm Convergence, so he killed Windgrace with commander damage, then Violent Ultimatumed the Convergence and killed Thantis with commander damage
+Nick:Thantis&Stephen:Windgrace&Tim:JundRamos|Nick:Thantis||Nick:Thantis|Jaeil:Thantis made Ramos's Savageborn Hydra unblockable to to hit Windgrace for 44, then Besmirched the Hydra to kill him too
+Tim:JundRamos&Nick:Thantis&Stephen:Windgrace|Tim:JundRamos||Tim:JundRamos|Jaeil:Thantis concedes to IRL, Ramos Worst Fears Windgrace and ults him to wipe opposing boards, then wiped him with Lavalanche and killed with two big Ramos swings
+Stephen:Windgrace&Tim:EsperRamos|Stephen:Windgrace||Tim:EsperRamos|Jaeil:Windgrace died a turn before a lethal Squandered Resources + Torment of Hailfire from an unblocked and massive Ramos
+Nick:Yeva&Tim:JundRamos|Nick:Yeva||Tim:JundRamos|Jaeil:Ramos wiped Yeva's blockers long enough to swing with Varolz and Ramos
+Stephen:Windgrace&Tim:Ur-Dragon|Stephen:Windgrace||Tim:Ur-Dragon|Jaeil:Dragon won with flying beats
+Stephen:Windgrace&Tim:Ur-Dragon|Stephen:Windgrace||Tim:Ur-Dragon|Jaeil:Dragon removed key pieces with Vaevictis Asmadi, the Dire, and won with flying beats
+Nick:Pheldagriff&Stephen:Windgrace&Tim:NayaRamos|Nick:Pheldagriff||Nick:Pheldagriff|Jaeil:Ramos killed Windgrace, Pheldagriff had too much control in hand afterwards
+Tim:JundRamos&Nick:NivMizzetF|Tim:JundRamos||Nick:NivMizzetF|Jaeil:Ramos forgot to blank a Spin Into Myth with a Fertilid, died to Tunnel VIsion
+Stephen:Memnarch&Tim:JundRamos|Stephen:Memnarch||Stephen:Memnarch|Jaeil:Memnarch did the usual artifact ramp nonsense
+Tim:EsperRamos&Stephen:Windgrace|Tim:EsperRamos||Tim:EsperRamos|Jaeil:Windgrace sacced too many lands to save Sylvan Safekeeper and died to evasive beats
+Stephen:Windgrace&Tim:GrixisRamos|Stephen:Windgrace||Stephen:Windgrace|Jaeil:Windgrace did Squandered Resources and Omnath things
+Tim:BantRamos&Stephen:Windgrace|Tim:BantRamos||Stephen:Windgrace|Jaeil:Borborygmos Enraged bolted Ramos's board, Omnath tokens beat down
+Tim:NayaRamos&Stephen:Karlov|Tim:NayaRamos||Stephen:Karlov|Jaeil:Ramos's board was pinned by a big Karlov, died to Sunscorch Regent beats
+Tim:GrixisRamos&Stephen:Atraxa|Tim:GrixisRamos||Stephen:Atraxa|Jaeil:Ramos drowned underneath planeswalker value
+Tim:NayaRamos&Nick:Ghave|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos took a beating from Blood Artist, equalized with Razia's Purification, and stabilized at 1 life by killing the Artist with Goblin Bombardment; Ghave nearly got the last damage in with Blood Artist but Ramos landed Ramos and won with Onward // Victory
+Tim:EsperRamos&Nick:Ghave|Tim:EsperRamos||Nick:Ghave|Jaeil:Ramos died to not having large creatures
+Tim:EsperRamos&Stephen:Atraxa|Tim:EsperRamos||Stephen:Atraxa|Jaeil:Ramos didn't draw enough lands to interact and conceded
+Tim:NayaRamos&Stephen:Atraxa|Tim:NayaRamos||Stephen:Atraxa|Jaeil:Razia's Purification left Atraxa with two planeswalkers, then Kiora ulted for 3x8/8
+Tim:JundRamos&Stephen:Windgrace|Tim:JundRamos||Tim:JundRamos|Jaeil:Windgrace conceded to time
+Tim:NayaRamos&Nick:Ghave|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos ramped out creatures and Collective Blessing
+Nick:Ghave&Tim:NayaRamos|Nick:Ghave||Nick:Ghave|Jaeil:Ramos quickly ran out of gas and died
+Tim:NayaRamos&Nick:Ghave|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ghave scooped to Realm Razer
+Nick:Ghave&Tim:NayaRamos|Nick:Ghave||Tim:NayaRamos|Jaeil:Ramos went off with Ghave's Rites of Flourishing
+Nick:Ghave&Tim:BantRamos|Nick:Ghave||Tim:BantRamos|Jaeil:Ramos beat down Ghave with a feather countered Plaxcaster Frogling
+Nick:Hapatra&Tim:BantRamos|Nick:Hapatra||Nick:Hapatra|Jaeil:Hapatra started quickly and ground Ramos out
+Nick:Hapatra&Tim:8.5Tails|Nick:Hapatra||Nick:Hapatra|Jaeil:Hapatra got 8 infect in, then tutored for Contagion Engine
+Tim:8.5Tails&Nick:Hapatra|Tim:8.5Tails||Tim:8.5Tails|Jaeil:Tails played Eldrazi Conscription on an Endbringer
+Nick:Killigan&Tim:8.5Tails|Nick:Killigan||Tim:8.5Tails|Jaeil:Tails flipped Azor's Gateway and instantly played and ulted Spawnsire
+Nick:SilasTymna&Tim:X|Nick:SilasTymna||Tim:X|Jaeil:X ground ST down in topdeck mode
+Nick:Yeva&Tim:X|Nick:Yeva||Nick:Yeva|Jaeil:Yeva got a bunch of Great Oak Guardian triggers and alpha striked X
+Tim:X&Nick:NivMizzetF|Tim:X||Tim:X|Jaeil:Niv conceded to suppression
+Tim:GrixisRamos&Nick:BrunaLoA|Tim:GrixisRamos||Nick:BrunaLoA|Jaeil:Ramos died to having no creatures
+Tim:GrixisRamos&Nick:BrunaLoA|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Bruna died to mana screw
+Nick:BrunaLoA&Tim:GrixisRamos|Nick:BrunaLoA||Tim:GrixisRamos|Jaeil:Bruna did nothing and died to beats
+Nick:Hapatra&Tim:GrixisRamos|Nick:Hapatra||Tim:GrixisRamos|Jaeil:Hapatra doed to mana screw
+Nick:Pheldagriff&Tim:8.5Tails&Stephen:QMarchesa|Nick:Pheldagriff||Nick:Pheldagriff|Jaeil:Marchesa wiped a few times, crippling Tails, until Pheldagriff gave them infinite hippos and Great Aurora
+Tim:NayaRamos&Stephen:Windgrace&Nick:Yeva|Tim:NayaRamos||Stephen:Windgrace|Jaeil:Windgrace started generating tokens and neither Ramos nor Yeva had wipes, so they conceded
+Nick:Yeva&Tim:EsperRamos&Stephen:Atraxa|Nick:Yeva||Nick:Yeva|Jaeil:Ramos made 5 copies of Terastodon and converted his lands to elephants, but Yeva made them artifacts and wiped them with Bane of Progress, Ramos and Atraxa conceded to having no lands
+Tim:BantRamos&Stephen:Atraxa&Nick:Thantis|Tim:BantRamos||Nick:Thantis|Jaeil:Ramos and Thantis beat Atraxa down, then Thantis killed Ramos on the swingback with some redirection
+Tim:X&Nick:Marchesa|Tim:X||Tim:X|Jaeil:Marchesa conceded when an early X threatened to steal a Bolas
+Nick:Marath&Tim:X|Nick:Marath||Tim:X|Jaeil:Marath conceded to X extracting too much value from hand from behind Web of Inertia
+Nick:Marath&Tim:X|Nick:Marath||Tim:X|Jaeil:Marath conceded to Mindslaver and Academy Ruins lock
+Nick:Hapatra&Tim:X|Nick:Hapatra||Tim:X|Jaeil:Hapatra conceded to an early X to hand
+Tim:BantRamos&Alex:Roon&Nick:Pheldagriff|Tim:BantRamos||Alex:Roon|Jaeil:Phel pillowfort and Containment Priest wiped by BR Great Aurora, BR and Phel scooped to Roon establishing a lock after
+Tim:GrixisRamos&Alex:LudevicTymna&Nick:BrunaLoA|Tim:GrixisRamos||Nick:BrunaLoA|Jaeil:LT wheeled with Notion Thief, GR Doppleganger'd LT's Consecrated Sphinx to instagib him, Bruna milled GR
+Alex:Melek&Nick:SilasTymna&Tim:NayaRamos|Alex:Melek||Alex:Melek|Jaeil:Melek's Cyclonic Rift set the others back too far, conceded
+Nick:SilasTymna&Tim:JundRamos&Alex:Alesha|Nick:SilasTymna||Nick:SilasTymna|Jaeil:JR messed up Alesha with Worst Fears, but couldn't effectively wipe the board afterwards, so they both gave up
+Tim:Ur-Dragon&Nick:Geth|Tim:Ur-Dragon||Tim:Ur-Dragon|Jaeil:Geth died to Lightning Greaves
+Nick:Geth&Tim:Ur-Dragon|Nick:Geth||Tim:Ur-Dragon|Jaeil:Dragons went too fast, Geth lacked spot removal
+Tim:8.5Tails&Nick:Geth|Tim:8.5Tails||Tim:8.5Tails|Jaeil:Tails flips Sanctum and draws Kozilek, Geth concedes
+Tim:ZurgoBellstriker&Nick:Yuriko|Tim:ZurgoBellstriker||Nick:Yuriko|Jaeil:Zurgo mana screwed, ran out of gas, died to Yuriko having a board state
+Nick:Geth&Tim:ZurgoBellstriker|Nick:Geth||Nick:Geth|Jaeil:Zurgo flooded, which wasn't any worse than the deck normally runs
+Tim:ZurgoBellstriker&Nick:Geth|Tim:ZurgoBellstriker||Nick:Geth|Jaeil:Zurgo is a bad deck
+Tim:X&Nick:Geth|Tim:X||Tim:X|Jaeil:Geth emptied his hand and X cast everything he drew in his draw step
+Tim:NayaRamos&Nick:Geth|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Geth was mana screwed, Ramos ramped heavily
+Nick:Geth&Tim:NayaRamos|Nick:Geth||Nick:Geth|Jaeil:Geth cleared Ramos's board and hand, Ramos didn't recover
+Nick:BorborygmosEnraged&Tim:BantRamos|Nick:BorborygmosEnraged||Nick:BorborygmosEnraged|Jaeil:Ramos didn't have any removal for Borborygmos, board died
+Nick:Geth&Tim:EsperRamos|Nick:Geth||Tim:EsperRamos|Jaeil:Geth was low on lands, Ramos won with sphinx beats
+Nick:Geth&Tim:EsperRamos|Nick:Geth||Tim:EsperRamos|Jaeil:Ramos controlled the board and beatdown with Ramos after a wipe
+Nick:Yuriko&TIm:JundRamos|Nick:Yuriko||Nick:Yuriko|Jaeil:Ramos started slow, had little disruption for Yuriko
+Tim:EsperRamos,Nick|Tim:EsperRamos,Nick||Nick:Geth|Jaeil:Geth assembled all the mana doublers and ransacked Memnarch's graveyard
+Stephen:Memnarch,Tim|Stephen:Memnarch,Tim||Stephen:Memnarch|Jaeil:Memnarch assembled Mycosynth Lattice and Memnarch, others scooped
+Tim:JundRamos&Nick:BorborygmosEnraged&Stephen:Windgrace|Tim:JundRamos||Nick:BorborygmosEnraged|Jaeil:An early Wildfire failed to slow Ramos and Borbor down, Ramos died to swingback from a big DS Multani, Windgrace had no responses and got beat down too
+Stephen:Windgrace&Tim:NayaRamos&Nick:Chandra|Stephen:Windgrace||Tim:NayaRamos|Jaeil:Ramos equalized with Razia's Purification, kept Glare, Sigarda, and bounceland, beat others to death with Sigarda and tokens
+Tim:Tymaret&Nick:BrunaLoA|Tim:Tymaret||Tim:Tymaret|Jaeil:Tymaret beat Bruna down, narrowly avoiding death at 19 commander damage
+Nick:Ghave&Tim:Tymaret|Nick:Ghave||Nick:Ghave|Jaeil:Ghave had bigger beaters
+Tim:Tymaret&Nick:Killigan|Tim:Tymaret||Tim:Tymaret|Jaeil:Tymaret burned Killigan down to 5, saved field from Killigan wiping them via Glorious End, used Tymaret to finish the job
+Stephen:QueenMarchesa&Nick:Thantis&Tim:Tymaret|Stephen:QueenMarchesa||Nick:Thantis|Jaeil:Tymaret made 14 elementals with Acidic Soil and killed Marchesa, then (illegally) gave Thantis Necropotence with Reality Scramble and died to Borborygmos bolts
+Tim:Tymaret&Stephen:Karador&Nick:Ghave|Tim:Tymaret||Stephen:Karador|Jaeil:Karador valued out
+Nick:BorborygmosEnraged&Tim:Tymaret|Nick:BorborygmosEnraged||Nick:BorborygmosEnraged|Jaeil:Countdown backfired in a draw, then Tymaret died to quadruple damage beats
+Nick:MarchesaBR&Tim:Tymaret|Nick:MarchesaBR||Nick:MarchesaBR|Jaeil:Decree of Silence shut down Tymaret, then Marchesa beat him down
+Tim:Tymaret&Nick:Chandra|Tim:Tymaret||Nick:Chandra|Jaeil:Tymaret played one too many lands to survive a double Acidic Soil, then died to Chandra pings
+Tim:Tymaret&Nick:Chandra&Alex:Brudiclad|Tim:Tymaret||Alex:Brudiclad|Jaeil:Chandra bolted Tymaret for 20, then Brudiclad swung for lethal
+Tim:Tymaret&Nick:MarchesaBR&Alex:Brudiclad|Tim:Tymaret||Tim:Tymaret|Jaeil:Tymaret got 9 elementals with Acidic Soil, Brudiclad Chaos Warped Hostility but it came back off the top, then Tymaret beat everyone to death
+Alex:Melek&Tim:JundRamos&Nick:BorborygmosEnraged|Alex:Melek||Nick:BorborygmosEnraged|Jaeil:Melek nearly killed Ramos, both died to Borborygmos bolts, it was definitely Melek's fault
+Alex:Alesha&Tim:NayaRamos&Nick:Yeva|Alex:Alesha||Alex:Alesha|Jaeil:Alesha killed everyone with Teysa, Goblin Bombardment, and Zulaport Cutthroat
+Tim:Tymaret&Nick:ShuYun&Alex:LudevicTymna|Tim:Tymaret||Nick:ShuYun|Jaeil:Shu Yun used Illusionist's Gambit and Reigns of Power to kill both with Tymaret's board
+Nick:Yeva&Tim:KozilekBT|Nick:Yeva||Nick:Yeva|Jaeil:Kozilek died to having no blockers for several turns
+Tim:EsperRamos&Nick:Hapatra|Tim:EsperRamos||Tim:EsperRamos|Jaeil:Ramos crippled an overextended Hapatra with Hour of Revelation
+Nick:MarchesaBR&Tim:JundRamos|Nick:MarchesaBR||Tim:JundRamos|Jaeil:Ramos beat Marchesa low then stormed off with Ramos
+Nick:MarchesaBR&Tim:BantRamos|Nick:MarchesaBR||Tim:BantRamos|Jaeil:Marchesa drew no red mana and died to beats
+Nick:Marath&Tim:NayaRamos|Nick:Marath||Tim:NayaRamos|Jaeil:Marath drew no white mana and died to Assemble, War Chant, and Gahiji
+Tim:KozilekBT&Nick:Marath|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Kozilek accidentally kept Marath off the mana to destroy all artifacts, then beat him down with Kozilek and Rogue's Passage
+Nick:Marath&Tim:KozilekBT|Nick:Marath||Tim:KozilekBT|Jaeil:Marath was mana screwed
+Nick:Marath&Tim:KozilekBT|Nick:Marath||Nick:Marath|Jaeil:Kozilek got 4 cards off the most disappointing Chaos Wand Primal Surge ever, then Marath comboed off
+Nick:DaxosReturned&Tim:Tymaret&Stephen:QueenMarchesa|Nick:DaxosReturned||Tim:Tymaret|Jaeil:Tymaret countered Daxos's Worldslayer trigger with Glorious End, then played Warstorm Surge and Acidic Soil to kill the table
+Stephen:Atraxa&Nick:MarchesaBR&Tim:KozilekBT|Stephen:Atraxa||Tim:KozilekBT|Jaeil:Atraxa beat a mana screwed Marchesa, then got outvalued by Kozilek after losing As Foretold to Chaos Wand stealing removal
+Stephen:Memnarch&Nick:ShuYun&Tim:EsperRamos|Stephen:Memnarch||Tim:EsperRamos|Jaeil:Ramos ramped out Ramos quickly and 2-hit Memnarch, Shu Yun conceded to a Notion Thief
+Stephen:Memnarch&Nick:ShuYun&TIm:GrixisRamos|Stephen:Memnarch||Nick:ShuYun|Jaeil:Ramos nearly beat Memnarch to death, but Shu Yun beats brought him within Colossus of Akros distance, then Shu Yun unsummoned Platinum Angel to kill Memnarch
+Nick:Killigan&Tim:NayaRamos&Alex:Melek|Nick:Killigan||Tim:NayaRamos|Jaeil:Ramos ran away with Dune-Brood Nephilim and Goblin Bombardment, then cemented dominance with Harvest Season for 8 and Tome of the Guildpact
+Nick:Yuriko&Alex:Zegana&Tim:JundRamos|Nick:Yuriko||Nick:Yuriko|Jaeil:Zegana and Ramos scoop to Yuriko landing Omniscience
+Nick:SilasTymna&Alex:Melek&Tim:Tymaret|Nick:SilasTymna||Tim:Tymaret|Jaeil:Tymaret took a 1 land hand and discarded for 5 turns, then worked up to copying Acidic Soil 3 times and gibbing the table
+Alex:Melek&Tim:Tymaret&Nick:SilasTymna|Alex:Melek||Tim:Tymaret|Jaeil:Melek and ST fought each other out of spite, them Tymaret Acidic Soiled everyone to death
+Alex:Melek&Tim:GrixisRamos&Nick:SilasTymna|Alex:Melek||Alex:Melek|Jaeil:After two or three board clears, Melek overloaded Vandalblast and killed the others with a large Charmbreaker Devils
+Tim:NayaRamos&Nick:BraidsPadeem|Tim:NayaRamos||Nick:BraidsPadeem|Jaeil:Ramos ran out of gas, Braids stole Ramos
+Tim:NayaRamos&Nick:BraidsPadeem|Tim:NayaRamos||Nick:BraidsPadeem|Jaeil:Ramos was mana screwed
+Tim:EsperRamos&Nick:BraidsPadeem|Tim:EsperRamos||Tim:EsperRamos|Jaeil:Ramos beat down Braids with Ludevic's Abomination
+Tim:EsperRamos&Nick:BraidsPadeem|Tim:EsperRamos||Nick:BraidsPadeem|Jaeil:Ramos was mana screwed
+Tim:Tymaret&Nick:Sephara|Tim:Tymaret||Tim:Tymaret|Jaeil:Sephara exiled Hostility, Tymaret beat Sephara low then closed by saccing tokens
+Nick:Sephara&Tim:Tymaret|Nick:Sephara||Nick:Sephara|Jaeil:Sephara Renounced all lands in response to three copies of Acidic Soil, leaving Tymaret to die
+Tim:Tymaret&Nick:Sephara|Tim:Tymaret||Nick:Sephara|Jaeil:Tymaret lost Countdown to a Serra Ascendant, then died to beats
+Tim:JundRamos&Nick:Riku|Tim:JundRamos||Nick:Riku|Jaeil:Ramos couldn't keep up with removal, counterspells, and sheer copy value
+Tim:EsperRamos&Nick:Riku|Tim:EsperRamos||Nick:Riku|Jaeil:Ramos drew nothing useful
+Tim:NayaRamos&Nick:Riku|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos drew 16 off Rapacious One into Biomantic Mastery, then Riku cast Aurora off Mind's Dilation, then Ramos removed Riku's stuff and beat him to death
+Tim:NayaRamos&Nick:Sephara&Stephen:QueenMarchesa|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos Mirrorweaved to get 13 Wayfaring Temples and killed Marchesa, then wiped Sephara's board with Elesh Norn
+Stephen:Windgrace&Tim:GrixisRamos&Nick:Riku|Stephen:Windgrace||Tim:GrixisRamos|Jaeil:Riku flooded, WIndgrace color screwed, both scoop to resolved Bolas planeswalker
+Nick:Riku&Stephen:Windgrace&Tim:BantRamos|Nick:Riku||Nick:Riku|Jaeil:Windgrace drew 20+ cards off Rishkar's Expertise on Multani, Ramos drew 20+ cards off Vanish into Memory on Multani, killed Windgrace, then couldn't recover after Riku drew 20+ cards and Radiated Hybridization
+Tim:JundRamos&Nick:BraidsPadeem&Stephen:QueenMarchesa|Tim:JundRamos||Nick:BraidsPadeem|Jaeil:Brains Enters the Infinite with stolen Ramos mana and Labmans
+Stephen:Memnarch&Tim:Tymaret&Nick:Sephara|Stephen:Memnarch||Nick:Sephara|Jaeil:Tymaret and Sephara mana screwed, Tymaret wipes Memnarch with By Force, leaving Sephara uncontested
+Nick:Yeva&Tim:GrixisRamos|Nick:Yeva||Tim:GrixisRamos|Jaeil:Ramos wiped Yeva with Void, then Yeva flooded
+Nick:Yeva&Tim:GrixisRamos|Nick:Yeva||Tim:GrixisRamos|Jaeil:Yeva mana screwed
+Nick:Yeva&Tim:GrixisRamos|Nick:Yeva||Tim:GrixisRamos|Jaeil:Ramos wiped with Last One Standing twice, then cast two Bolas planeswalkers
+Nick:Yeva&Tim:JundRamos|Nick:Yeva||Nick:Yeva|Jaeil:Ramos died to Yeva having a large board
+Tim:JundRamos&Nick:Yeva|Tim:JundRamos||Tim:JundRamos|Jaeil:Ramos pinged Yeva's combo pieces with Deathbringer Thoctar
+Nick:Riku&Tim:JundRamos|Nick:Riku||Tim:JundRamos|Jaeil:Ramos removed everything Riku played
+Nick:Riku&Tim:JundRamos|Nick:Riku||Tim:JundRamos|Jaeil:Riku scooped to mana screw
+Nick:Riku&Tim:JundRamos|Nick:Riku||Nick:Riku|Jaeil:Riku made a bunch of Frost Titan copies
+Nick:Yeva&Tim:Tymaret|Nick:Yeva||Nick:Yeva|Jaeil:Tymaret didn't draw enough land and died to beats
+Tim:Tymaret&Nick:Yeva|Tim:Tymaret||Nick:Yeva|Jaeil:Tymaret didn't draw enough land and died to beats
+Nick:Riku&Tim:Kozilek|Nick:Riku||Tim:KozilekBT|Jaeil:Riku Disallowed a Spawnsire ult, but Kozilek popped a Pyxis and got enough ramp with Clock of Omens to do it again
+Nick:Riku&Tim:KozilekBT|Nick:Riku||Tim:KozilekBT|Jaeil:Riku drew 18, then scooped to Kozilek casting Emrakul the next turn
+Nick:Riku&Tim:KozilekBT|Nick:Riku||Tim:KozilekBT|Jaeil:Riku flooded, then scooped to Kozilek flashing in Emrakul
+Nick:Riku&Tim:Tymaret|Nick:Riku||Nick:Riku|Jaeil:Riku removed Tymaret's combo pieces, then beat him with six Mulldrifters
+Tim:Tymaret&Nick:Sephara|Tim:Tymaret||Nick:Sephara|Jaeil:Sephara beat Tymaret with commander damage
+Tim:Tymaret&Nick:Sephara (Ian)&Nick:NivMizzetF. Stephen|Tim:Tymaret||Tim:Tymaret|Jaeil:Tymaret copied Gamble to get Reality Scramble and Acidic Soil, then Increasing Vengeance on Acidic to get 60 elementals and kill the table
+Nick:Yuriko&Stephen:QueenMarchesa&Tim:JundRamos&Nick:Sephara (Ian)|Nick:Yuriko||Tim:JundRamos|Jaeil:Yuriko took everyone to half, everyone killed Yuriko, Sephara had to leave and threw the game
+Tim:GrixisRamos&Nick:Geth&Stephen:Windgrace|Tim:GrixisRamos||Stephen:Windgrace|Jaeil:After a bunch of interaction flew around, Windgrace had more of a boardstate than anyone else
+Tim:NayaRamos&Nick:Marath|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos got both Collective Blessing and Elesh Norn
+Nick:Marath&Tim:NayaRamos|Nick:Marath||Nick:Marath|Jaeil:Ramos missed a land drop, Marath got an early Nightshade Peddler
+Tim:NayaRamos&Nick:Marath|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Marath wiped with Kalemne's Captain, Ramos pulled back with ELesh Norn
+Nick:Riku&Tim:GrixisRamos&Stephen:QueenMarchesa|Nick:Riku||Nick:Riku|Jaeil:Riku imprinted Skull Storm on a Spellweaver Helix
+Stephen:Windgrace&Nick:MarchesaBR&Tim:GrixisRamos|Stephen:Windgrace||Nick:NMarchesaBR|Jaeil:Marchesa Worst Fears Ramos, Windgrace cast a non-lethal Torment, Marchesa cleaned up
+Nick:NivMizzetF&Tim:JundRamos|Nick:NivMizzetF||Nick:NivMizzetF|Jaeil:Ramos drew no gas and died to Enter the Infinite
+Tim:KozilekBT&Nick:Chandra|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Kozilek beat Chandra to death with big creatures
+Nick:DaxosReturned&Tim:GrixisRamos|Nick:DaxosReturned||Tim:GrixisRamos|Jaeil:Ramos removed Daxos twice, then Daxos conceded to Bolas Planeswalker
+Nick:DaxosReturned&Tim:NayaRamos|Nick:DaxosReturned||Tim:NayaRamos|Jaeil:Ramos ran away with Rith
+Nick:Yuriko&Tim:Tymaret|Nick:Yuriko||Nick:Yuriko|Jaeil:Yuriko T1 Sol Ring/Signet
+Tim:EsperRamos&Nick:Sephara|Tim:EsperRamos||Nick:Sephara|Jaeil:Ramos mana screwed
+Nick:SilasTymna&Tim:NayaRamos|Nick:SilasTymna||Tim:NayaRamos|Jaeil:Ramos put Realm Razer under a Mimic Vat and locked ST out of having lands
+Nick:SilasTymna&Tim:NayaRamos|Nick:SilasTymna||Nick:SIlasTymna|Jaeil:ST played Aetherflux and Ramos couldn't get health low enough in time
+Tim:NayaRamos&Nick:SilasTymna|Tim:NayaRamos||Tim:NayaRamos|Jaeil:ST got mana screwed off Aurora, Ramos nearly died to Massacre Wurm but lived by saccing Eldrazi Spawn, Ramos beat ST with Nephilim and Rapacious
+Tim:NayaRamos&Nick:BraidsPadeem|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Ramos ramped into an Aurora with 5 more cards, Braids only got 3 lands
+Tim:JundRamos&Nick:Chandra|Tim:JundRamos||Nick:Chandra|Jaeil:Ramos outraced by double Undying Flames
+Tim:JundRamos&Nick:Chandra|Tim:JundRamos||Nick:Chandra|Jaeil:Ramos's Abundance ramped Chandra into instaulting, died to burn
+Tim:JundRamos&Nick:DaxosReturned|Tim:JundRamos||Nick:DaxosReturned|Jaeil:Ramos misjudged and boardwiped a turn late, couldn't stabilize after losing taking 28
+Tim:JundRamos&Nick:MarchesaBR|Tim:JundRamos||Nick:MarchesaBR|Jaeil:Jund Ramos is just a trash deck
+Stephen:Atraxa&Nick:Thantis&Tim:KozilekBT|Stephen:Atraxa||Nick:Thantis|Jaeil:Thantis comboed out and killed both at once
+Tim:KozilekBT&Stephen:QueenMarchesa&Nick:Thantis|Tim:KozilekBT||Nick:Thantis|Jaeil:Thantis killed Kozilek with a big swing and Delirium on Darksteel Juggernaut, narrowly beat QM with creatures after a Violent Ultimatum
+Stephen:Windgrace&Nick:BornorygmosEnraged&Tim:Tymaret|Stephen:Windgrace||Nick:BorborygmosEnraged|Jaeil:Windgrace removed Hostility before Tym could Acidic to win, Tym acidic anyway and killed Windgrace and brings Bor to 1, Tym ran out of gas and Bor bolted him to death
+Nick:Yeva&Tim:JundRamos|Nick:Yeva||Nick:Yeva|Jaeil:Ramos drew no creatures and died
+Tim:JundRamos&Nick:Chandra|Tim:JundRamos||Tim:JundRamos|Jaeil:Ramos landed two planeswalkers and outvalued Chandra
+Nick:Chandra&Tim:JundRamos|Nick:Chandra||Nick:Chandra|Jaeil:Chandra cast Obliterate
+Tim:JundRamos&Nick:Geth|Tim:JundRamos||Tim:JundRamos|Jaeil:Ramos avoided death by Bloodchief Ascension via Violent Ultimatum, Jund Charmed to wipe Geth's creatures
+Tim:JundRamos&Nick:Yuriko|Tim:JundRamos||Tim:JundRamos|Jaeil:Ramos kept removing Yuriko's creatures, then cast Ultimatum and gained a ton of value while Yuriko was out of gas
+Tim:Pramikon&Nick:Omnath4&Lex:SurrakDragonclaw&Adam:Tatyova|Tim:Pramikon||Nick:Omnath4|Jaeil:Omnath copied Exploding Borders with Fury Storm to kill Pram and Tat, then Aetherfluxed Surrak
+Adam:Siona&Lex:Surrak&Tim:Tymaret&Alex:Zilortha|Adam:Siona||Tim:Tymaret|Jaeil:20 life. Zilortha timed out, Tymaret killed others with Acidic Soil
+Nick:ShuYun&Lex:Surrak&Tim:Vaevictis&Adam:Tatyova|Nick:ShuYun||Nick:ShuYun|Jaeil:Vaev killed Tat with dragons, Surrak and Shu killed Vaev, Shu stabilized with Soulfire Grandmaster and killed Surrak
+Tim:Kazarov&Nick:BruseSilas&Lex:Surrak&Adam:Oona|Tim:Kazarov||Tim:Kazarov|Jaeil:Kazarov got a board pinger and BS helped him take the win
+Tim:Pramikon&Nick:Omnath4&Lex:SurrakDragonclaw&Adam:Tatyova|Tim:Pramikon||Tim:Pramikon|Jaeil:Brudiclad made 20 Shimmer Dragons and killed the others, but Pramikon pinged him to death just in time because B had lost 25 life to Trespasser's Curse and his own Faerie Artisans
+Stephen:Nekuzar&Adam:Athreos&Tim:Pramikon&Nick:Nahiri|Stephen:Nekuzar||Adam:Athreos|Jaeil:Nekuzar was knocked off after wheeling everyone too much, then Athreos drained everyone else to death
