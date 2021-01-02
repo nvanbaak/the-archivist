@@ -302,7 +302,7 @@ class Statistics:
 
         
 
-    # filters the total set of games according to criteria
+    # sets the filters that define the game set
     def set_filters(self, args):
 
         allow_pod_modifier: True
@@ -310,29 +310,31 @@ class Statistics:
 
         for arg in args:
 
+            # determine whether we're requiring or blocking
+            permission = False
+            if "+" in arg:
+                permission = True
+                arg = arg.replace("+", "")
+            elif "-" in arg:
+                arg = arg.replace("-", "")
+
             # pod size filters
             if "pod" in arg:
                 arg = arg.replace("pod", "")
 
                 # do we allow or disallow these pod sizes?
-                permission = False
                 perm_str = "Disallowed"
-
-                if "+" in arg:
-                    permission = True
+                if permission:
                     perm_str = "Allowed"
-                    arg = arg.replace("+", "")
-
-                elif "-" in arg:
-                    arg = arg.replace("-", "")
 
 
                 # "hard equals" that restricts all results to a specific size; only works on true
                 if "==" in arg:
                     arg = arg.replace("==", "")
-                    for size in pods:
-                        size = False
-                    self.pods[int(arg) - 2] = True
+                    index = 0
+                    while index < 6:
+                        self.pods[index] = (index == int(arg) - 2)
+                        index += 1
                     log_str += "\n • Restricted pod size to {num}".format(num=int(arg))
 
                 # pods with smaller sizes than the given number
@@ -361,9 +363,32 @@ class Statistics:
                     self.pods[int(arg) - 2] = permission
                     log_str += "\n • {permission} pod sizes of {index}".format(permission=perm_str, index=int(arg))
 
+            # player filters
+            elif "player" in arg:
+                arg = arg.replace("player_","")
+                # if *requiring*:
+                if permission: 
+                    # add to require array
+                    self.require_players.append(arg)
+                    log_str += "\n • Required {player} in all games".format(player=arg)
+                    # remove from block array
+                    if arg in self.block_players:
+                        log_str += " and removed them from blacklist"
+                        index = self.block_players.index(arg)
+                        del self.block_players[index]
+                else:
+                    # otherwise, vice versa
+                    self.block_players.append(arg)
+                    log_str += "\n • Disallowed games where {player} participated".format(player=arg)
+                    if arg in self.require_players:
+                        log_str += " and removed them from require list"
+                        index = self.require_players.index(arg)
+                        del self.require_players[index]
+
         self.filter_games()
         return log_str
 
+    # filters the game set based on the established filter rules
     def filter_games(self):
         # set up new array to filter into
         new_game_array = []
@@ -379,6 +404,7 @@ class Statistics:
         # once we're done, change the games reference to the new array
         self.games = new_game_array
 
+    # set all filters to maximally permissive settings
     def reset_filters(self):
         self.pods = [True, True, True, True, True, True]
         self.require_players = []
@@ -388,6 +414,7 @@ class Statistics:
         self.require_elim = []
         self.block_elim = []
 
+    # Pull a fresh set of data from memory
     def refresh(self):
         # Read game history from file
         with open("gamehistory.txt", "r") as gamehistory:
@@ -400,9 +427,9 @@ class Statistics:
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
 
-        self.filter_games()
         return "Successfully loaded game history!"
 
+    # called by the bot to invoke various methods
     def handle_command(self, message_obj):
         args = message_obj.content[7:].split(" ")
 
@@ -424,6 +451,7 @@ class Statistics:
         else:
             return ""
 
+    # stats reference function for analyzing game breakdown
     def game_stats(self, args):
 
         # "$stats game totals"
@@ -555,8 +583,9 @@ class Statistics:
 
         else: return ""
 
+    # returns a random game from the sample set
     def random_game(self):
-        return random.choice(self.games).game_state()
+        return random.choice(self.games)
 
 stats = Statistics()
 
@@ -575,7 +604,7 @@ async def on_message(message):
         await message.channel.send('Hello {message.author.name}!'.format(message=message))
 
     if message.content.startswith('$randomEDH'):
-        await message.channel.send(stats.random_game())
+        await message.channel.send(stats.random_game().game_state())
 
     if message.content.startswith('$stats'):
         response = stats.handle_command(message)
