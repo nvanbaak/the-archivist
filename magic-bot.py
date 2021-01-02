@@ -351,7 +351,7 @@ class Statistics:
                         self.pods[index] = permission
                         index += 1
 
-                    log_str += "\n • {permission} pod sizes above {index}".format(permission=perm_str, index=index+2)
+                    log_str += "\n • {permission} pod sizes above {index}".format(permission=perm_str, index=int(arg) - 2)
 
                 # pods equal to the given number
                 if "=" in arg:
@@ -408,7 +408,7 @@ class Statistics:
             return self.game_stats(args)
 
         if args[0] == "filter":
-            if args[1] == "reset"
+            if args[1] == "reset":
                 self.reset_filters()
                 return "All filters reset."
             else:
@@ -484,17 +484,18 @@ class Statistics:
 
                 # Now that we have our data, we can present it
                 response_str = "Here are the most common commanders in my records:"
+                display_size = 20
                 index = 0
-                # we only return the 20 most played to avoid completely swamping the chat
+                # we limit display using the above variable
                 for deck in commanders:
-                    if index < 20:
+                    if index < display_size:
                         response_str += "\n • {cmdr}: {total} games".format(cmdr=deck[0], total=deck[1])
                         index += 1
                     else:
                         break
                 # then we close up
-                if arr_length > 20:
-                    response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-20)
+                if arr_length > display_size:
+                    response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-display_size)
 
                 return response_str
 
