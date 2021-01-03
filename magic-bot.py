@@ -1,6 +1,7 @@
 import discord
 import config
 import random
+from threading import Timer
 
 client = discord.Client()
 current_game = None
@@ -229,7 +230,7 @@ class Game:
 
         return state_str
 
-    # Parses information from stored games
+    # Parses information from stored games; essentially used as a constructor for archived games
     def parse_data(self, game_data):
         # Break up the string into data chunks
         data_arr = game_data.split("|")
@@ -820,6 +821,32 @@ class Statistics:
     def random_game(self):
         return random.choice(self.games)
 
+class Reminder:
+    def __init__(self, message_obj):
+        args = message_obj.content.split(" ")
+        self.args = args
+        self.time_arg = False
+
+    def remind(self):
+        if self.args[0] == "min" or self.args[0] == "mins" or self.args[0] == "minute" or self.args[0] == "minutes" or self.args[0] == "m":
+            self.time *= 60
+            self.time_arg = True
+        elif self.args[0] == "hour" or self.args[0] == "hours" or self.args[0] == "hr" or self.args[0] == "hrs" or self.args[0] == "h":
+            self.time *= 3600
+            self.time_arg = True
+        elif self.args[0] == "day" or self.args[0] == "days" or self.args[0] == "d":
+            self.time *= 86400
+            self.time_arg = True
+
+        t = Timer(self.time, self.handle_command)
+        t.start()
+
+
+    def handle_command(self):
+        reponse_str = " ".join(self.args)
+        print(response_str)
+
+
 stats = Statistics()
 
 @client.event
@@ -838,6 +865,10 @@ async def on_message(message):
 
     if message.content.startswith('$randomEDH'):
         await message.channel.send(stats.random_game().game_state())
+
+    if message.content.startswith('$notif') or message.content.startswith('$remind'):
+        remind = Reminder(message)
+        remind.remind()
 
     if message.content.startswith('$stats'):
         response = stats.handle_command(message)
