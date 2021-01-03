@@ -122,7 +122,7 @@ class Game:
                 return "{player} could not have been won because the game has not started yet!".format(player=args[1])
 
         if args[0] == "state" or args[0] == "status":
-            self.game_state()
+            return self.game_state()
             
         if args[0] == "threat":
             target = random.choice(self.players)
@@ -550,7 +550,7 @@ class Statistics:
         if args[0] == "reset":
             if args[1] == "filter" or args[1] == "filters":
                 self.reset_filters()
-                return "All filters reset."
+                return "All filters reset. New sample set is {num} games.".format(num=len(self.games))
 
         if args[0] == "filter":
             if args[1] == "reset":
@@ -581,36 +581,62 @@ class Statistics:
         log_str = "Here are the stats on {name}:".format(name=args[0])
 
         total_games = 0
+        total_duels = 0
+        total_melees = 0
         games_won = 0
+        duel_wins = 0
+        multi_wins = 0
         baseline_win_chance = 0
 
-        winning_games = []
+        winning_duels = []
+        winning_melees = []
 
         for game in self.games:
             index = game.get_player_index(args[0])
             if index > -1:
                 total_games += 1
 
-                if game.winner[0] == args[0]:
-                    games_won += 1
-                    winning_games.append(game)
-            
-                average_win = round(1 / game.pod_size(), 2)
+                pod_size = game.pod_size()
+
+                average_win = round(1 / pod_size, 2)
                 baseline_win_chance += average_win
+                
+                if pod_size > 2:
+                    total_melees += 1
+                    if game.winner[0] == args[0]:
+                        games_won += 1
+                        multi_wins += 1
+                        winning_melees.append(game)
+                else:
+                    total_duels += 1
+                    if game.winner[0] == args[0]:
+                        games_won += 1
+                        duel_wins += 1
+                        winning_duels.append(game)
+                        
+            
+                
 
         win_rate = round((games_won / total_games) * 100, 2)
         baseline_win_chance = round(baseline_win_chance, 2)
         projected_win_rate = round((baseline_win_chance / total_games) * 100, 2)
         efficiency = round((win_rate / baseline_win_chance) * 100, 2)
 
-        log_str += "\n • **{num} games** played with a win rate of {win_rate}%".format(num=total_games, win_rate=win_rate)
+        log_str += "\n • **{num} games** played, with {duels} duels and {multi} multiplayer games".format(num=total_games, duels=total_duels, multi=total_melees)
+        log_str += "\n • "
         log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins} ({efficiency}% efficiency)".format(actual_wins=games_won, projected_wins=baseline_win_chance,efficiency=efficiency)
 
-        if winning_games:
-            example_win = random.choice(winning_games)
+        if winning_melees:
+            example_win = random.choice(winning_melees)
             example_note = random.choice(example_win.notes)
 
-            log_str += '\n • A sample note from a victorious game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+            log_str += '\n • A sample note from a victorious multiplayer game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+        
+        if winning_duels:
+            example_win = random.choice(winning_duels)
+            example_note = random.choice(example_win.notes)
+
+            log_str += '\n • A sample note from a victorious duel: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
 
         return log_str
 
@@ -798,7 +824,7 @@ stats = Statistics()
 
 @client.event
 async def on_ready():
-    print('Bot successfully logged in as: {user}'.format(user=client))
+    print('Bot successfully logged in as: {user}'.format(user=client.user))
 
 @client.event
 async def on_message(message):
@@ -827,7 +853,6 @@ async def on_message(message):
 
         # user might just be checking if there's a game; we don't need to start a new one in that case
         status_update = message.content.startswith('$game status') or message.content.startswith('$game state')
-
 
         if status_update and current_game is None:
             await message.channel.send("There is currently no active game.")
@@ -871,7 +896,7 @@ async def on_message(message):
             await message.channel.send("Thanks for playing!")
 
         # this is the "quit without saving" option
-        if response == "cancel":
+        elif response == "cancel":
             current_game = None
             await message.channel.send("I have cancelled the game for you.")
 
