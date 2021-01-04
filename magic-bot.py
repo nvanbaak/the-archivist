@@ -895,6 +895,7 @@ class Data_Manager:
     def __init__(self):
         self.games = []
         self.output = "gamehistory_test.txt"
+        self.current_action = None
 
     # this is our transit center function
     def handle_command(self, message_obj):
@@ -905,18 +906,38 @@ class Data_Manager:
         # Next, split string into command words
         args = message_obj.content.split(" ")
         
-        if len(args) == 1:
+        if len(args) == 1: # that is, if they just typed "$data"
             return ""
 
         # Then route
         if args[1] == "load" or args[1] == "reload":
             return self.load_games()
+
+        # all our actual commands go here
         elif self.games:
-            pass
+
+            if args[1] == "fuzz":
+                if args[2] == "player":
+                    return self.fuzz_player(args[3])
+
+        # this triggers if nothing's loaded and they tried to do something other than loading
         else:
             return "The data manager currently has nothing loaded.  To get started, type: ```$data load```"
 
+    def fuzz_player(self, player_name):
+        
+        response_str = "Here's a list of possible matches for {player_name}:".format(player_name=player_name)
+        
+        
+        
+        
+        return response_str
 
+
+    
+    # def game_summary(self)
+
+    
 
     # loads all games from memory
     def load_games(self):
@@ -935,7 +956,13 @@ class Data_Manager:
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
 
-            self.output_history("backup.txt")
+        # Now we back up the data
+        
+        # first get rid of the old backup
+
+
+
+        self.output_history("backup.txt")
 
         return "Data manager loaded {num} games from memory and backed up to backup.txt".format(num=len(self.games))
 
@@ -953,9 +980,14 @@ class State_Manager:
     
     def set_channel(self, channel_obj):
         self.game_channel = channel_obj
-        return "Set channel to {channel}".format(channel=channel_obj)
+        print( "Set output channel to {channel}.".format(channel=channel_obj))
+        return
 
-    def is_this_the_game_channel
+    def is_this_the_game_channel(self, message_obj):
+        if self.game_channel == message_obj.channel:
+            return True
+        else:
+            return False
 
     async def route_message(self, message, stats, dm):
         if message.author == client.user:
@@ -1043,6 +1075,7 @@ class State_Manager:
         if message.content.startswith('$data'):
             # global game_channel
             response = dm.handle_command(message)
+
             await self.game_channel.send(response)
 
 
