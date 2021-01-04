@@ -1057,7 +1057,7 @@ state_manager = State_Manager()
 @client.event
 async def on_ready():
     print('Bot successfully logged in as: {user}'.format(user=client.user))
-    state_manager.set_channel(client.get_channel(config.game_channel_id)
+    state_manager.set_channel(client.get_channel(config.game_channel_id))
 
 @client.event
 async def on_message(message):
