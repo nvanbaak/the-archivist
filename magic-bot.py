@@ -1,7 +1,11 @@
 import discord
 import config
 import random
+import os
 from threading import Timer
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+
 
 client = discord.Client()
 
@@ -919,25 +923,70 @@ class Data_Manager:
             if args[1] == "fuzz":
                 if args[2] == "player":
                     return self.fuzz_player(args[3])
+            elif args[1] == "summary":
+                return self.game_summary
+            else:
+                return ""
 
         # this triggers if nothing's loaded and they tried to do something other than loading
         else:
             return "The data manager currently has nothing loaded.  To get started, type: ```$data load```"
 
     def fuzz_player(self, player_name):
-        
+
+        # make empty result array and nonresult array
+        match_arr = []
+        no_match_arr = []
+
+        # for each game
+        for game in self.games:
+
+            # for each player
+            for player in game.players:
+
+                # skip if the player name is in the result array or nonresult array
+                if player[0] in match_arr:
+                    continue
+
+                no_match = False
+                for player_result in no_match_arr:
+                    if player_result[0] == player[0]:
+                        no_match = True
+                        break
+                if no_match:
+                    continue
+
+                # else, get fuzziness score
+                else:
+                    full_fuzz = fuzz.ratio(player_name, player[0])
+                    partial_fuzz = fuzz.partial_ratio(player_name, player[0])
+
+                    # if > 90, add to result array
+                    if full_fuzz > 50 or partial_fuzz > 50:
+                        match_arr.append(player[0])
+                    
+                    # else add to nonresult array
+                    else:
+                        no_match_arr.append([player[0], full_fuzz, partial_fuzz])
+
+        # then output info
         response_str = "Here's a list of possible matches for {player_name}:".format(player_name=player_name)
-        
-        
-        
-        
+
+        for name in match_arr:
+            response_str += "\n • {match}".format(match=name)
+
+        response_str += "\nRejected matches:"
+
+        no_match_arr.sort()
+
+        for name in no_match_arr:
+            response_str += "\n • {match} (full score: {full}; partial score:{partial})".format(match=name[0],full=name[1],partial=name[2])
+
+
         return response_str
 
-
-    
-    # def game_summary(self)
-
-    
+    def game_summary(self):
+        return "This function returns a summary of the database contents"
 
     # loads all games from memory
     def load_games(self):
@@ -957,11 +1006,11 @@ class Data_Manager:
                 self.games.append(new_game)
 
         # Now we back up the data
-        
-        # first get rid of the old backup
 
+        # first get rid of the old backup to avoid crossing the streams
+        os.remove("backup.txt")
 
-
+        # then we back up
         self.output_history("backup.txt")
 
         return "Data manager loaded {num} games from memory and backed up to backup.txt".format(num=len(self.games))
@@ -1076,10 +1125,13 @@ class State_Manager:
             # global game_channel
             response = dm.handle_command(message)
 
-            await self.game_channel.send(response)
+            if response == "":
+                pass
+            else:
+                await self.game_channel.send(response)
 
 
-# create instances of stats engine and data manager
+# create instances of stats engine, data manager, and state manager
 stats = Statistics()
 dm = Data_Manager()
 state_manager = State_Manager()
