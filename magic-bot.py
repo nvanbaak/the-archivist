@@ -118,7 +118,7 @@ class Game:
 
                         win_str = "Congratulations {player}!".format(player=args[1])
 
-                        win_str += "\n Anyone who wants to comment on the game can now do so by typing:\n```$game note [your note here]```\n"
+                        win_str += "\n Anyone who wants to comment on the game can now do so by typing:\n```$game note your note here```\n"
 
                         return win_str
                     else:
