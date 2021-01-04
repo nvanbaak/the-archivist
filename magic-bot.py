@@ -737,15 +737,20 @@ class Statistics:
 
                 # Now that we have our data, we can present it
                 response_str = "Here are the most common commanders in my records:"
-                display_size = 20
                 index = 0
-                # we limit display using the above variable
+
+                # we limit display using either the user value or 20 if they didn't give us one
+                display_size = 20
+                if len(args) > 2:
+                    display_size = args[2]
+                
                 for deck in commanders:
                     if index < display_size:
                         response_str += "\n • {cmdr}: {total} games".format(cmdr=deck[0], total=deck[1])
                         index += 1
                     else:
                         break
+
                 # then we close up
                 if arr_length > display_size:
                     response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-display_size)
@@ -784,17 +789,24 @@ class Statistics:
 
                 # Now that we have our data, we can present it
                 response_str = "These are the players in my records:"
+
+                # we limit display using either the user value or 10 if they didn't give us one
+                display_size = 10
+                if len(args) > 2:
+                    display_size = args[2]
+
                 index = 0
-                # we only return the 10 most played
+
                 for player in players:
-                    if index < 10:
+                    if index < display_size:
                         response_str += "\n • {player}: {total} games".format(player=player[0], total=player[1])
                         index += 1
                     else:
                         break
+
                 # then we close up
-                if arr_length > 10:
-                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-10)
+                if arr_length > display_size:
+                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-display_size)
 
                 return response_str
 
@@ -828,20 +840,23 @@ class Statistics:
                 # Now that we have our data, we can present it
                 response_str = "My records show the following victories:"
                 index = 0
-                # we only return the 10 most played
+
+                display_size = 10
+                if len(args) > 2:
+                    display_size = args[2]
+
                 for player in winners:
-                    if index < 10:
+                    if index < display_size:
                         response_str += "\n • {player}: {total} victories".format(player=player[0], total=player[1])
                         index += 1
                     else:
                         break
+
                 # then we close up
-                if arr_length > 10:
-                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-10)
+                if arr_length > display_size:
+                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-display_size)
 
                 return response_str
-
-
 
             else:
                 return ""
