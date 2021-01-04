@@ -308,7 +308,7 @@ class Statistics:
         self.require_elim = []
         self.block_elim = []
 
-        self.refresh()
+        self.refresh(False)
 
     ##################################
     #         FILTER METHODS         #
@@ -425,7 +425,8 @@ class Statistics:
                         index = self.require_cmdrs.index(arg)
                         del self.require_cmdrs[index]
 
-        self.filter_games()
+        filter_after_refresh = True
+        self.refresh(filter_after_refresh)
         log_str += "\n...Done. New sample set is {num} games.".format(num=len(self.games))
         return log_str
 
@@ -516,8 +517,6 @@ class Statistics:
             if fits_cmdr_blacklist and fits_cmdr_require and fits_player_blacklist and fits_player_require:
                 new_game_array.append(game)
 
-
-            
         # once we're done, change the games reference to the new array
         self.games = new_game_array
 
@@ -531,10 +530,12 @@ class Statistics:
         self.require_elim = []
         self.block_elim = []
 
-        self.refresh()
+        # we don't need to filter again because there are no filters active now
+        filter_after_refresh = false
+        self.refresh(filter_after_refresh)
 
     # Pull a fresh set of data from memory
-    def refresh(self):
+    def refresh(self, filter_when_done):
 
         # clear current game history
         self.games = []
@@ -550,7 +551,8 @@ class Statistics:
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
 
-        self.filter_games()
+        if filter_when_done:
+            self.filter_games()
         return "Successfully loaded game history! Sample set now {num} games.".format(num=len(self.games))
 
     # called by the bot to invoke various methods
@@ -581,7 +583,7 @@ class Statistics:
             return self.player_stats(args)
 
         if args[0] == "refresh":
-            return self.refresh()
+            return self.refresh(true)
 
         else:
             return ""
@@ -904,6 +906,8 @@ class Data_Manager:
         self.games = []
         self.output = "gamehistory_test.txt"
         self.current_action = None
+        self.confirm_flag = False
+        self.workbench = []
 
     # this is our transit center function
     def handle_command(self, message_obj):
@@ -924,24 +928,46 @@ class Data_Manager:
         # all our actual commands go here
         elif self.games:
 
-            if args[1] == "fuzz":
-                if args[2] == "player":
-                    return self.fuzz_player(args[3])
+            if not confirm_flag:
 
-                if args[2] == "deck" or args[2] == "cmdr" or args[2] == "commander":
-                    cmdr_name = " ".join(args[3:])
-                    return self.fuzz_cmdr(cmdr_name)
+                if args[1] == "fuzz":
+                    if args[2] == "player":
+                        return self.fuzz_player(args[3])
 
-            elif args[1] == "summary":
-                return self.game_summary()
+                    if args[2] == "deck" or args[2] == "cmdr" or args[2] == "commander":
+                        cmdr_name = " ".join(args[3:])
+                        return self.fuzz_cmdr(cmdr_name)
+
+                elif args[1] == "summary":
+                    return self.game_summary()
+
+                elif args[1] == "unload" or args[1] == "cancel":
+                    self.games = []
+                    return "Cleared the data manager."
+
+                elif args[1] == "save":
+                    os.remove(args[2])
+                    return self.output_history(args[2])
+
+                else:
+                    return ""
+
+            elif args[1] == "confirm":
+                confirm_flag = False
+                return "confirmed."
+
+            elif args[1] == "cancel":
+                confirm_flag = False
+                return "I have cancelled the request."
 
             else:
-                return ""
+                return "You still have a pending {action} action. Please type ```$data confirm``` or ```$data cancel```".format(action=self.current_action)
 
         # this triggers if nothing's loaded and they tried to do something other than loading
         else:
             return "The data manager currently has nothing loaded.  To get started, type: ```$data load```"
 
+    # uses fuzzy search to find possible variant spellings of players
     def fuzz_player(self, player_name):
 
         # make empty result array and nonresult array
@@ -995,6 +1021,7 @@ class Data_Manager:
 
         return response_str
 
+    # like fuzz_player but for commanders
     def fuzz_cmdr(self, cmdr_name):
 
         # make empty result array and nonresult array
