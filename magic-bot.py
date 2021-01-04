@@ -24,7 +24,7 @@ class Game:
         index = 0
         for p in self.players:
             # break out of the for loop if we found the name
-            if self.players[index][0] == player_name:
+            if self.players[index][0].casefold() == player_name.casefold():
                 return index
             # otherwise increment
             else:
