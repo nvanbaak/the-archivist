@@ -399,8 +399,12 @@ class Statistics:
 
             # commander filters
             elif "cmdr" in arg or "commander" in arg:
-                arg = arg.replace("cmdr_","")
-                arg = arg.replace("commander_","")
+                # remove the commander term
+                arg = arg.replace("cmdr=","")
+                arg = arg.replace("commander=","")
+
+                # replace underscores with spaces
+                arg = arg.replace("_"," ")
 
                 # if requiring:
                 if permission:
@@ -923,8 +927,14 @@ class Data_Manager:
             if args[1] == "fuzz":
                 if args[2] == "player":
                     return self.fuzz_player(args[3])
+
+                if args[2] == "deck" or args[2] == "cmdr" or args[2] == "commander":
+                    cmdr_name = " ".join(args[3:])
+                    return self.fuzz_cmdr(cmdr_name)
+
             elif args[1] == "summary":
-                return self.game_summary
+                return self.game_summary()
+
             else:
                 return ""
 
@@ -985,6 +995,69 @@ class Data_Manager:
 
         return response_str
 
+    def fuzz_cmdr(self, cmdr_name):
+
+        # make empty result array and nonresult array
+        match_arr = []
+        no_match_arr = []
+
+        # for each game
+        for game in self.games:
+
+            # for each player
+            for cmdr in game.players:
+
+                # skip if the commander name is in the result array or nonresult array
+                if cmdr[1] in match_arr:
+                    continue
+
+                no_match = False
+                for cmdr_result in no_match_arr:
+                    if cmdr_result[0] == cmdr[1]:
+                        no_match = True
+                        break
+                if no_match:
+                    continue
+
+                # else, get fuzziness score
+                else:
+                    full_fuzz = fuzz.ratio(cmdr_name, cmdr[1])
+                    partial_fuzz = fuzz.partial_ratio(cmdr_name, cmdr[1])
+
+                    # if > 90, add to result array
+                    if full_fuzz > 60 or partial_fuzz > 60:
+                        match_arr.append(cmdr[1])
+                    
+                    # else add to nonresult array
+                    else:
+                        no_match_arr.append([cmdr[1], full_fuzz, partial_fuzz])
+
+        # then output info
+        response_str = "Here's a list of possible matches for {cmdr_name}:".format(cmdr_name=cmdr_name)
+
+        for name in match_arr:
+            response_str += "\n • {match}".format(match=name)
+
+        response_str += "\nRejected matches:"
+
+        no_match_arr.sort(reverse=True, key=lambda s: s[2])
+
+        index = 0
+        for name in no_match_arr:
+            if index < 10:
+                response_str += "\n • {match} (full score: {full}; partial score:{partial})".format(match=name[0],full=name[1],partial=name[2])
+                index += 1
+            else:
+                break
+        
+        rejected_matches = len(no_match_arr)
+
+        if rejected_matches > 10:
+            response_str += "\n...plus {num} lower-scoring matches".format(num=rejected_matches-10)
+
+        return response_str
+
+    # returns a summary of the games in memory
     def game_summary(self):
         return "This function returns a summary of the database contents"
 

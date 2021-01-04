@@ -282,7 +282,7 @@ Nick:Geth&Tim:EsperRamos|Nick:Geth||Tim:EsperRamos|Jaeil:Geth was low on lands, 
 Nick:Geth&Tim:EsperRamos|Nick:Geth||Tim:EsperRamos|Jaeil:Ramos controlled the board and beatdown with Ramos after a wipe
 Nick:Yuriko&TIm:JundRamos|Nick:Yuriko||Nick:Yuriko|Jaeil:Ramos started slow, had little disruption for Yuriko
 Tim:EsperRamos,Nick|Tim:EsperRamos,Nick||Nick:Geth|Jaeil:Geth assembled all the mana doublers and ransacked Memnarch's graveyard
-Stephen:Memnarch,Tim|Stephen:Memnarch,Tim||Stephen:Memnarch|Jaeil:Memnarch assembled Mycosynth Lattice and Memnarch, others scooped
+Stephen:Memnarch,Tim:NayaRamos,Nick:Yuriko|Stephen:Memnarch,Tim||Stephen:Memnarch|Jaeil:Memnarch assembled Mycosynth Lattice and Memnarch, others scooped
 Tim:JundRamos&Nick:BorborygmosEnraged&Stephen:Windgrace|Tim:JundRamos|Tim:JundRamos|Nick:BorborygmosEnraged|Jaeil:An early Wildfire failed to slow Ramos and Borbor down, Ramos died to swingback from a big DS Multani, Windgrace had no responses and got beat down too
 Stephen:Windgrace&Tim:NayaRamos&Nick:Chandra|Stephen:Windgrace||Tim:NayaRamos|Jaeil:Ramos equalized with Razia's Purification, kept Glare, Sigarda, and bounceland, beat others to death with Sigarda and tokens
 Tim:Tymaret&Nick:BrunaLoA|Tim:Tymaret||Tim:Tymaret|Jaeil:Tymaret beat Bruna down, narrowly avoiding death at 19 commander damage
