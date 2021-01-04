@@ -951,11 +951,13 @@ class State_Manager:
         self.game_channel = None
         self.current_game = None
     
-    def set_channel(channel_obj):
-        this.game_channel = channel_obj
+    def set_channel(self, channel_obj):
+        self.game_channel = channel_obj
         return "Set channel to {channel}".format(channel=channel_obj)
 
-    def route_message(message, stats, dm):
+    def is_this_the_game_channel
+
+    async def route_message(self, message, stats, dm):
         if message.author == client.user:
             return
     
@@ -1005,7 +1007,7 @@ class State_Manager:
                 await message.channel.send(help_str)
                 return
 
-            elif current_game is None:
+            elif self.current_game is None:
                 # Make a new game
                 self.current_game = Game()
                 await self.game_channel.send("Started a new game!")
@@ -1044,11 +1046,6 @@ class State_Manager:
             await self.game_channel.send(response)
 
 
-
-
-
-
-
 # create instances of stats engine and data manager
 stats = Statistics()
 dm = Data_Manager()
@@ -1061,6 +1058,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    state_manager.route_message(message, stats, dm)
+    await state_manager.route_message(message, stats, dm)
 
 client.run(config.bot_token)
