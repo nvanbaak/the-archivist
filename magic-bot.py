@@ -55,8 +55,11 @@ class Game:
 
         if args[0] == "player":
             if not self.begin:
-                self.players.append( [args[1], args[2]] )
-                return "{player} is playing {deck}".format(player=args[1], deck=args[2])
+                player_name = args[1]
+                last_index = len(args)
+                cmdr_name = " ".join(args[2:last_index])
+                self.players.append( [player_name, cmdr_name] )
+                return "{player} is playing {deck}".format(player=args[1], deck=cmdr_name)
             else:
                 return "Can't add player—game has already started"
 
