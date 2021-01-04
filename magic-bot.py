@@ -4,6 +4,7 @@ import random
 from threading import Timer
 
 client = discord.Client()
+game_channel = client.get_channel(config.game_channel_id)
 current_game = None
 
 class Game:
@@ -877,6 +878,41 @@ class Reminder:
         reponse_str = " ".join(self.args)
         print(response_str)
 
+class Sanitizer:
+    def __init__(self):
+        self.games = []
+        self.output = "gamehistory_test.txt"
+
+    # loads all games from memory
+    def load_games(self):
+
+        # clear current game history
+        self.games = []
+
+        # Read game history from file
+        with open("gamehistory.txt", "r") as gamehistory:
+            history_arr = gamehistory.read().split("\n")
+            # delete the last entry because we know it's a newline
+            del history_arr[-1]
+            # For each game, create a Game object and append it to the Stats object
+            for game_data in history_arr:
+                new_game = Game()
+                new_game.parse_data(game_data)
+                self.games.append(new_game)
+
+            self.output_history("backup.txt")
+
+        return "Data editor loaded {num} games from memory and backed up to backup.txt".format(num=len(self.games))
+
+    # outputs local game history to a text file
+    def output_history(self, destination):
+        for game in self.games:
+            game.store_data(destination)
+        
+        return "Wrote game history to {dest}".format(dest=destination)
+
+
+
 
 stats = Statistics()
 
@@ -917,7 +953,7 @@ async def on_message(message):
         status_update = message.content.startswith('$game status') or message.content.startswith('$game state')
 
         if status_update and current_game is None:
-            await message.channel.send("There is currently no active game.")
+            await game_channel.send("There is currently no active game.")
             return
 
         # likewise, if they're just using the help menu, we don't need a new game either
@@ -939,7 +975,7 @@ async def on_message(message):
         elif current_game is None:
             # Make a new game
             current_game = Game()
-            await message.channel.send("Started a new game!")
+            await game_channel.send("Started a new game!")
 
         # There's an active game either way at this point, so we have it handle the message
         response = current_game.handle_command(message)
@@ -960,13 +996,13 @@ async def on_message(message):
         # this is the "quit without saving" option
         elif response == "cancel":
             current_game = None
-            await message.channel.send("I have cancelled the game for you.")
+            await game_channel.send("I have cancelled the game for you.")
 
         elif response == "":
             pass
 
         else:
             # send the reponse as a message
-            await message.channel.send(response)
+            await game_channel.send(response)
 
 client.run(config.bot_token)
