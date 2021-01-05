@@ -909,7 +909,7 @@ class Statistics:
                         commanders.append([deck_str, 1])
                         arr_length += 1
         
-        # then we sort the array; NB sort() modifies the original array
+        # then we sort the array
         commanders.sort(reverse=True, key=lambda d: d[1])
 
         # Now that we have our data, we can present it
