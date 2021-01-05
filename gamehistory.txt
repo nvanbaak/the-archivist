@@ -61,7 +61,7 @@ Nick:SigardaHoH&Tim:GrixisRamos|Nick:SigardaHoH||Nick:SigardaHoH|Jaeil:Sigarda k
 Nick:BruseTarl&Tim:GrixisRamos|Nick:BruseTarl||Tim:GrixisRamos|Jaeil:Bruse paid 36 life into Moltensteel Dragon, then Ramos killed it
 Nick:Mazirek&Tim:KozilekBT|Nick:Mazirek||Tim:KozilekBT|Jaeil:Mazirek conceded to Kozilek ramping too hard
 Nick:BruseTarl&Tim:KozilekBT|Nick:BruseTarl||Nick:BruseTarl|Jaeil:Bruse gained 12 life off two attacks and T6 Aetherfluxed Kozilek
-Tim:KozilekBT&Nick:PatronMoon|Tim:KozilekBT||Nick:PatronMoon|Jaeil:Patron removed or countered all Kozilek's creatures and beat him down with Metallurgic Summoning tokens
+Tim:KozilekBT&Nick:Patron of the Moon|Tim:KozilekBT||Nick:PatronMoon|Jaeil:Patron removed or countered all Kozilek's creatures and beat him down with Metallurgic Summoning tokens
 Tim:KozilekBT&Nick:Mazirek|Tim:KozilekBT||Tim:KozilekBT|Jaeil:Mazirek couldn't keep up with Kozilek's Eldrazi
 Nick:SigardaHoH&Tim:KozilekBT|Nick:SigardaHoH||Nick:SigardaHoH|Jaeil:Kozilek died helplessly to Sigarda beats
 Nick:Samut&Tim:GrixisRamos|Nick:Samut||Nick:Samut|Jaeil:Ramos didn't draw blue and Samut beat him to death
@@ -74,7 +74,7 @@ Nick:MarchesaBR&Tim:KozilekBT|Nick:MarchesaBR||Tim:KozilekBT|Jaeil:Kozilek let a
 Nick:Mazirek&Tim:Oviya|Nick:Mazirek||Tim:Oviya|Jaeil:Mazirek couldn't attack because of Sandworm Convergence, Oviya Overran for the win
 Tim:Oviya&Nick:Mazirek|Tim:Oviya||Nick:Mazirek|Jaeil:Oviya died to Mazirek beats
 Nick:Mazirek&Tim:KozilekBT|Nick:Mazirek||Tim:KozilekBT|Jaeil:Mazirek only got Kozilek to 2 before Kozilek swung for lethal with Rogue's Passage
-Tim:GrixisRamos&Nick:PatronMoon|Tim:GrixisRamos||Nick:PatronMoon|Jaeil:Ramos ran out of cards before Guile ran out of counterspells
+Tim:GrixisRamos&Nick:Patron of the Moon|Tim:GrixisRamos||Nick:PatronMoon|Jaeil:Ramos ran out of cards before Guile ran out of counterspells
 Tim:Ur-Dragon&Nick:Muldrotha|Tim:Ur-Dragon||Tim:Ur-Dragon|Jaeil:Ur-Dragon wiped Muldrotha's field twice, beat down with dragons
 Tim:GrixisRamos&Nick:Muldrotha|Tim:GrixisRamos||Nick:Muldrotha|Jaeil:Ramos conceded to loss of tempo from no third land for two turns
 Tim:GrixisRamos&Nick:Muldrotha|Tim:GrixisRamos||Nick:Muldrotha|Jaeil:Ramos hung on to control of the board, but couldn't deliver a killing blow before Mindslaver crippled him
@@ -100,7 +100,7 @@ Stephen:Memnarch&Tim:KozilekBT&Nick:Mazirek|Stephen:Memnarch||Tim:KozilekBT|Jaei
 Tim:Ur-Dragon&Nick:Mazirek|Tim:Ur-Dragon||Tim:Ur-Dragon|Jaeil:Scourge of Valkas pings off all Mazirek's creatures, Mazirek concedes to the inevitable
 Nick:Mazirek&Tim:Ur-Dragon|Nick:Mazirek||Tim:Ur-Dragon|Jaeil:Mazirek dies to getting hit in the face by dragons
 Nick:Samut&Tim:Ur-Dragon|Nick:Samut||Nick:Samut|Jaeil:Ur-Dragon dies to getting hit in the face by Samut
-Stephen:Memnarch&Nick:PatronMoon|Stephen:Memnarch||Stephen:Memnarch|Jaeil:Memnarch stabilized and outscaled Patron by the skin of his teeth
+Stephen:Memnarch&Nick:Patron of the Moon|Stephen:Memnarch||Stephen:Memnarch|Jaeil:Memnarch stabilized and outscaled Patron by the skin of his teeth
 Nick:Samut&Stephen:Memnarch|Nick:Samut||Stephen:Memnarch|Jaeil:Samut couldn't fight through a resolved Memnarch
 Stephen:Memnarch&Nick:MarchesaBR|Stephen:Memnarch||Nick:MarchesaBR|Jaeil:Marchesa beat Memnarch to death with a cloned Darksteel Juggernaut
 Tim:Oviya&Nick:SilasRenn|Tim:Oviya||Tim:Oviya|Jaeil:Silas couldn't recover from Oviya casting Increasing Savagery twice
@@ -282,7 +282,7 @@ Nick:Geth&Tim:EsperRamos|Nick:Geth||Tim:EsperRamos|Jaeil:Geth was low on lands, 
 Nick:Geth&Tim:EsperRamos|Nick:Geth||Tim:EsperRamos|Jaeil:Ramos controlled the board and beatdown with Ramos after a wipe
 Nick:Yuriko&TIm:JundRamos|Nick:Yuriko||Nick:Yuriko|Jaeil:Ramos started slow, had little disruption for Yuriko
 Tim:EsperRamos,Nick|Tim:EsperRamos,Nick||Nick:Geth|Jaeil:Geth assembled all the mana doublers and ransacked Memnarch's graveyard
-Stephen:Memnarch,Tim:NayaRamos,Nick:Yuriko|Stephen:Memnarch,Tim||Stephen:Memnarch|Jaeil:Memnarch assembled Mycosynth Lattice and Memnarch, others scooped
+Stephen:Memnarch,Tim|Stephen:Memnarch,Tim||Stephen:Memnarch|Jaeil:Memnarch assembled Mycosynth Lattice and Memnarch, others scooped
 Tim:JundRamos&Nick:BorborygmosEnraged&Stephen:Windgrace|Tim:JundRamos|Tim:JundRamos|Nick:BorborygmosEnraged|Jaeil:An early Wildfire failed to slow Ramos and Borbor down, Ramos died to swingback from a big DS Multani, Windgrace had no responses and got beat down too
 Stephen:Windgrace&Tim:NayaRamos&Nick:Chandra|Stephen:Windgrace||Tim:NayaRamos|Jaeil:Ramos equalized with Razia's Purification, kept Glare, Sigarda, and bounceland, beat others to death with Sigarda and tokens
 Tim:Tymaret&Nick:BrunaLoA|Tim:Tymaret||Tim:Tymaret|Jaeil:Tymaret beat Bruna down, narrowly avoiding death at 19 commander damage
@@ -390,4 +390,4 @@ Nik:Selenia&Stephen:Nekusar&Tim:RamosJund|Tim:RamosJund|Nik:Selenia|Tim:RamosJun
 Nik:Selenia&Stephen:Nekusar&Tim:RamosNaya|Nik:Selenia|Nik:Selenia|Stephen:Nekusar|Grey_Haven:Nick died to a Peer into the Abyss + Nekusar combo, Stephen latch ditched wheeled into a wheel with Megrim, finished Tim off (he would've won next turn)
 Nik:Selenia&Stephen:Inalla&Tim:KazarovObosh|Nik:Selenia||Nik:Selenia|St_Trollmore:Selenia burned Inalla's counterspell with a platinum angel, paving the way for an Ad Nauseam / REpay in Kind victory
 Stephen:Inalla&Nik:LaviniaAzoriusRenegade|Nik:LaviniaAzoriusRenegade||Nik:LaviniaAzoriusRenegade|St_Trollmore:Inalla survived two land wipes but on the third was finally out of gas
-Stephen:Inalla&Nik:PatronOfTheMoon|Stephen:Inalla||Nik:PatronOfTheMoon|St_Trollmore:Patron of the Moon drew into an infinite combo the turn before Inalla drew into *her* infinite combo
+Stephen:Inalla&Nik:Patron of the Moon|Stephen:Inalla||Nik:PatronOfTheMoon|St_Trollmore:Patron of the Moon drew into an infinite combo the turn before Inalla drew into *her* infinite combo

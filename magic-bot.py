@@ -531,7 +531,7 @@ class Statistics:
         self.block_elim = []
 
         # we don't need to filter again because there are no filters active now
-        filter_after_refresh = false
+        filter_after_refresh = False
         self.refresh(filter_after_refresh)
 
     # Pull a fresh set of data from memory
@@ -559,9 +559,6 @@ class Statistics:
     def handle_command(self, message_obj):
         args = message_obj.content[7:].split(" ")
 
-        if args[0] == "games" or args[0] == "game":
-            del args[0]
-            return self.game_stats(args)
 
         if args[0] == "reset":
             if args[1] == "filter" or args[1] == "filters":
@@ -578,12 +575,16 @@ class Statistics:
                 del args[0]
                 return self.set_filters(args)
 
+        if args[0] == "games" or args[0] == "game":
+            del args[0]
+            return self.game_stats(args)
+
         if args[0] == "player":
             del args[0]
             return self.player_stats(args)
 
         if args[0] == "refresh":
-            return self.refresh(true)
+            return self.refresh(True)
 
         else:
             return ""
@@ -663,7 +664,7 @@ class Statistics:
             log_str += "\n • {player} won {duel_wins} duels (statistical average: {avg_duel_wins} wins) for a win rate of {duel_win_rate}% (efficiency: {efficiency}%)".format(player=args[0],duel_wins=duel_wins,avg_duel_wins=average_duel_wins,duel_win_rate=duel_win_rate,efficiency=duel_win_efficiency)
 
         if total_multis > 0:
-            log_str += "\n • {player} won {multi_wins} multiplayer games (statistical average: {avg_multi_wins} wins) for a win rate of {multi_win_rate}% (efficiency: {efficiency}%)".format(player=args[0],multi_wins=multi_wins,avg_multi_wins=average_multi_wins,multi_win_rate=multi_win_rate,efficiency=multi_win_efficiency)
+            log_str += "\n • {player} won {multi_wins} multiplayer games (statistical average: {avg_multi_wins} wins) for a win rate of {multi_win_rate}% (efficiency: {efficiency}%)".format(player=args[0],multi_wins=multi_wins,avg_multi_wins=round(average_multi_wins,2),multi_win_rate=multi_win_rate,efficiency=multi_win_efficiency)
 
         log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins} ({efficiency}% efficiency)".format(actual_wins=games_won, projected_wins=baseline_win_chance,efficiency=general_efficiency)
 
@@ -715,6 +716,74 @@ class Statistics:
             # "...deck"
             if args[1] == "deck" or args[1] == "commander":
 
+                # We need to get all words in the commander's name into one string:
+                args = " ".join(args[2:])
+                print(args)
+
+                # determine if there are filters
+                positive_filters = " +" in args
+                negative_filters = " -" in args
+
+                # also set up the deck string and filter arrays since we'll be assigning them below
+                deck_str = ""
+                require = []
+                block = []
+
+                # if there are filters, determine which ones
+                if positive_filters and negative_filters:
+                    # if both are present, we split off positive first:
+                    args = args.split("+ ")
+
+                    # now we have a commander name and a bunch of positive filters, some number of which have an unknown number of negative filters attached
+                    # So we iterate and split
+                    
+                    # first term is the commander name and possibly negative modifiers
+                    cmdr_name_term = args[0].split(" -") # note that the space means we won't hit commander names with hyphens in them
+
+                    # if the variable is a string, that means no split occurred, so there are no negative filters
+                    if isinstance(cmdr_name_term, str):
+                        deck_str = cmdr_name_term
+                    # otherwise the first term is the commander name and the others are modifiers
+                    else:
+                        deck_str = cmdr_name_term[0]
+                        for term in args[1:]:
+                            block.append(term)
+
+                    # then we repeat this process for the other terms in args, except the first term will be a positive modifier
+                    for modifier in args[1:]:
+                        modifier = modifier.split(" -")
+                        if isinstance(modifier, str):
+                            require.append(modifier)
+                        else:
+                            require.append(modifier[0])
+                            for term in modifier:
+                                block.append(term)
+                
+                # the process is much simpler if there's only kind of modifier
+                elif positive_filters:
+                    args = args.split("+ ")
+
+                    if isinstance(args, str):
+                        deck_str = args
+                    else:
+                        deck_str = args[0]
+                        for term in args[1:]:
+                            require.append(term)
+
+                elif negative_filters:
+                    args = args.split("+ ")
+
+                    if isinstance(args, str):
+                        deck_str = args
+                    else:
+                        deck_str = args[0]
+                        for term in args[1:]:
+                            block.append(term)
+                
+                # and of course if there's no modifiers we just assign the cmdr string and be done
+                else:
+                    deck_str = args
+
                 # Empty array of commanders to start
                 commanders = []
                 arr_length = 0
@@ -744,13 +813,15 @@ class Statistics:
                 commanders.sort(reverse=True, key=lambda d: d[1])
 
                 # Now that we have our data, we can present it
-                response_str = "Here are the most common commanders in my records:"
+                response_str = "Games by commanders played:"
                 index = 0
 
                 # we limit display using either the user value or 20 if they didn't give us one
                 display_size = 20
-                if len(args) > 2:
-                    display_size = args[2]
+
+                # This code no longer works due to the changes that allow filtering; will refactor later
+                # if len(args) > 2:
+                #     display_size = int(args[2])
                 
                 for deck in commanders:
                     if index < display_size:
@@ -801,7 +872,7 @@ class Statistics:
                 # we limit display using either the user value or 10 if they didn't give us one
                 display_size = 10
                 if len(args) > 2:
-                    display_size = args[2]
+                    display_size = int(args[2])
 
                 index = 0
 
@@ -907,7 +978,6 @@ class Data_Manager:
         self.output = "gamehistory_test.txt"
         self.current_action = None
         self.confirm_flag = False
-        self.workbench = []
 
     # this is our transit center function
     def handle_command(self, message_obj):
@@ -928,7 +998,7 @@ class Data_Manager:
         # all our actual commands go here
         elif self.games:
 
-            if not confirm_flag:
+            if not self.confirm_flag:
 
                 if args[1] == "fuzz":
                     if args[2] == "player":
@@ -946,18 +1016,47 @@ class Data_Manager:
                     return "Cleared the data manager."
 
                 elif args[1] == "save":
-                    os.remove(args[2])
-                    return self.output_history(args[2])
+                    try:
+                        os.remove(args[2])
+                    finally:
+                        return self.output_history(args[2])
+
+                elif args[1] == "rename":
+                    # this puts the data back the way they were entered
+                    args = " ".join(args[2:])
+                    
+                    # determine mode and get it off the arg string
+                    mode = None
+                    if args.startswith("cmdr") or args.startswith("deck"):
+                        mode = 1
+                        args = args[5:]
+                    elif args.startswith("commander"):
+                        mode = 1
+                        args = args[10:]
+                    elif args.startswith("player"):
+                        mode = 0
+                        args = args[7:]
+                    else:
+                        return "No changes made — can only rename players and commanders."
+
+                    # next, split the new name off from the rest
+                    args = args.split(" > ")
+                    new_name = args[1]
+
+                    # finally, split the targets into an array
+                    targets_arr = args[0].split(" | ")
+
+                    return self.rename(mode, targets_arr, new_name)
 
                 else:
                     return ""
 
             elif args[1] == "confirm":
-                confirm_flag = False
+                self.onfirm_flag = False
                 return "confirmed."
 
             elif args[1] == "cancel":
-                confirm_flag = False
+                self.confirm_flag = False
                 return "I have cancelled the request."
 
             else:
@@ -1016,7 +1115,7 @@ class Data_Manager:
         no_match_arr.sort()
 
         for name in no_match_arr:
-            response_str += "\n • {match} (full score: {full}; partial score:{partial})".format(match=name[0],full=name[1],partial=name[2])
+            response_str += "\n • {match} (full score: {full}; partial score: {partial})".format(match=name[0],full=name[1],partial=name[2])
 
 
         return response_str
@@ -1072,7 +1171,7 @@ class Data_Manager:
         index = 0
         for name in no_match_arr:
             if index < 10:
-                response_str += "\n • {match} (full score: {full}; partial score:{partial})".format(match=name[0],full=name[1],partial=name[2])
+                response_str += "\n • {match} (full score: {full}; partial score: {partial})".format(match=name[0],full=name[1],partial=name[2])
                 index += 1
             else:
                 break
@@ -1083,6 +1182,45 @@ class Data_Manager:
             response_str += "\n...plus {num} lower-scoring matches".format(num=rejected_matches-10)
 
         return response_str
+
+    def rename(self, mode, targets_arr, new_name):
+        overwrites = 0
+
+        index = 0
+        log_index = 0
+        log_str = ""
+        # for each game
+        for game in self.games:
+            index += 1
+
+            # Check each item against the target list
+            for item in game.players:
+                for target in targets_arr:
+
+                    # if they match, overwrite with new name
+                    if item[mode] == target:
+                        if log_index < 10:
+                            log_str += "\n • Game #{index}: replaced '{old}' with '{new}'".format(index=index, old=item[mode],new=new_name)
+                            log_index += 1
+                        item[mode] = new_name
+                        overwrites += 1
+        
+        if overwrites > log_index:
+            log_str += "\n...plus {num} additional changes".format(num=overwrites-10)
+
+        response_str = ""
+
+        if overwrites > 0:
+            response_str += "Database update complete. Updated {num} entries:".format(num=overwrites)
+        else:
+            response_str += "No changes made — could not find any targets with that name."
+
+        return response_str + log_str
+                    
+
+
+
+
 
     # returns a summary of the games in memory
     def game_summary(self):
