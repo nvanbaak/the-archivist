@@ -1211,11 +1211,6 @@ class Data_Manager:
 
         return response_str + log_str
                     
-
-
-
-
-
     # returns a summary of the games in memory
     def game_summary(self):
         return "This function returns a summary of the database contents"
@@ -1239,8 +1234,9 @@ class Data_Manager:
 
         # Now we back up the data
 
-        # first get rid of the old backup to avoid crossing the streams
-        os.remove("backup.txt")
+        # if old backup exists, delete it
+        if os.path.exists("backup.txt"):
+            os.remove("backup.txt")
 
         # then we back up
         self.output_history("backup.txt")
