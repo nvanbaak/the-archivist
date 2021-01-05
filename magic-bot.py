@@ -835,14 +835,34 @@ class Statistics:
         # start error log
         error_log = ""
 
+        # sort & process filter terms into their respective arrays
         for arg in args:
             if arg.startswith("+player="):
+                arg = arg.replace("+player=","")
                 require_player.append(arg)
+
             elif arg.startswith("+cmdr=") or arg.startswith("+deck=") or arg.startswith("+commander="):
+                arg = arg.replace("+cmdr=","")
+                arg = arg.replace("+deck=","")
+                arg = arg.replace("+commander=","")
+
+                # commanders might have spaces in them, so we have to deal with that too
+                arg = arg.replace("_", " ")
+
                 require_cmdr.append(arg)
+
             elif arg.startswith("-player="):
+                arg = arg.replace("-player=","")
                 block_player.append(arg)
+
             elif arg.startswith("-cmdr=") or arg.startswith("-deck=") or arg.startswith("-commander="):
+                arg = arg.replace("-cmdr=","")
+                arg = arg.replace("-deck=","")
+                arg = arg.replace("-commander=","")
+
+                arg = arg.replace("_", " ")
+                require_cmdr.append(arg)
+
                 block_cmdr.append(arg)
             else:
                 error_log += "Games by deck: ignored invalid search term '{term}'".format(term=arg)
@@ -854,24 +874,40 @@ class Statistics:
         # Iterate through all games
         for game in self.games:
 
-            # Get commander names
+            # Get player data from games
             for player in game.players:
 
-                deck_str = player[1] + " (" + player[0] + ")"
+                # this code determines whether to add the player information
+                fits_require = True
+                fits_block = True
 
-                # search for it in the arr
-                index = 0
-                for deck in commanders:
-                    # if the name matches, increment the count
-                    if deck[0] == deck_str:
-                        deck[1] += 1
-                        break
-                    index += 1
+                # If any positive requirements exist, we assume guilty until proven innocent
+                if require_player or require_cmdr:
+                    fits_require = False
+                    if player[0] in require_player or player[1] in require_cmdr:
+                        fits_require = True
+                
+                # The block requirements
+                if player[0] in block_player or player[1] in block_cmdr:
+                    fits_block = False
+                
+                # Finally, add to array if all requirements are met
+                if fits_require and fits_block:
+                    deck_str = player[1] + " (" + player[0] + ")"
+                
+                    # search for it in the arr
+                    index = 0
+                    for deck in commanders:
+                        # if the name matches, increment the count
+                        if deck[0] == deck_str:
+                            deck[1] += 1
+                            break
+                        index += 1
 
-                # if the index matches the array length, our target wasn't there, so we add it with a count of 1
-                if index == len(commanders):
-                    commanders.append([deck_str, 1])
-                    arr_length += 1
+                    # if the index matches the array length, our target wasn't there, so we add it with a count of 1
+                    if index == len(commanders):
+                        commanders.append([deck_str, 1])
+                        arr_length += 1
         
         # then we sort the array; NB sort() modifies the original array
         commanders.sort(reverse=True, key=lambda d: d[1])
@@ -898,6 +934,7 @@ class Statistics:
         if arr_length > display_size:
             response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-display_size)
 
+        print(error_log)
         return response_str
 
     # returns a random game from the sample set
