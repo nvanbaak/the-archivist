@@ -715,126 +715,7 @@ class Statistics:
 
             # "...deck"
             if args[1] == "deck" or args[1] == "commander":
-
-                # We need to get all words in the commander's name into one string:
-                args = " ".join(args[2:])
-                print(args)
-
-                # determine if there are filters
-                positive_filters = " +" in args
-                negative_filters = " -" in args
-
-                # also set up the deck string and filter arrays since we'll be assigning them below
-                deck_str = ""
-                require = []
-                block = []
-
-                # if there are filters, determine which ones
-                if positive_filters and negative_filters:
-                    # if both are present, we split off positive first:
-                    args = args.split("+ ")
-
-                    # now we have a commander name and a bunch of positive filters, some number of which have an unknown number of negative filters attached
-                    # So we iterate and split
-                    
-                    # first term is the commander name and possibly negative modifiers
-                    cmdr_name_term = args[0].split(" -") # note that the space means we won't hit commander names with hyphens in them
-
-                    # if the variable is a string, that means no split occurred, so there are no negative filters
-                    if isinstance(cmdr_name_term, str):
-                        deck_str = cmdr_name_term
-                    # otherwise the first term is the commander name and the others are modifiers
-                    else:
-                        deck_str = cmdr_name_term[0]
-                        for term in args[1:]:
-                            block.append(term)
-
-                    # then we repeat this process for the other terms in args, except the first term will be a positive modifier
-                    for modifier in args[1:]:
-                        modifier = modifier.split(" -")
-                        if isinstance(modifier, str):
-                            require.append(modifier)
-                        else:
-                            require.append(modifier[0])
-                            for term in modifier:
-                                block.append(term)
-                
-                # the process is much simpler if there's only kind of modifier
-                elif positive_filters:
-                    args = args.split("+ ")
-
-                    if isinstance(args, str):
-                        deck_str = args
-                    else:
-                        deck_str = args[0]
-                        for term in args[1:]:
-                            require.append(term)
-
-                elif negative_filters:
-                    args = args.split("+ ")
-
-                    if isinstance(args, str):
-                        deck_str = args
-                    else:
-                        deck_str = args[0]
-                        for term in args[1:]:
-                            block.append(term)
-                
-                # and of course if there's no modifiers we just assign the cmdr string and be done
-                else:
-                    deck_str = args
-
-                # Empty array of commanders to start
-                commanders = []
-                arr_length = 0
-
-                # Iterate through all games
-                for game in self.games:
-
-                    # Get commander names
-                    for player in game.players:
-                        deck_str = player[1] + " (" + player[0] + ")"
-
-                        # search for it in the arr
-                        index = 0
-                        for deck in commanders:
-                            # if the name matches, increment the count
-                            if deck[0] == deck_str:
-                                deck[1] += 1
-                                break
-                            index += 1
-
-                        # if the index matches the array length, our target wasn't there, so we add it with a count of 1
-                        if index == len(commanders):
-                            commanders.append([deck_str, 1])
-                            arr_length += 1
-                
-                # then we sort the array; NB sort() modifies the original array
-                commanders.sort(reverse=True, key=lambda d: d[1])
-
-                # Now that we have our data, we can present it
-                response_str = "Games by commanders played:"
-                index = 0
-
-                # we limit display using either the user value or 20 if they didn't give us one
-                display_size = 20
-
-                # This code no longer works due to the changes that allow filtering; will refactor later
-                # if len(args) > 2:
-                #     display_size = int(args[2])
-                
-                for deck in commanders:
-                    if index < display_size:
-                        response_str += "\n • {cmdr}: {total} games".format(cmdr=deck[0], total=deck[1])
-                        index += 1
-                    else:
-                        break
-
-                # then we close up
-                if arr_length > display_size:
-                    response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-display_size)
-
-                return response_str
+                return self.deck_stats(args[2:])
 
             # "...player"
             if args[1] == "player" or args[1] == "players":
@@ -942,6 +823,82 @@ class Statistics:
 
 
         else: return ""
+
+    # stats reference function for analyzing games by commander
+    def deck_stats(self, args):
+        # Set up the filter arrays
+        require_player = []
+        require_cmdr = []
+        block_player = []
+        block_cmdr = []
+
+        # start error log
+        error_log = ""
+
+        for arg in args:
+            if arg.startswith("+player="):
+                require_player.append(arg)
+            elif arg.startswith("+cmdr=") or arg.startswith("+deck=") or arg.startswith("+commander="):
+                require_cmdr.append(arg)
+            elif arg.startswith("-player="):
+                block_player.append(arg)
+            elif arg.startswith("-cmdr=") or arg.startswith("-deck=") or arg.startswith("-commander="):
+                block_cmdr.append(arg)
+            else:
+                error_log += "Games by deck: ignored invalid search term '{term}'".format(term=arg)
+
+        # Empty array of commanders to start
+        commanders = []
+        arr_length = 0
+
+        # Iterate through all games
+        for game in self.games:
+
+            # Get commander names
+            for player in game.players:
+
+                deck_str = player[1] + " (" + player[0] + ")"
+
+                # search for it in the arr
+                index = 0
+                for deck in commanders:
+                    # if the name matches, increment the count
+                    if deck[0] == deck_str:
+                        deck[1] += 1
+                        break
+                    index += 1
+
+                # if the index matches the array length, our target wasn't there, so we add it with a count of 1
+                if index == len(commanders):
+                    commanders.append([deck_str, 1])
+                    arr_length += 1
+        
+        # then we sort the array; NB sort() modifies the original array
+        commanders.sort(reverse=True, key=lambda d: d[1])
+
+        # Now that we have our data, we can present it
+        response_str = "Games by commanders played:"
+        index = 0
+
+        # we limit display using either the user value or 20 if they didn't give us one
+        display_size = 20
+
+        # This code no longer works due to the changes that allow filtering; will refactor later
+        # if len(args) > 2:
+        #     display_size = int(args[2])
+        
+        for deck in commanders:
+            if index < display_size:
+                response_str += "\n • {cmdr}: {total} games".format(cmdr=deck[0], total=deck[1])
+                index += 1
+            else:
+                break
+
+        # then we close up
+        if arr_length > display_size:
+            response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-display_size)
+
+        return response_str
 
     # returns a random game from the sample set
     def random_game(self):
