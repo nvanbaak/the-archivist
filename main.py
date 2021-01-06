@@ -146,7 +146,6 @@ class State_Manager:
             else:
                 await self.game_channel.send(response)
 
-
 # create instances of stats engine, data manager, and state manager
 stats = Statistics()
 dm = Data_Manager()

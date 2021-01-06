@@ -238,7 +238,32 @@ class Data_Manager:
                             log_index += 1
                         item[mode] = new_name
                         overwrites += 1
-        
+            
+            # If we're checking player names, we also have to hit the first player, winner, and elimination data
+            if mode == 0:
+                for target in targets_arr:
+                    if game.first[0] == target:
+                        game.first[0] = new_name
+                        if log_index < 10:
+                            log_str += "\n • Game #{index}: replaced first player '{old}' with '{new}'".format(index=index, old=target,new=new_name)
+                            log_index += 1
+                        overwrites += 1
+
+                    if game.winner[0] == target:
+                        game.winner[0] = new_name
+                        if log_index < 10:
+                            log_index += 1
+                            log_str += "\n • Game #{index}: replaced winner '{old}' with '{new}'".format(index=index, old=target,new=new_name)
+                        overwrites += 1
+
+                    for item in game.eliminated:
+                        if item[0] == target:
+                            item[0] == new_name
+                            if log_index < 10:
+                                log_index += 1
+                                log_str += "\n • Game #{index}: replaced eliminated player '{old}' with '{new}'".format(index=index, old=target,new=new_name)
+                            overwrites += 1
+
         if overwrites > log_index:
             log_str += "\n...plus {num} additional changes".format(num=overwrites-10)
 
