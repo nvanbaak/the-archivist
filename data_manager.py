@@ -2,6 +2,7 @@ import os
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
+import config
 from game import Game
 
 

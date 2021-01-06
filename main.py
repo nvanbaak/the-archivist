@@ -8,7 +8,7 @@ from fuzzywuzzy import process
 
 from game import Game
 from stats import Statistics
-from data-manager import Data_Manager
+from data_manager import Data_Manager
 
 
 client = discord.Client()
