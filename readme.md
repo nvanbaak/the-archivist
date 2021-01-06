@@ -49,6 +49,10 @@ TL;DR, The Archivist allows you to track games played with your friends and save
 4. Finally, `$game end` saves the game data to the database and clears it from the active game slot.
 5. You can type `$game status` at any point to get information on the game.  `$game cancel` will close out the game without saving information.
 
+![example of game in progress](./assets/screenshots/game_status.png)
+
+*Note how the game status strikes out Liliana because the table killed her first (the fate of all Sen Triplets players)*
+
 ### Stats Engine
 
 The stats engine lets you retrieve and analyze game data.  Stats commands begin with `$stats` followed by some number of keywords, separated by spaces.  The main functionalities are:
@@ -66,6 +70,14 @@ The stats engine lets you retrieve and analyze game data.  Stats commands begin 
 
 Since you probably don't have MtG game data just lying around, I've included our group's file.  I've also included an algorithm for converting game spreadsheets into the game history storage format used by The Archivist.
 
+![player_stats](./assets/screenshots/player_stats.png)
+
+*The Archivist's player statistics distinguishes between 'duels' (1v1 games) and multiplayer games, since some players (like me) have a different threat level once political options are on the table.  As a side note, I was really proud of that Thantis win.*
+
+![stats_filtering](./assets/screenshots/filter_terms)
+
+*Here's an example of how to use filter terms. These filters ensure that any subsequent calls to the stats methods will only consider multiplayer games where I participated*
+
 ### Data Manager
 
 The data manager (DM) is a data sanitization tool mainly used to combat typos and inconsistencies.  (e.g. my Patron of the Moon deck at one point was stored as 'Patron', 'PatronMoon', and 'PatronOfTheMoon' across multiple games, causing the stats engine to think it was actually three different decks).  While the DM shares some features with the stats engine, there is no data contamination between the two (e.g. filter terms don't affect the data manager).  The DM is accessed through the `$data` command and access is locked to the user whose id is identified in config.py as the admin.
@@ -78,6 +90,14 @@ The data manager (DM) is a data sanitization tool mainly used to combat typos an
 * Once you are satisfied with your changes, you can save them to a text file of your choice with `$data save [destination]`.  The bot's game history is stored in gamehistory.txt by default. **Warning: The save command currently overwrites the destination file without giving any warnings.  Be judicious with your terrible powers.**
 * If you're not happy with the changes you've made to the dataset, you can use `$data unload` to clear the DM.
 * Changes made to gamehistory.txt won't be reflected in the stats engine until you refresh the stats with `$stats refresh`
+
+![fuzzy_search](./assets/screenshots/fuzzy_search.png)
+
+*An example of fuzzy search in action.  We can see that my brother's Kozilek deck has been entered both under the complete name and the short name.  To make sure the statistics are as complete as possible, we'd want to choose one or the other and use the rename function.*
+
+![rename](./assets/screenshots/rename_player.png)
+
+*An example of how to use the rename method.  One future development goal is the ability to read the complete log; discord only allows 2000 characters per message*
 
 ## Dependencies:
 
