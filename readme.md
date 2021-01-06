@@ -83,5 +83,15 @@ The data manager (DM) is a data sanitization tool mainly used to combat typos an
 
 The Archivist owes its existence to discord.py.  Fuzzy search was implemented using the fuzzywuzzy library.
 
+## Planned Future Development:
+
+* A reminder function that messages the Discord server *so people stop forgetting it's game time, Josh*
+* A comprehensive fuzzy search method that checks all terms for typos and returns a list of possible matches. This would replace the current typo checking method, which is someone accidentally noticing some games have a typo in the commander name.
+* Advanced statistical methods that e.g. calculate the impact of a specific deck's presence to your victory chances
+* 'confirm action' checks for the scarier data manager methods
+* Ability to rename players and commanders through the $game menu
+* $addressme command so the bot can respond to people by name or pronoun; not really vital to the overall plan, but hilarious
+* Ability to save inputs as being players or deck names so it stops being an issue when people forget to type "player" in the middle of their commands
+
 ## Credits:
 * Big thanks to [Jaculabilis](https://github.com/Jaculabilis) for tirelessly recording game data from 2017-2019, and for answering my Python questions.
