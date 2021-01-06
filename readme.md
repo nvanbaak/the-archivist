@@ -28,6 +28,7 @@ To complete setup, we need to assign an admin and pick a channel for the bot to 
 You can find the id of the channel in the 'channel' term (second, after Message) and your account id in the 'author' term.  Enter them into config.py like so:
 
 > `game_channel_id = channel id here`
+
 > `admin_id = account id here`
 
 And that's it!  Restart the bot and you're good to go!
@@ -57,22 +58,23 @@ The stats engine lets you retrieve and analyze game data.  Stats commands begin 
 * **Data filtering:** Sometimes you want to see the stats under certain conditions, like how the presence of a certain deck affects your win-loss record.  You can modify the above commands by entering filter terms with `$stats filter` followed by filter terms:
     * `+player=` removes all games from the set where the named player *did not* participate
     * `-player=` removes all games from the set where the named player *did* participate
-    * `+deck=` removes all games *without the named deck.* Note that due to how the argument parsing works, you'll need to use underscores instead of spaces, e.g. '+deck=The_Gitrog_Monster'
+    * `+deck=` removes all games *without the named deck.* Note that due to how the argument parsing works, you'll need to use underscores instead of spaces, e.g. `+deck=The_Gitrog_Monster`
     * `-deck=` removes all games that *include* the named deck.  Use underscores like above.
     * `+pod=` and `-pod=` let you allow or disallow games with the specified number of players (e.g. -pod=2 removes all 2-player games from the dataset).  You can also use the > and < operators, but at present they're implemented counter-intuitively.  `+pod==` allows *only* the specified number of players and disallows all other options.  Filter arguments are applied left to right, so if you input contradictory pod size requirements, the last one will win.
+        * You can use this to your advantage, e.g. by typing `$stats filter +pod==3 +pod=4` to disallow everything besides 3- and 4-player games.
     * You can check what filters are active at any time with `$stats filter settings`.  You can use `$stats refresh` to to reload game data from the history file.  Note that this reapplies filters; if you want to reset the filters, you need to use the `$stats filter reset` command.
 
 Since you probably don't have MtG game data just lying around, I've included our group's file.  I've also included an algorithm for converting game spreadsheets into the game history storage format used by The Archivist.
 
 ### Data Manager
 
-The data manager (DM) is a data sanitization tool mainly used to combat typos and inconsistencies.  (e.g. my Patron of the Moon deck at one point was stored as 'Patron', 'PatronMoon', and 'PatronOfTheMoon' across multiple games, causing the stats engine to think it was actually three different decks).While the DM shares some features with the stats engine, there is no data contamination between the two (e.g. filter terms don't affect the data manager).  The DM is accessed through the `$data` command and access is locked to the user whose id is identified in config.py as the admin.
+The data manager (DM) is a data sanitization tool mainly used to combat typos and inconsistencies.  (e.g. my Patron of the Moon deck at one point was stored as 'Patron', 'PatronMoon', and 'PatronOfTheMoon' across multiple games, causing the stats engine to think it was actually three different decks).  While the DM shares some features with the stats engine, there is no data contamination between the two (e.g. filter terms don't affect the data manager).  The DM is accessed through the `$data` command and access is locked to the user whose id is identified in config.py as the admin.
 
 * Begin using the data manager by typing `$data load`.  This automatically pulls data from the game history file and backs it up to backup.txt.
 * Once data is loaded, you can fuzzy search for terms using `$data fuzz [player or cmdr] [name]` to find all variations of a term in the database.  (The Archivist will also give you the closest rejected matches in case it missed something, but I think right now it's erring on the side of being too generous with the fuzzy search.)
-* The DM is currently able to rename player and deck names.  This is done with the `$data rename [old name] > [new name]` command.  You can rename multiple targets at once by separating them with the | character, eg:
-`$data rename Nikusar | Nekuzar | Necusar > Nekusar`
-    * *All terms and characters must be separated by spaces*
+* The DM is currently able to rename player and deck names.  This is done with the `$data rename [player or cmdr] [old name] > [new name]` command.  You can rename multiple targets at once by separating them with the | character, eg:
+`$data rename cmdr Nikusar | Nekuzar | Necusar > Nekusar`
+    * *All terms and operators must be separated by spaces*
 * Once you are satisfied with your changes, you can save them to a text file of your choice with `$data save [destination]`.  The bot's game history is stored in gamehistory.txt by default. **Warning: The save command currently overwrites the destination file without giving any warnings.  Be judicious with your terrible powers.**
 * If you're not happy with the changes you've made to the dataset, you can use `$data unload` to clear the DM.
 * Changes made to gamehistory.txt won't be reflected in the stats engine until you refresh the stats with `$stats refresh`
