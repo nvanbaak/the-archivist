@@ -74,7 +74,7 @@ Since you probably don't have MtG game data just lying around, I've included our
 
 *The Archivist's player statistics distinguishes between 'duels' (1v1 games) and multiplayer games, since some players (like me) have a different threat level once political options are on the table.  As a side note, I was really proud of that Thantis win.*
 
-![stats_filtering](./assets/screenshots/filter_terms)
+![stats_filtering](./assets/screenshots/filter_terms.png)
 
 *Here's an example of how to use filter terms. These filters ensure that any subsequent calls to the stats methods will only consider multiplayer games where I participated*
 
