@@ -302,7 +302,8 @@ class Statistics:
             # Run through games to find games with this commander
             for game in self.games:
                 # if the searched commander is present
-                cmdr_index = game.get_player_index(cmdr_name)
+                cmdr_index = game.get_cmdr_index(cmdr_name)
+                print(cmdr_index)
                 if cmdr_index > -1:
                     # increment game total
                     total_games += 1

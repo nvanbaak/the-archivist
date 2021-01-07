@@ -26,6 +26,20 @@ class Game:
         # We only get here if the name wasn't in the list, so return -1
         return -1
 
+    def get_cmdr_index(self, cmdr_name):
+        # search for player in the player list
+        index = 0
+        for p in self.players:
+            # break out of the for loop if we found the name
+            if self.players[index][1].casefold() == cmdr_name.casefold():
+                return index
+            # otherwise increment
+            else:
+                index += 1
+        # We only get here if the name wasn't in the list, so return -1
+        return -1
+
+
     # Checks to see if a player has been eliminated
     def get_elim_index(self, player_name):
         # search for player in the elimination list
