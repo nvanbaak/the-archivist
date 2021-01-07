@@ -112,6 +112,7 @@ The Archivist owes its existence to discord.py.  Fuzzy search was implemented us
 * Ability to rename players and commanders through the $game menu
 * $addressme command so the bot can respond to people by name or pronoun; not really vital to the overall plan, but hilarious
 * Ability to save inputs as being players or deck names so it stops being an issue when people forget to type "player" in the middle of their commands
+* Abstract argument parsing into a separate class that all methods use
 
 ## Credits:
 * Big thanks to [Jaculabilis](https://github.com/Jaculabilis) for tirelessly recording game data from 2017-2019, and for answering my Python questions.

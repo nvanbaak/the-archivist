@@ -266,7 +266,6 @@ class Statistics:
     def handle_command(self, message_obj):
         args = message_obj.content[7:].split(" ")
 
-
         if args[0] == "reset":
             if args[1] == "filter" or args[1] == "filters":
                 self.reset_filters()
@@ -289,6 +288,155 @@ class Statistics:
         if args[0] == "player":
             del args[0]
             return self.player_stats(args)
+
+        if args[0] == "deck" or "commander" or "cmdr":
+            
+            # get the commander name
+            cmdr_name = " ".join(args[1:])
+
+            # declare list for oppoenents
+            opponents_arr = []
+            total_games = 0
+            total_wins = 0
+
+            # Run through games to find games with this commander
+            for game in self.games:
+                # if the searched commander is present
+                cmdr_index = game.get_player_index(cmdr_name)
+                if cmdr_index > -1:
+                    # increment game total
+                    total_games += 1
+
+                    # get the name of the commander that won the game
+                    winner = game.winner[1]
+                    if winner == cmdr_name:
+                        total_wins += 1
+
+                    # iterate through commanders, skipping this one
+                    num_players = game.pod_size()
+                    index = 0
+                    while index < num_players:
+                        if index != cmdr_index: # skip everything if this is the searched commander
+                            opponent_name = game.players[index][1]
+                            impact_quotient = 0
+                            if num_players > 2:
+                                impact_quotient = round(2 / num_players, 2)
+
+                            # Check the opponents array for this commander
+                            op_index = 0
+                            op_arr_len = len(opponents_arr)
+                            while op_index < op_arr_len:
+                                # If the opponent is already in the array:
+                                if opponents_arr[op_index][0] == opponent_name:
+
+                                    # increment games played
+                                    opponents_arr[op_index][3] += 1
+
+                                    # check who won
+                                    if opponent_name == winner:
+                                        # increment their wins and impact quotient (explained below)
+                                        opponents_arr[op_index][1] += 1
+                                        opponents_arr[op_index][4] += 1 - impact_quotient
+                                    elif cmdr_name == winner:
+                                        # increment losses-to-me and impact quotient
+                                        opponents_arr[op_index][2] += 1
+                                        opponents_arr[op_index][4] += 1- impact_quotient
+                                    else: #otherwise a third party won, so subtract impact
+                                        opponents_arr[op_index][4] -= impact_quotient
+
+                                    # we got what we need, so break the loop
+                                    break
+                                op_index += 1
+                            
+                            # if we looped through everything and didn't find what we need, add the enemy commander to the array
+                            if op_index == op_arr_len:
+                                # check if they won
+                                if opponent_name == winner:
+                                    # append with one victory
+                                    opponents_arr.append([opponent_name, 1, 0, 1, 1 - impact_quotient])
+                                elif cmdr_name == winner:
+                                    # append with one loss
+                                    opponents_arr.append([opponent_name, 0, 1, 1, 1 - impact_quotient])
+                                else:
+                                    # append with one game played
+                                    opponents_arr.append([opponent_name, 0, 0, 1, -1 * impact_quotient])
+                        
+                        index += 1
+            
+            # We should now have a list of decks we've played against and their relative success against the searched deck
+
+            # Now we filter out the decks with short game histories (currently <5 games)
+            result_arr = []
+            for op in opponents_arr:
+                if op[3] < 5:
+                    result_arr.append(op)
+                else:
+                    break
+
+            win_rate = round(total_wins / total_games, 2) * 100
+
+            response_str = "**Matchup statistics for {cmdr_name}:**".format(cmdr_name=cmdr_name)
+            response_str += "\n\n • Overall: {wins} wins and {losses} losses for a win rate of {win_rate}%".format(wins=total_wins,losses=total_games-total_wins,win_rate=win_rate)
+
+            # Get top five matchups (if there are that many)
+            result_arr.sort(reverse = True, key=lambda op: op[2] / op[1])
+            
+            response_str += "\n\n • Best Matchups:"
+
+            result_index = 0
+            while result_arr < 5:
+                
+                op_name = result_arr[result_index][0]
+                op_win = result_arr[result_index][1]
+                op_lose = result_arr[result_index][2]
+                op_games = result_arr[result_index][3]
+                impact = result_arr[result_index][4]
+
+                #####################################
+                #    SIDEBAR ON IMPACT FACTOR MATH
+                if False:
+                    #  In a perfectly average world, each deck has an equal chance of
+                    #  winning the game.  Impact factor is a way of measuring whether
+                    #  the matchup is *more likely than chance* to decide the outcome
+                    #  of the game.
+                    #  
+                    #  For a pod of three, the chance of either deck winning is 2/3.
+                    #  The impact quotient for one game is thus R - 2/3, where R is 
+                    #  either 1 or 0 based on whether one of the matchup candidates 
+                    #  won.  Results involving a matchup deck add 1/3, while non-matchup
+                    #  results subtract 2/3rds.  Because matchup results are twice
+                    #  as common, this averages out to 0 if the decks are all equal.
+                    #
+                    #  Impact factors above 0 thus indicate a deck that has an outsized
+                    #  effect on match outcomes (not necessarily victory, as this 
+                    #  metric also counts wins by the opponent's deck).  Impact factors
+                    #  below 0 indicate decks that have unusually little impact on the
+                    #  table.
+                    pass
+
+                response_str += "\n{index}. {op} — Won against: {op_lose}; Lost to: {op_win}. ({op_games} games total; impact factor: {impact}).".format(index=result_index, op=op_name, op_lose=op_lose, op_win=op_win, op_games=op_games, impact=impact)
+
+                result_index += 1
+
+            # Get bottom five matchups (if there are that many)
+            result_arr.sort(key=lambda op: op[2] / op[1])
+
+            response_str += "\n\n • Worst Matchups:"
+
+            result_index = 0
+            while result_arr < 5:
+                
+                op_name = result_arr[result_index][0]
+                op_win = result_arr[result_index][1]
+                op_lose = result_arr[result_index][2]
+                op_games = result_arr[result_index][3]
+                impact = result_arr[result_index][4]
+
+                response_str += "\n{index}. {op} — Won against: {op_lose}; Lost to: {op_win}. ({op_games} games total; impact factor: {impact}).".format(index=result_index, op=op_name, op_lose=op_lose, op_win=op_win, op_games=op_games, impact=impact)
+
+                result_index += 1
+
+            return response_str
 
         if args[0] == "refresh":
             return self.refresh(True)
@@ -422,7 +570,7 @@ class Statistics:
 
             # "...deck"
             if args[1] == "deck" or args[1] == "commander":
-                return self.deck_stats(args[2:])
+                return self.games_by_deck(args[2:])
 
             # "...player"
             if args[1] == "player" or args[1] == "players":
@@ -528,11 +676,10 @@ class Statistics:
             else:
                 return ""
 
-
         else: return ""
 
-    # stats reference function for analyzing games by commander
-    def deck_stats(self, args):
+    # stats reference function for analyzing games by commander; submethod of game_stats
+    def games_by_deck(self, args):
         # Set up the filter arrays
         require_player = []
         require_cmdr = []
@@ -571,6 +718,13 @@ class Statistics:
                 require_cmdr.append(arg)
 
                 block_cmdr.append(arg)
+
+            # todo: add play_count argument handling
+
+            # todo: add display_count argument handling
+
+            # todo: add hide_player argument handling
+
             else:
                 error_log += "Games by deck: ignored invalid search term '{term}'".format(term=arg)
 
