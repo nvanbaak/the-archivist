@@ -303,7 +303,6 @@ class Statistics:
             for game in self.games:
                 # if the searched commander is present
                 cmdr_index = game.get_cmdr_index(cmdr_name)
-                print(cmdr_index)
                 if cmdr_index > -1:
                     # increment game total
                     total_games += 1
@@ -319,9 +318,7 @@ class Statistics:
                     while index < num_players:
                         if index != cmdr_index: # skip everything if this is the searched commander
                             opponent_name = game.players[index][1]
-                            impact_quotient = 0
-                            if num_players > 2:
-                                impact_quotient = round(2 / num_players, 2)
+                            
 
                             # Check the opponents array for this commander
                             op_index = 0
@@ -335,15 +332,31 @@ class Statistics:
 
                                     # check who won
                                     if opponent_name == winner:
-                                        # increment their wins and impact quotient (explained below)
+                                        # calculate impact quotient
+                                        impact_quotient = 0
+                                        if num_players > 2:
+                                            impact_quotient = 1 - round(2 / num_players, 2)
+
+                                        # update their wins and impact quotient (explained below)
                                         opponents_arr[op_index][1] += 1
-                                        opponents_arr[op_index][4] += 1 - impact_quotient
+                                        opponents_arr[op_index][4] += impact_quotient
+
                                     elif cmdr_name == winner:
-                                        # increment losses-to-me and impact quotient
+                                        # calculate impact quotient
+                                        impact_quotient = 0
+                                        if num_players > 2:
+                                            impact_quotient = 1 - round(2 / num_players, 2)
+
+                                        # update losses-to-me and impact quotient
                                         opponents_arr[op_index][2] += 1
-                                        opponents_arr[op_index][4] += 1- impact_quotient
+                                        opponents_arr[op_index][4] += impact_quotient
+
                                     else: #otherwise a third party won, so subtract impact
-                                        opponents_arr[op_index][4] -= impact_quotient
+                                        impact_quotient = 0
+                                        if num_players > 2:
+                                            impact_quotient = round(-2 / num_players, 2)
+
+                                        opponents_arr[op_index][4] += impact_quotient
 
                                     # we got what we need, so break the loop
                                     break
@@ -353,14 +366,30 @@ class Statistics:
                             if op_index == op_arr_len:
                                 # check if they won
                                 if opponent_name == winner:
+                                    # calculate impact quotient
+                                    impact_quotient = 0
+                                    if num_players > 2:
+                                        impact_quotient = 1 - round(2 / num_players, 2)
+
                                     # append with one victory
-                                    opponents_arr.append([opponent_name, 1, 0, 1, 1 - impact_quotient])
+                                    opponents_arr.append([opponent_name, 1, 0, 1, impact_quotient])
+
                                 elif cmdr_name == winner:
+                                    # calculate impact quotient
+                                    impact_quotient = 0
+                                    if num_players > 2:
+                                        impact_quotient = 1 - round(2 / num_players, 2)
+
                                     # append with one loss
-                                    opponents_arr.append([opponent_name, 0, 1, 1, 1 - impact_quotient])
+                                    opponents_arr.append([opponent_name, 0, 1, 1, impact_quotient])
                                 else:
+                                    # calculate impact quotient
+                                    impact_quotient = 0
+                                    if num_players > 2:
+                                        impact_quotient = round(-2 / num_players, 2)
+
                                     # append with one game played
-                                    opponents_arr.append([opponent_name, 0, 0, 1, -1 * impact_quotient])
+                                    opponents_arr.append([opponent_name, 0, 0, 1, impact_quotient])
                         
                         index += 1
             
@@ -369,29 +398,29 @@ class Statistics:
             # Now we filter out the decks with short game histories (currently <5 games)
             result_arr = []
             for op in opponents_arr:
-                if op[3] < 5:
-                    result_arr.append(op)
-                else:
-                    break
+                # if op[3] < 5:
+                result_arr.append(op)
+                # else:
+                    # break
 
             win_rate = round(total_wins / total_games, 2) * 100
 
             response_str = "**Matchup statistics for {cmdr_name}:**".format(cmdr_name=cmdr_name)
-            response_str += "\n\n • Overall: {wins} wins and {losses} losses for a win rate of {win_rate}%".format(wins=total_wins,losses=total_games-total_wins,win_rate=win_rate)
+            response_str += "\n\n**Overall:** {wins} wins and {losses} losses for a win rate of {win_rate}%".format(wins=total_wins,losses=total_games-total_wins,win_rate=win_rate)
 
             # Get top five matchups (if there are that many)
-            result_arr.sort(reverse = True, key=lambda op: op[2] / op[1])
+            result_arr.sort(reverse = True, key=lambda op: op[2] - op[1])
             
-            response_str += "\n\n • Best Matchups:"
+            response_str += "\n\n**Best Matchups:**"
 
             result_index = 0
-            while result_arr < 5:
+            while result_index < 5:
                 
                 op_name = result_arr[result_index][0]
                 op_win = result_arr[result_index][1]
                 op_lose = result_arr[result_index][2]
                 op_games = result_arr[result_index][3]
-                impact = result_arr[result_index][4]
+                impact = round(result_arr[result_index][4],0)
 
                 #####################################
                 #    SIDEBAR ON IMPACT FACTOR MATH
@@ -415,25 +444,25 @@ class Statistics:
                     #  table.
                     pass
 
-                response_str += "\n{index}. {op} — Won against: {op_lose}; Lost to: {op_win}. ({op_games} games total; impact factor: {impact}).".format(index=result_index, op=op_name, op_lose=op_lose, op_win=op_win, op_games=op_games, impact=impact)
+                response_str += "\n{index}. {op} — Won against: {op_lose}; Lost to: {op_win}. ({op_games} games total; impact factor: {impact}).".format(index=result_index+1, op=op_name, op_lose=op_lose, op_win=op_win, op_games=op_games, impact=impact)
 
                 result_index += 1
 
             # Get bottom five matchups (if there are that many)
-            result_arr.sort(key=lambda op: op[2] / op[1])
+            result_arr.sort(key=lambda op: op[2] - op[1])
 
-            response_str += "\n\n • Worst Matchups:"
+            response_str += "\n\n**Worst Matchups:**"
 
             result_index = 0
-            while result_arr < 5:
+            while result_index < 5:
                 
                 op_name = result_arr[result_index][0]
                 op_win = result_arr[result_index][1]
                 op_lose = result_arr[result_index][2]
                 op_games = result_arr[result_index][3]
-                impact = result_arr[result_index][4]
+                impact = round(result_arr[result_index][4],0)
 
-                response_str += "\n{index}. {op} — Won against: {op_lose}; Lost to: {op_win}. ({op_games} games total; impact factor: {impact}).".format(index=result_index, op=op_name, op_lose=op_lose, op_win=op_win, op_games=op_games, impact=impact)
+                response_str += "\n{index}. {op} — Won against: {op_lose}; Lost to: {op_win}. ({op_games} games total; impact factor: {impact}).".format(index=result_index+1, op=op_name, op_lose=op_lose, op_win=op_win, op_games=op_games, impact=impact)
 
                 result_index += 1
 
