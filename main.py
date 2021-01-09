@@ -117,7 +117,8 @@ class State_Manager:
                 self.current_game.store_data("gamehistory.txt")
 
                 #refresh stats engine
-                stats.refresh()
+                filter_when_done = True
+                stats.refresh(filter_when_done)
                 
                 # close out the game
                 self.current_game = None

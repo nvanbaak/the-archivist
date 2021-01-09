@@ -281,6 +281,9 @@ class Statistics:
                 del args[0]
                 return self.set_filters(args)
 
+        if args[0] == "refresh":
+            return self.refresh(True)
+
         if args[0] == "games" or args[0] == "game":
             del args[0]
             return self.game_stats(args)
@@ -420,7 +423,7 @@ class Statistics:
                 op_win = result_arr[result_index][1]
                 op_lose = result_arr[result_index][2]
                 op_games = result_arr[result_index][3]
-                impact = round(result_arr[result_index][4],0)
+                impact = round(result_arr[result_index][4],2)
 
                 #####################################
                 #    SIDEBAR ON IMPACT FACTOR MATH
@@ -460,16 +463,13 @@ class Statistics:
                 op_win = result_arr[result_index][1]
                 op_lose = result_arr[result_index][2]
                 op_games = result_arr[result_index][3]
-                impact = round(result_arr[result_index][4],0)
+                impact = round(result_arr[result_index][4],2)
 
                 response_str += "\n{index}. {op} — Won against: {op_lose}; Lost to: {op_win}. ({op_games} games total; impact factor: {impact}).".format(index=result_index+1, op=op_name, op_lose=op_lose, op_win=op_win, op_games=op_games, impact=impact)
 
                 result_index += 1
 
             return response_str
-
-        if args[0] == "refresh":
-            return self.refresh(True)
 
         else:
             return ""
