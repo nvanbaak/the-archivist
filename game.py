@@ -1,5 +1,6 @@
 import os
 import config
+import random
 
 class Game:
     def __init__(self):
@@ -75,6 +76,7 @@ class Game:
         if args[0] == "rename":
             player_index = self.get_player_index(args[1])
             self.players[player_index][0] = args[2]
+            return "Player renamed successfully!"
 
         if args[0] == "first":
             if not self.begin:
@@ -137,7 +139,34 @@ class Game:
         if args[0] == "state" or args[0] == "status":
             return self.game_state()
             
-        if args[0] == "threat":
+        if args[0] == "random":
+            args_length = len(args)
+            output_str = "Random selection: "
+
+            # check if user supplied additional arguments, else return a random player
+            if args_length > 1:
+                if args[1] == "player":
+
+                    # We may have to randomly select a player multiple times
+                    if args_length > 2:
+                        num_selections == int(args[2])
+                        # target_list = []
+                        index = 0
+                        while index < num_selections:
+
+                            target = random.choice(self.players)
+                            output_str += target + " "
+                            index += 1
+                    else:
+                        output_str = random.choice(self.players)
+
+            # else return a random player
+            else:
+                output_str = random.choice(self.players)
+
+            return output_str
+
+        if args[0] == "threat":    
             target = random.choice(self.players)
             return "Considered analysis of the situation suggests that {target} is the biggest threat".format(target=target)
 
