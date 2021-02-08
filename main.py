@@ -63,6 +63,10 @@ class State_Manager:
         if message.content.startswith('$hello'):
             await message.channel.send('Hello {message.author.name}!'.format(message=message))
 
+        if message.content.startswith("$lorem"):
+            lorem = "Token engine firebreathing blinking mono blue Rakdos Steve stabilize Grixis interrupt restricted mono white Rakdos 4 turn clock decking fixing sideboard Selesnya dome Chimney Pimp big butt decking gas bolt 3 drop chump tank token enchantment topdeck mana pool tank dork utility land standard race card swing race nut draw artifact Golgari dig beatstick race hate mono green Sultai pro mana rock Naya pro-blue Vorthos pop off dig for an answer Orzhov CMC wheel Canadian Threshold land for turn Abzan tank maindeck grindy trade blow up Temur nut draw Sultai chump meta top 8 meta combat trick fatty sorcery Blinky power 9 hate mono black pro-black 2 drop drain fixing in the air modern beatstick prison Vorthos stabilize artifact mirror match Chimney Pimp moxen hard cast hydra land drop grinder aggro aggro Simic Esper weenie 4 turn clock 4 turn clock hate exile enchantment Naya Naya big butt cantrip fetch dig reanimate restricted proxy go off legacy grinder protection interrupt maindeck decking Naya Grixis prison creatureball 2 drop hate bear beats wedge 2 drop wheel enchantment vintage playset Temur 4 turn clock mana birds decking vanilla pro-blue EDH shock land wedge crack fetch wheel durdler mill Blinky chump block mana pool curve card pool mana hose dragon reanimate moxes glass cannon Gruul mana dork sorcery clock hate bear fetch token engine mana hose tempo pro-black card Timmy Grixis\n\nCheck land playset threat Izzet shock on a stick allied colors blow up bomb grind in response Grixis value legacy fixing race legacy glass cannon land for turn combo shock land durdler Grixis mulligan reanimate deck hoser Steve proxy wedge Gruul reanimate jankey mana hose aggro response pro-white pro-red combat trick CMC board state token ping Academy bolt mill he's got a bit of an ass on him hate mana pool Jund board presence blow up Canadian Threshold dig color Timmy pro-red prime time mana pool ping reanimator bomb reanimator mulligan dragon gas dork shock keeper man land wheel shock on a stick aggro big butt playset on a stick beefcake synergy reanimate allied colors control Jeskai fixing jankey 1 drop bear Esper 1 drop board presence bomb shell mana birds go wide Boros grindy hard cast pain land vintage cut interrupt sorcery blink Selesnya finisher metagame control reanimate mana screwed beatstick blow up ping board presence Mardu ritual out of gas Gruul card pool bolt archetype stabilize mono black beefcake pro-white chump block dead card bomb pain land blow up pump jankey combo pain land tutor 2 drop beatdown Mardu planeswalker dragon swing hydra fixing Izzet allied colors mana pool nut draw prison control hate bear modern run Jund land for turn legendary cut fixing ETB lethal shock chump voltron Gruul mana dork chump block pro-black moxen restricted playset Bob card pool"
+            await self.send_multiple_responses(lorem)
+
         if message.content.startswith('$randomEDH'):
             await message.channel.send(stats.random_game().game_state())
 
@@ -78,7 +82,7 @@ class State_Manager:
             else:
                 await message.channel.send(response)
 
-        if message.content.startswith('$game'):
+        if message.content.startswith('$game '):
             # Check if there is is a game
 
             # user might just be checking if there's a game; we don't need to start a new one in that case
@@ -137,7 +141,7 @@ class State_Manager:
             else:
                 # send the reponse as a message
                 if len(response) > 1900:
-                    send_multiple_responses(response)
+                    self.send_multiple_responses(response)
 
                 await self.game_channel.send(response)
 
@@ -150,18 +154,12 @@ class State_Manager:
             else:
                 await self.game_channel.send(response)
 
-    def send_multiple_responses(response):
-
+    async def send_multiple_responses(self, response):
         if len(response) > 1949:
             while len(response) > 1949:
                 await self.game_channel.send(response[:1950])
                 response = response[1950:]
-        else:
             await self.game_channel.send(response)
-
-
-
-
 
 
 
