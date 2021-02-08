@@ -232,10 +232,10 @@ class Statistics:
             if self.require_win:
 
                 # we assume guilty until proven innocent
-                fits_winner_requirement = false
+                fits_winner_requirement = False
                 for winner in game.winner:
-                    if winner[0] in self.require_win:
-                        fits_winner_requirement = true
+                    if winner in self.require_win:
+                        fits_winner_requirement = True
                         break
 
                 # if we didn't fit the requirements, skip the rest of the loop
@@ -245,10 +245,10 @@ class Statistics:
             if self.block_win:
 
                 # for blocks, we assume innocent until proven guilty
-                fits_block_requirement = true
+                fits_block_requirement = True
                 for winner in game.winner:
-                    if winner[0] in self.require_win:
-                        fits_block_requirement = false
+                    if winner in self.require_win:
+                        fits_block_requirement = False
                         break
                 
                 # skip if we don't meet requirements

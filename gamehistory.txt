@@ -441,3 +441,7 @@ Stephen:Atraxa&Tim:EsperRamos|Stephen:Atraxa||Stephen:Atraxa|Jaeil:Ramos has no 
 Tim:NayaRamos&Nik:Sephara|Tim:NayaRamos||Nik:Sephara|Jaeil:Ramos took the lead with an early Ormendahl, but ran out of gas and Sephara rebuilt
 Tim:NayaRamos&Nik:Sephara|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Sephara exiled all Plains to Endless Horizons, then Ramos cast The Great Aurora
 Tim:NayaRamos&Nik:Sephara|Nik:Sephara||Nik:Sephara|Jaeil:Sephara locked the game down with Possessed Portal and Ardarkar Valkyrie
+Alex:Kykar&Tim:NayaRamos&Nik:Braids|Alex:Kykar||Alex:Kykar|Jaeil:Braids took a no-land-hand, Kykar made more tokens than Ramos
+Stephen:LordWindgrace&Nik:Sephara&Alex:Roon&Tim:NayaRamos|Stephen:LordWindgrace||Stephen:LordWindgrace|Jaeil:Ramos takes out Roon with Sunhome on Ramos, Windgrace gets Omnath elementals and kills Sephara, Ramos can't kill Windgrace and dies
+Nik:Braids&Tim:GrixisRamos&Stephen:Windgrace|Nik:Braids||Tim:GrixisRamos|Jaeil:Ramos abuses Braids triggers more than anyone else, Rakdos Charms Windgrace after two Avenger etbs, then Braids concedes
+Stephen:Karlov&Tim:GrixisRamos|Stephen:Karlov||Stephen:Karlov|Jaeil:Ramos doesn't draw much removal so Karlov wins through commander damage
