@@ -201,6 +201,17 @@ class Statistics:
             for cmdr in self.block_cmdrs:
                 log_str += "\n • {cmdr}".format(cmdr=cmdr)
 
+        # winner filters
+        if self.require_win:
+            log_str += "\nDisplaying games with these winners:"
+            for winner in self.require_win:
+                log_str += "\n • {winner)".format(winner=winner)
+
+        if self.block_win:
+            log_str += "\nExcluding games with these winners:"
+            for winner in self.block_win:
+                log_str += "\n • {winner}".format(winner=winner)
+
         return log_str
 
     # filters the game set based on the established filter rules
