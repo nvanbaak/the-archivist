@@ -80,7 +80,7 @@ class State_Manager:
             if response == "":
                 pass
             else:
-                await message.channel.send(response)
+                await self.send_multiple_responses(response)
 
         if message.content.startswith('$game '):
             # Check if there is is a game
@@ -111,7 +111,7 @@ class State_Manager:
             elif self.current_game is None:
                 # Make a new game
                 self.current_game = Game()
-                await self.game_channel.send("Started a new game!")
+                await self.game_channel.send("Created a new game!")
 
             # There's an active game either way at this point, so we have it handle the message
             response = self.current_game.handle_command(message)
@@ -160,7 +160,6 @@ class State_Manager:
                 await self.game_channel.send(response[:1950])
                 response = response[1950:]
             await self.game_channel.send(response)
-
 
 
 # create instances of stats engine, data manager, and state manager
