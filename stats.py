@@ -228,6 +228,33 @@ class Statistics:
             if not self.pods[index]:
                 continue
 
+            # Check against winner constraints
+            if self.require_win:
+
+                # we assume guilty until proven innocent
+                fits_winner_requirement = false
+                for winner in game.winner:
+                    if winner[0] in self.require_win:
+                        fits_winner_requirement = true
+                        break
+
+                # if we didn't fit the requirements, skip the rest of the loop
+                if not fits_winner_requirement:
+                    continue
+
+            if self.block_win:
+
+                # for blocks, we assume innocent until proven guilty
+                fits_block_requirement = true
+                for winner in game.winner:
+                    if winner[0] in self.require_win:
+                        fits_block_requirement = false
+                        break
+                
+                # skip if we don't meet requirements
+                if not fits_block_requirement:
+                    continue
+
             # Iterate through players to hit player and commander requirements
             
             # These two are true by default but go to false if any requirements exist.

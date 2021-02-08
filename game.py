@@ -87,7 +87,7 @@ class Game:
                 if player_index == -1:
                     return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
 
-                # If the player was found, we get their information from the player list and mark them as eliminated
+                # If the player was found, add them to self.first and start the game
                 else:
                     self.first = self.players[player_index]
                     self.begin = True
@@ -134,7 +134,7 @@ class Game:
                     else:
                         return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
             else:
-                return "{player} could not have been won because the game has not started yet!".format(player=args[1])
+                return "I can't declare {player} the winner until I know who went first!".format(player=args[1])
 
         if args[0] == "state" or args[0] == "status":
             return self.game_state()

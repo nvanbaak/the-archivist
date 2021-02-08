@@ -440,3 +440,4 @@ Stephen:Atraxa&Tim:EsperRamos|Stephen:Atraxa||Tim:EsperRamos|Jaeil:Atraxa was ma
 Stephen:Atraxa&Tim:EsperRamos|Stephen:Atraxa||Stephen:Atraxa|Jaeil:Ramos has no gas
 Tim:NayaRamos&Nik:Sephara|Tim:NayaRamos||Nik:Sephara|Jaeil:Ramos took the lead with an early Ormendahl, but ran out of gas and Sephara rebuilt
 Tim:NayaRamos&Nik:Sephara|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Sephara exiled all Plains to Endless Horizons, then Ramos cast The Great Aurora
+Tim:NayaRamos&Nik:Sephara|Nik:Sephara||Nik:Sephara|Jaeil:Sephara locked the game down with Possessed Portal and Ardarkar Valkyrie
