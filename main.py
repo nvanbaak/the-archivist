@@ -136,6 +136,9 @@ class State_Manager:
 
             else:
                 # send the reponse as a message
+                if len(response) > 1900:
+                    send_multiple_responses(response)
+
                 await self.game_channel.send(response)
 
         if message.content.startswith('$data'):
@@ -146,6 +149,21 @@ class State_Manager:
                 pass
             else:
                 await self.game_channel.send(response)
+
+    def send_multiple_responses(response):
+
+        if len(response) > 1949:
+            while len(response) > 1949:
+                await self.game_channel.send(response[:1950])
+                response = response[1950:]
+        else:
+            await self.game_channel.send(response)
+
+
+
+
+
+
 
 # create instances of stats engine, data manager, and state manager
 stats = Statistics()
