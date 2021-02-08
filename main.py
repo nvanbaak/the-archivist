@@ -155,11 +155,10 @@ class State_Manager:
                 await self.game_channel.send(response)
 
     async def send_multiple_responses(self, response):
-        if len(response) > 1949:
-            while len(response) > 1949:
-                await self.game_channel.send(response[:1950])
-                response = response[1950:]
-            await self.game_channel.send(response)
+        while len(response) > 1949:
+            await self.game_channel.send(response[:1950])
+            response = response[1950:]
+        await self.game_channel.send(response)
 
 
 # create instances of stats engine, data manager, and state manager

@@ -14,6 +14,8 @@ class Statistics:
         self.block_cmdrs = []
         self.require_elim = []
         self.block_elim = []
+        self.require_win = []
+        self.block_win = []
 
         self.refresh(False)
 
@@ -131,6 +133,30 @@ class Statistics:
                         log_str += " and removed them from require list"
                         index = self.require_cmdrs.index(arg)
                         del self.require_cmdrs[index]
+
+            # winner filters
+            elif "win" in arg or "winner" in arg:
+                #replace winner term
+                arg = arg.replace("win=", "")
+                arg = arg.replace("winner=", "")
+
+                if permission:
+                    # add to require array
+                    self.require_win.append(arg)
+                    log_str += "\n • Required games won by {winner}".format(winner=arg)
+                    # remove from block array
+                    if arg in self.block_win:
+                        log_str += " and removed them from blacklist"
+                        index = self.block_win.index(arg)
+                        del self.block_win[index]
+                else:
+                    self.block_win.append(arg)
+                    log_str += "\n • Removed games won by {winner}".format(winner=arg)
+                    # remove from block array
+                    if arg in self.require_win:
+                        log_str += " and removed them from require list"
+                        index = self.require_win.index(arg)
+                        del self.require_win[index]
 
         filter_after_refresh = True
         self.refresh(filter_after_refresh)
@@ -261,6 +287,10 @@ class Statistics:
         if filter_when_done:
             self.filter_games()
         return "Successfully loaded game history! Sample set now {num} games.".format(num=len(self.games))
+
+    ##################################
+    #         COMMAND PARSING        #
+    ##################################
 
     # called by the bot to invoke various methods
     def handle_command(self, message_obj):
