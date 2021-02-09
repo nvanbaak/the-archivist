@@ -565,6 +565,8 @@ class Statistics:
                     await message_obj.channel.send(result_str)
                     
                     result_count -= 1
+
+                    return ""
                 else:
                     return ""
 

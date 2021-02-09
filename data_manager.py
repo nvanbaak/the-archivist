@@ -48,7 +48,7 @@ class Data_Manager:
                 elif args[1] == "summary":
                     return self.game_summary()
 
-                elif args[1] == "unload" or args[1] == "cancel":
+                elif args[1] == "unload" or args[1] == "cancel" or args[1] == "clear":
                     self.games = []
                     return "Cleared the data manager."
 
@@ -101,7 +101,7 @@ class Data_Manager:
 
         # this triggers if nothing's loaded and they tried to do something other than loading
         else:
-            return "The data manager currently has nothing loaded.  To get started, type: ```$data load```"
+            return "The data manager currently has nothing loaded.  To get started, type: `$data load`"
 
     # uses fuzzy search to find possible variant spellings of players
     def fuzz_player(self, player_name):
