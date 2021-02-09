@@ -67,9 +67,13 @@ class Game:
             # check if they have an alias registered:
             if alias:
                 # remove command term from message content
-                cmdr = command.replace("cmdr ", "")
-                cmdr = command.replace("commander ", "")
-                cmdr = command.replace("deck ", "")
+                cmdr = ""
+                if command.startswith("cmdr ") or command.startswith("deck "):
+                    cmdr = command[5:]
+                if command.startswith("commander "):
+                    cmdr = command[10:]
+
+                print(cmdr)
 
                 # add player to game
                 self.players.append( [alias, command] )

@@ -56,7 +56,13 @@ class State_Manager:
             return False
 
     def get_player_alias(self, author_name):
-        return self.aliases[author_name]
+        alias = None
+        try:
+            alias = self.aliases[author_name]
+        except KeyError:
+            print("'{author}' is not a key".format(author=author_name))
+
+        return alias
 
     async def route_message(self, message, stats, dm):
         if message.author == client.user:
@@ -84,8 +90,9 @@ class State_Manager:
         if message.content.startswith('$register'):
             # retrieve Discord name and given name from message
             author_name = message.author.name
-            alias = message.content.replace("$register ","")
-            alias = message.content.replace("$register","")
+            alis = message.content
+            alias = alias.replace("$register ","")
+            alias = alias.replace("$register","")
 
             if alias:
                 # set that value in the alias list
@@ -141,7 +148,15 @@ class State_Manager:
                 await self.game_channel.send("Created a new game!")
 
             # There's an active game either way at this point, so we have it handle the message
-            response = self.current_game.handle_command(message, self.get_player_alias(message.author.name))
+            alias = self.get_player_alias(message.author.name)
+            print(alias)
+            response = ""
+
+            if alias:
+                response = self.current_game.handle_command(message, alias)
+            else:
+                print("hit alias error")
+                response = "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
 
             if response == "end":
                 # store game data
