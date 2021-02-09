@@ -131,20 +131,24 @@ class State_Manager:
 
                 help_str = "The $game menu is used to track __ongoing games of EDH__."
                 help_str += "\n Begin by adding your name and deck with the following command:"
-                help_str += "\n```$game player [your name] [commander name]```"
+                help_str += "\n``$game player [your name] [commander name]``"
                 help_str += "(note that there can't be any spaces in your commander's name or the bot will just take the first word)"
                 help_str += "\n Once all players are added, start the game with this command:"
-                help_str += "\n```$game first [name of the player who's going first]```"
-                help_str += "Once in game, keep track of eliminations using the ```$game elim [player]``` command.  Posterity will thank you when you can point out that you're much more likely to die first and therefore not a threat!"
-                help_str += "\n Declare victory with ```$game winner [player]``` Afterward, you can add commentary to the game record so everyone knows how awesome you are, or alternately how little your opponent deserved the win."
-                help_str += "\n Once you're done, type ```$game end``` to store the game in memory. That's it!  You're done!"
+                help_str += "\n``$game first [name of the player who's going first]``"
+                help_str += "Once in game, keep track of eliminations using the ``$game elim [player]`` command.  Posterity will thank you when you can point out that you're much more likely to die first and therefore not a threat!"
+                help_str += "\n Declare victory with ``$game winner [player]`` Afterward, you can add commentary to the game record so everyone knows how awesome you are, or alternately how little your opponent deserved the win."
+                help_str += "\n Once you're done, type ``$game end`` to store the game in memory. That's it!  You're done!"
 
                 await message.channel.send(help_str)
                 return
 
             elif self.current_game is None:
+
+                # get the current number of games
+                index = len(stats.games)
+
                 # Make a new game
-                self.current_game = Game()
+                self.current_game = Game(index)
                 await self.game_channel.send("Created a new game!")
 
             # There's an active game either way at this point, so we have it handle the message

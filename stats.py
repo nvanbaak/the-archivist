@@ -317,10 +317,12 @@ class Statistics:
             # delete the last entry because we know it's a newline
             del history_arr[-1]
             # For each game, create a Game object and append it to the Stats object
+            index = 0
             for game_data in history_arr:
                 new_game = Game()
-                new_game.parse_data(game_data)
+                new_game.parse_data(game_data, index)
                 self.games.append(new_game)
+                index += 1
 
         if filter_when_done:
             self.filter_games()
@@ -542,12 +544,27 @@ class Statistics:
         if args[0] == "notes":
 
             result_count = min(10, len(self.games))
+            sort_method = "most recent"
 
             # see if they gave us a length term
             if len(args) > 1:
                 result_count = int(args[1])
 
-            await message_obj.channel.send("Returning {count} most recent game notes:".format(count=result_count))
+            if len(args) > 2:
+                if args[2] == "random":
+                    sort_method = "random"
+                elif args[2] == "old" or args[2] == "oldest":
+                    sort_method = "oldest"
+
+            game_sample = []
+            if sort_method == "random":
+                game_sample = random.shuffle(self.games)
+            elif sort_method == "oldest":
+                game_sample = self.games
+            else:
+                game_sample = reversed(self.games)
+
+            await message_obj.channel.send("Returning {count} {sort} game notes:".format(count=result_count,sort=sort_method))
 
             for game in reversed(self.games):
                 if result_count > 0:

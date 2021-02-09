@@ -3,7 +3,7 @@ import config
 import random
 
 class Game:
-    def __init__(self):
+    def __init__(self, index):
         self.players = []
         self.first = []
         self.eliminated = []
@@ -11,6 +11,7 @@ class Game:
         self.notes = []
         self.begin = False
         self.game_over = False
+        self.index = index
 
     # Given the name of a player, tracks them down in the player list. Returns -1 if not found.  Used to get deck information with spellchecking as a useful consequence.
     def get_player_index(self, player_name):
@@ -288,7 +289,7 @@ class Game:
         return state_str
 
     # Parses information from stored games; essentially used as a constructor for archived games
-    def parse_data(self, game_data):
+    def parse_data(self, game_data, index):
         # Break up the string into data chunks
         data_arr = game_data.split("|")
 
@@ -319,6 +320,8 @@ class Game:
         # This probably won't come up, but if we're reading data the game is long over
         self.begin = True
         self.game_over = True
+
+        self.index = index
 
     # Writes the game state to a text file
     def store_data(self, destination):
