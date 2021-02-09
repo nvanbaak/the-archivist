@@ -83,7 +83,7 @@ class Game:
                 return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=cmdr, fuzz=fuzz_str)
 
             else:
-                return "You need to need to register with `$register your name` to use that command."
+                return "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
 
         if args[0] == "player":
             if not self.begin:

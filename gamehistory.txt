@@ -457,3 +457,4 @@ Nik:Muldrotha&Tim:GrixisRamos|Nik:Muldrotha||Nik:Muldrotha|Jaeil:Ramos was mana 
 Tim:JundRamos&Nik:BorborygmosEnraged|Nik:BorborygmosEnraged||Nik:BorborygmosEnraged|Jaeil:Borborygmos comboes with Snake Umbra
 Tim:Hostility&Nik:Breya|Nik:Breya||Nik:Breya|Jaeil:Hostility didn't have enough gas to outvalue Breya, crumpled beneath a Venser ult, Breya gained life out of Acidic Soil range
 Tim:Hostility&Nik:Phelddagrif|Tim:Hostility||Tim:Hostility|Jaeil:Hostility nearly died to Suture Priest, wiped the board at 1 life, got a bunch of mana with Mana Geyser and retraced Reality Scramble to have Hostility Warstorm Surge three times
+Nik:Muldrotha&Tim:Hostility|Nik:Muldrotha||Nik:Muldrotha|Jaeil:Hostility nearly rushed Muldrotha out, but lost board to interaction before Muldrotha came out

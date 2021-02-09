@@ -155,11 +155,7 @@ class State_Manager:
             alias = self.get_player_alias(message.author.name)
             response = ""
 
-            if alias:
-                response = self.current_game.handle_command(message, alias, stats)
-            else:
-                print("hit alias error")
-                response = "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
+            response = self.current_game.handle_command(message, alias, stats)
 
             if response == "end":
                 # store game data
