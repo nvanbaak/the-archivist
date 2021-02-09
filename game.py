@@ -76,8 +76,8 @@ class Game:
                 print(cmdr)
 
                 # add player to game
-                self.players.append( [alias, command] )
-                return "{alias} is playing {cmdr}".format(alias=alias, cmdr=command)
+                self.players.append( [alias, cmdr] )
+                return "{alias} is playing {cmdr}".format(alias=alias, cmdr=cmdr)
 
             else:
                 return "You need to need to register with `$register your name` to use that command."

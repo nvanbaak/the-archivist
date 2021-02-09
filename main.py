@@ -149,7 +149,6 @@ class State_Manager:
 
             # There's an active game either way at this point, so we have it handle the message
             alias = self.get_player_alias(message.author.name)
-            print(alias)
             response = ""
 
             if alias:
