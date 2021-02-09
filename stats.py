@@ -569,7 +569,7 @@ class Statistics:
             for game in reversed(self.games):
                 if result_count > 0:
 
-                    result_str = "\n\n**GAME #{num}\nPlayers: **"
+                    result_str = "\n\n**GAME #{num}\nPlayers: **".format(num=game.index)
 
                     for player in game.players:
                         result_str += "{player} ({cmdr}), ".format(player=player[0], cmdr=player[1])
