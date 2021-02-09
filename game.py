@@ -75,9 +75,12 @@ class Game:
                 if command.startswith("commander "):
                     cmdr = command[10:]
 
+                # get spelling variants
+                fuzz_str = self.fuzz_cmdr(cmdr, stats)
+
                 # add player to game
                 self.players.append( [alias, cmdr] )
-                return "{alias} is playing {cmdr}".format(alias=alias, cmdr=cmdr)
+                return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=cmdr, fuzz=fuzz_str)
 
             else:
                 return "You need to need to register with `$register your name` to use that command."
@@ -87,8 +90,11 @@ class Game:
                 player_name = args[1]
                 last_index = len(args)
                 cmdr_name = " ".join(args[2:last_index])
+
+                fuzz_str = self.fuzz_cmdr(cmdr_name, stats)
+
                 self.players.append( [player_name, cmdr_name] )
-                return "{player} is playing {deck}".format(player=args[1], deck=cmdr_name)
+                return "{player} is playing {deck} {fuzz}".format(player=args[1], deck=cmdr_name, fuzz=fuzz_str)
             else:
                 return "Can't add player—game has already started"
 
@@ -349,4 +355,39 @@ class Game:
 
             with open(destination, "a") as gamehist:
                 gamehist.write(game_str + "\n")
+
+    def fuzz_cmdr(self, cmdr_name, stats):
+        match_arr = []
+        no_match_arr = []
+        
+        # run through the list of games
+        for game in stats.games:
+
+            # for each game, run through list of commanders
+            for cmdr in game.players:
+
+                # skip if it's the same name or we've already hit this one
+                if cmdr[1] in match_arr or cmdr[1] in no_match_arr or cmdr[1] == cmdr_name:
+                    continue
+                else:
+                    # otherwise get fuzziness score
+                    full_fuzz = fuzz.ratio(cmdr_name, cmdr[1])
+                    partial_fuzz = fuzz.partial_ratio(cmdr_name, cmdr[1])
+
+                    # Discriminate based on fuzzy match
+                    if full_fuzz > 70 or partial_fuzz > 70:
+                        match_arr.append(cmdr[1])
+                    else: 
+                        no_match_arr.append(cmdr[1])
+
+        # once we've gotten all the matches, return a list
+        if match_arr:
+            output_str = "\n\nHere's a list of similar names in the database:"
+            
+            for cmdr in match_arr:
+                output_str += "\n • {cmdr}".format(cmdr=cmdr)
+
+            return output_str
+        else:
+            return ""
 

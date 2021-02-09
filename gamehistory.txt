@@ -424,9 +424,9 @@ Nik:Urabrask&Adam:Athreos|Adam:Athreos||Adam:Athreos|Verdant Colors:I'm really s
 Nik:Ludevic / Ravos&Tim:Kazarov&Stephen:Inalla&Lex:Surrak&Adam:Surprise Lazav|Stephen:Inalla|Stephen:Inalla&Nik:Ludevic / Ravos&Lex:Surrak&Adam:Surprise Lazav|Tim:Kazarov|SharktoothJack:Surrak was doing well but never recovered from boardwipe&Verdant Colors:Lazav got a couple of big monsters but ran out of steam to finish the job.&Jaeil:Kazarov survived to second by holding Lazav's Consuming Aberration hostage with Relic of Progenitus, then Syr Konrad stomped Lazav to death with his hooves
 Nik:Brinelin/Sakashima&Tim:Hostility&Stephen:Memnarch&Adam:Tana / Keleth&Lex:Surrak|Stephen:Memnarch|Tim:Hostility&Nik:Brinelin/Sakashima|Stephen:Memnarch|Jaeil:Hostility used a Glorious End to open an opportunity for copied Acidic Soil, but miscalculated and only got two copies instead of four, and had one copy countered, and died at the end step&SharktoothJack:six copies of Zhur-Taa Ancient enabled Memnarch and also enabled other things. Conceded at 47 life to the player with 3 life and indestructible artifacts&Verdant Colors:Nik becomes the arch-enemy with a swarm of bouncers, then Stephen becomes the arch-enemy by stealing everything in sight. No one can recover&Grey_Haven:Memnarch was able to tap 7 mana per land from multiple copies Zhur-Taa Ancient, enabled an insane amount of stealing when combined with Training Grounds.&St_Trollmore:Brinelin made an impassioned plea to stay alive in the face of Hostility, exploded by making 6 copies of Zhur-Taa, then died to Impact Tremors.  Memnarch carried the game by stealing everything after promising he was only casting Memnarch benevolently
 Nik:Vial Smasher/Sakashima&Tim:Pramikon&Adam:Tana / Keleth|Tim:Pramikon|Tim:Pramikon|Adam:Tana / Keleth|Jaeil:Pramikon ate 90% of the Vial Smasher triggers&St_Trollmore:A tragic tale of spite in which every Vial Smasher trigger hit Pramikon, causing Pramikon to spite Vial Smasher, causing Tana/Keleth to win&St_Trollmore:revenge is an unhealthy coping mechanism&Verdant Colors:Vial Smasher surprise VIP
-Tim:JundRamos&Stephen:LordWindgrace|Tim:JundRamos||Stephen:LordWindgrace|Jaeil:Windgrace ran out of gas and conceded to go to the next game
-Nik:Thantis&Tim:JundRamos&Stephen:LordWindgrace|Nik:Thantis||Nik:Thantis|Jaeil:Thantis drew deck with Underrealm Lich and Gitrog and used Borborygmos to bolt the others
-Stephen:LordWindgrace&Nik:BorborygmosEnraged&Tim:JundRamos|Stephen:LordWindgrace||Stephen:LordWindgrace|Jaeil:Windgrace killed the others with Impact Tremors and Avenger of Zendikar
+Tim:JundRamos&Stephen:Lord Windgrace|Tim:JundRamos||Stephen:Lord Windgrace|Jaeil:Windgrace ran out of gas and conceded to go to the next game
+Nik:Thantis&Tim:JundRamos&Stephen:Lord Windgrace|Nik:Thantis||Nik:Thantis|Jaeil:Thantis drew deck with Underrealm Lich and Gitrog and used Borborygmos to bolt the others
+Stephen:Lord Windgrace&Nik:BorborygmosEnraged&Tim:JundRamos|Stephen:Lord Windgrace||Stephen:Lord Windgrace|Jaeil:Windgrace killed the others with Impact Tremors and Avenger of Zendikar
 Nik:Breya&Tim:JundRamos|Nik:Breya||Tim:JundRamos|Jaeil:Breya was color screwed
 Tim:JundRamos&Nik:Breya|Nik:Breya||Tim:JundRamos|Jaeil:Breya was land screwed, Ramos removed the Solemn Simulacrum Prototype Portal
 Nik:Breya&Tim:JundRamos|Nik:Breya||Nik:Breya|Jaeil:Breya accelerated into Myr Incubator with Storm the Vault
@@ -442,6 +442,18 @@ Tim:NayaRamos&Nik:Sephara|Tim:NayaRamos||Nik:Sephara|Jaeil:Ramos took the lead w
 Tim:NayaRamos&Nik:Sephara|Tim:NayaRamos||Tim:NayaRamos|Jaeil:Sephara exiled all Plains to Endless Horizons, then Ramos cast The Great Aurora
 Tim:NayaRamos&Nik:Sephara|Nik:Sephara||Nik:Sephara|Jaeil:Sephara locked the game down with Possessed Portal and Ardarkar Valkyrie
 Alex:Kykar&Tim:NayaRamos&Nik:Braids|Alex:Kykar||Alex:Kykar|Jaeil:Braids took a no-land-hand, Kykar made more tokens than Ramos
-Stephen:LordWindgrace&Nik:Sephara&Alex:Roon&Tim:NayaRamos|Stephen:LordWindgrace||Stephen:LordWindgrace|Jaeil:Ramos takes out Roon with Sunhome on Ramos, Windgrace gets Omnath elementals and kills Sephara, Ramos can't kill Windgrace and dies
-Nik:Braids&Tim:GrixisRamos&Stephen:Windgrace|Nik:Braids||Tim:GrixisRamos|Jaeil:Ramos abuses Braids triggers more than anyone else, Rakdos Charms Windgrace after two Avenger etbs, then Braids concedes
+Stephen:Lord Windgrace&Nik:Sephara&Alex:Roon&Tim:NayaRamos|Stephen:Lord Windgrace||Stephen:Lord Windgrace|Jaeil:Ramos takes out Roon with Sunhome on Ramos, Windgrace gets Omnath elementals and kills Sephara, Ramos can't kill Windgrace and dies
+Nik:Braids&Tim:GrixisRamos&Stephen:Lord Windgrace|Nik:Braids||Tim:GrixisRamos|Jaeil:Ramos abuses Braids triggers more than anyone else, Rakdos Charms Windgrace after two Avenger etbs, then Braids concedes
 Stephen:Karlov&Tim:GrixisRamos|Stephen:Karlov||Stephen:Karlov|Jaeil:Ramos doesn't draw much removal so Karlov wins through commander damage
+Nik:Yeva&Tim:JundRamos|Nik:Yeva||Nik:Yeva|Jaeil:Yeva removed everything
+Tim:JundRamos&Nik:Padeem|Tim:JundRamos||Nik:Padeem|Jaeil:Ramos ran out of gas
+Tim:JundRamos&Nik:ShuYun|Tim:JundRamos||Tim:JundRamos|Jaeil:Shu Yun was mana screwed
+Tim:JundRamos&Nik:ShuYun|Nik:ShuYun||Nik:ShuYun|Jaeil:Shu Yun was unblockable, Ramos has no interaction
+Tim:Kozilek&Nik:Riku|Tim:Kozilek||Tim:Kozilek|Jaeil:Kozilek ramped into Swiftfoot Boots and Kozilek
+Tim:Kozilek&Nik:Marchesa, the Black Rose|Nik:Marchesa, the Black Rose||Nik:Marchesa, the Black Rose|Jaeil:Marchesa stole Kozilek
+Tim:GrixisRamos&Nik:BorborygmosEnraged|Tim:GrixisRamos||Tim:GrixisRamos|Jaeil:Borbor had no ramp and Ramos won by commander damage
+Tim:GrixisRamos&Nik:BorborygmosEnraged|Nik:BorborygmosEnraged||Tim:GrixisRamos|Jaeil:Ramos swung with a 40+ Consuming Aberration
+Nik:Muldrotha&Tim:GrixisRamos|Nik:Muldrotha||Nik:Muldrotha|Jaeil:Ramos was mana screwed
+Tim:JundRamos&Nik:BorborygmosEnraged|Nik:BorborygmosEnraged||Nik:BorborygmosEnraged|Jaeil:Borborygmos comboes with Snake Umbra
+Tim:Hostility&Nik:Breya|Nik:Breya||Nik:Breya|Jaeil:Hostility didn't have enough gas to outvalue Breya, crumpled beneath a Venser ult, Breya gained life out of Acidic Soil range
+Tim:Hostility&Nik:Phelddagrif|Tim:Hostility||Tim:Hostility|Jaeil:Hostility nearly died to Suture Priest, wiped the board at 1 life, got a bunch of mana with Mana Geyser and retraced Reality Scramble to have Hostility Warstorm Surge three times

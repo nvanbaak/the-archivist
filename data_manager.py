@@ -294,10 +294,12 @@ class Data_Manager:
             # delete the last entry because we know it's a newline
             del history_arr[-1]
             # For each game, create a Game object and append it to the Stats object
+            index = 0
             for game_data in history_arr:
-                new_game = Game()
+                new_game = Game(index)
                 new_game.parse_data(game_data)
                 self.games.append(new_game)
+                index += 1
 
         # Now we back up the data
 

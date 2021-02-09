@@ -577,7 +577,7 @@ class Statistics:
                     result_str += "\n\n{winner} won the game.  Here's what players said:".format(winner=game.winner[0])
 
                     for note in game.notes:
-                        result_str += '\n"{content}"\n—{author}\n\n'.format(content=note[1], author=note[0])
+                        result_str += '\n"{content}"\n—{author}\n'.format(content=note[1], author=note[0])
 
                     await message_obj.channel.send(result_str)
                     
