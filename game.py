@@ -14,6 +14,7 @@ class Game:
         self.begin = False
         self.game_over = False
         self.index = index
+        self.completed_notes = []
 
     # Given the name of a player, tracks them down in the player list. Returns -1 if not found.  Used to get deck information with spellchecking as a useful consequence.
     def get_player_index(self, player_name):
@@ -199,6 +200,7 @@ class Game:
             if self.game_over:
                 # Get author of message
                 author = message_obj.author.name
+                
                 # Delete the first word of the note (which is "note")
                 del args[0]
                 # Rejoin to store as a single string
@@ -209,6 +211,15 @@ class Game:
                 note_str = note_str.replace("|", " ")
 
                 self.notes.append( (author, note_str) )
+ 
+                # Add author to list of people who completed notes
+                if author not in self.completed_notes:
+                    self.completed_notes.append(author)
+                    
+                    # automatically end the game if everyone has submitted a note
+                    if len(self.completed_notes) == len(self.players):
+                        return "end"
+
                 return "Thanks, {player}".format(player=author)
             else:
                 return "The game is not over.  History cannot be written until after it happens."

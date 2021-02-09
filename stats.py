@@ -569,15 +569,15 @@ class Statistics:
             for game in reversed(self.games):
                 if result_count > 0:
 
-                    result_str = "\n\n**GAME #{num}\nPlayers: **".format(num=game.index)
+                    result_str = "\n\n**GAME #{num}**\nPlayers: ".format(num=game.index)
 
                     for player in game.players:
                         result_str += "{player} ({cmdr}), ".format(player=player[0], cmdr=player[1])
 
-                    result_str += "\n\n{winner} won the game.  Here's what players said:".format(winner=game.winner[0])
+                    result_str += "\n\n**{winner} won** the game.  Here's what players said:".format(winner=game.winner[0])
 
                     for note in game.notes:
-                        result_str += '\n"{content}"\n—{author}\n'.format(content=note[1], author=note[0])
+                        result_str += '\n"{content}"\n—{author}\n~'.format(content=note[1], author=note[0])
 
                     await message_obj.channel.send(result_str)
                     
