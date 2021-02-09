@@ -432,7 +432,7 @@ Tim:JundRamos&Nik:Breya|Nik:Breya||Tim:JundRamos|Jaeil:Breya was land screwed, R
 Nik:Breya&Tim:JundRamos|Nik:Breya||Nik:Breya|Jaeil:Breya accelerated into Myr Incubator with Storm the Vault
 Nik:Breya&Tim:JundRamos|Tim:JundRamos||Nik:Breya|Jaeil:Breya accelerated into Myr Incubator with Storm the Vault
 Tim:JundRamos&Nik:Breya|Tim:JundRamos||Nik:Breya|Jaeil:Breya accelerated into Myr Incubator with Storm the Vault, Ramos was mana screwed
-Nik:Sephara&Tim:Hostility|Nik:Sephara||Nik:Sephara|Jaeil:T0 concede to Serra Ascendant
+Nik:Sephara&Tim:Hostility|Nik:Sephara||Nik:Sephara|Jaeil:Turn 0 concede to Serra Ascendant
 Tim:Hostility&Nik:Sephara|Tim:Hostility||Nik:Sephara|Jaeil:Hostility neutered by Aven Mindcensor
 Tim:Hostility&Nik:Sephara|Tim:Hostility||Nik:Sephara|Jaeil:Hostility had no spot removal for Sephara
 Tim:Kozilek&Stephen:Karador&Nik:NivMizzetFiremind|Tim:Kozilek||Nik:NivMizzetFiremind|Jaeil:Kozilek exiled Niv's library with Ulamog, Niv pinged Kozi to 2, lived, and Labmanned

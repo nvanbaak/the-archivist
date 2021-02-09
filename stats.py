@@ -331,7 +331,7 @@ class Statistics:
     ##################################
 
     # called by the bot to invoke various methods
-    def handle_command(self, message_obj):
+    async def handle_command(self, message_obj):
         args = message_obj.content[7:].split(" ")
 
         if args[0] == "reset":
@@ -360,7 +360,7 @@ class Statistics:
             del args[0]
             return self.player_stats(args)
 
-        if args[0] == "deck" or "commander" or "cmdr":
+        if args[0] == "deck" or args[0] == "commander" or args[0] == "cmdr":
             
             # get the commander name
             cmdr_name = " ".join(args[1:])
@@ -538,6 +538,35 @@ class Statistics:
                 result_index += 1
 
             return response_str
+
+        if args[0] == "notes":
+
+            result_count = 10
+
+            # see if they gave us a length term
+            if len(args) > 1:
+                result_count = int(args[1])
+
+            await message_obj.channel.send("Returning {count} most recent game notes:".format(count=result_count))
+
+            for game in reversed(self.games):
+                if result_count > 0:
+
+                    result_str = "\n\n**GAME #{num}\nPlayers: **"
+
+                    for player in game.players:
+                        result_str += "{player} ({cmdr}), ".format(player=player[0], cmdr=player[1])
+
+                    result_str += "\n\n{winner} won the game.  Here's what players said:".format(winner=game.winner[0])
+
+                    for note in game.notes:
+                        result_str += '\n"{content}"\n—{author}\n\n'.format(content=note[1], author=note[0])
+
+                    await message_obj.channel.send(result_str)
+                    
+                    result_count -= 1
+                else:
+                    return ""
 
         else:
             return ""

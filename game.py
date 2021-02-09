@@ -59,9 +59,24 @@ class Game:
         return len(self.players)
 
     # the main workhorse function of the class; performs a number of basic data commands based on user input
-    def handle_command(self, message_obj):
+    def handle_command(self, message_obj, alias):
         command = message_obj.content[6:]
         args = command.split(" ")
+
+        if command.startswith("cmdr") or command.startswith("commander") or command.startswith("deck"):
+            # check if they have an alias registered:
+            if alias:
+                # remove command term from message content
+                cmdr = command.replace("cmdr ", "")
+                cmdr = command.replace("commander ", "")
+                cmdr = command.replace("deck ", "")
+
+                # add player to game
+                self.players.append( [alias, command] )
+                return "{alias} is playing {cmdr}".format(alias=alias, cmdr=command)
+
+            else:
+                return "You need to need to register with `$register your name` to use that command."
 
         if args[0] == "player":
             if not self.begin:
