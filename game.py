@@ -73,8 +73,6 @@ class Game:
                 if command.startswith("commander "):
                     cmdr = command[10:]
 
-                print(cmdr)
-
                 # add player to game
                 self.players.append( [alias, cmdr] )
                 return "{alias} is playing {cmdr}".format(alias=alias, cmdr=cmdr)
