@@ -1,6 +1,8 @@
 import os
 import config
 import random
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 class Game:
     def __init__(self, index):
@@ -289,7 +291,7 @@ class Game:
         return state_str
 
     # Parses information from stored games; essentially used as a constructor for archived games
-    def parse_data(self, game_data, index):
+    def parse_data(self, game_data):
         # Break up the string into data chunks
         data_arr = game_data.split("|")
 
@@ -320,8 +322,6 @@ class Game:
         # This probably won't come up, but if we're reading data the game is long over
         self.begin = True
         self.game_over = True
-
-        self.index = index
 
     # Writes the game state to a text file
     def store_data(self, destination):

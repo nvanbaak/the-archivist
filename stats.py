@@ -319,8 +319,8 @@ class Statistics:
             # For each game, create a Game object and append it to the Stats object
             index = 0
             for game_data in history_arr:
-                new_game = Game()
-                new_game.parse_data(game_data, index)
+                new_game = Game(index)
+                new_game.parse_data(game_data)
                 self.games.append(new_game)
                 index += 1
 
