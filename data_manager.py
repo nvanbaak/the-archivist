@@ -41,6 +41,9 @@ class Data_Manager:
                     if args[2] == "deck" or args[2] == "cmdr" or args[2] == "commander":
                         cmdr_name = " ".join(args[3:])
                         return self.fuzz_cmdr(cmdr_name)
+                    
+                    else:
+                        return ""
 
                 elif args[1] == "summary":
                     return self.game_summary()
