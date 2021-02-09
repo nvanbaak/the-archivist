@@ -541,7 +541,7 @@ class Statistics:
 
         if args[0] == "notes":
 
-            result_count = 10
+            result_count = min(10, len(self.games))
 
             # see if they gave us a length term
             if len(args) > 1:
@@ -566,7 +566,6 @@ class Statistics:
                     
                     result_count -= 1
 
-                    return ""
                 else:
                     return ""
 

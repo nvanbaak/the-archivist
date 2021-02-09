@@ -40,7 +40,6 @@ class Game:
         # We only get here if the name wasn't in the list, so return -1
         return -1
 
-
     # Checks to see if a player has been eliminated
     def get_elim_index(self, player_name):
         # search for player in the elimination list
@@ -59,7 +58,7 @@ class Game:
         return len(self.players)
 
     # the main workhorse function of the class; performs a number of basic data commands based on user input
-    def handle_command(self, message_obj, alias):
+    def handle_command(self, message_obj, alias, stats):
         command = message_obj.content[6:]
         args = command.split(" ")
 
