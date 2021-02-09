@@ -90,7 +90,7 @@ class State_Manager:
         if message.content.startswith('$register'):
             # retrieve Discord name and given name from message
             author_name = message.author.name
-            alis = message.content
+            alias = message.content
             alias = alias.replace("$register ","")
             alias = alias.replace("$register","")
 
