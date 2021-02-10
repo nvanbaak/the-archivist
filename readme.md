@@ -66,6 +66,7 @@ The stats engine lets you retrieve and analyze game data.  Stats commands begin 
     * `-deck=` removes all games that *include* the named deck.  Use underscores like above.
     * `+pod=` and `-pod=` let you allow or disallow games with the specified number of players (e.g. -pod=2 removes all 2-player games from the dataset).  You can also use the > and < operators, but at present they're implemented counter-intuitively.  `+pod==` allows *only* the specified number of players and disallows all other options.  Filter arguments are applied left to right, so if you input contradictory pod size requirements, the last one will win.
         * You can use this to your advantage, e.g. by typing `$stats filter +pod==3 +pod=4` to disallow everything besides 3- and 4-player games.
+    * `+win=` and `-win=` require or block games with the given winner.  Requireing multiple winners will return all games where at least one of the required players won.
     * You can check what filters are active at any time with `$stats filter settings`.  You can use `$stats refresh` to to reload game data from the history file.  Note that this reapplies filters; if you want to reset the filters, you need to use the `$stats filter reset` command.
 
 Since you probably don't have MtG game data just lying around, I've included our group's file.  I've also included an algorithm for converting game spreadsheets into the game history storage format used by The Archivist.

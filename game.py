@@ -100,9 +100,16 @@ class Game:
                 return "Can't add player—game has already started"
 
         if args[0] == "rename":
-            player_index = self.get_player_index(args[1])
-            self.players[player_index][0] = args[2]
-            return "Player renamed successfully!"
+
+            if args[1] == "player":
+                player_index = self.get_player_index(args[2])
+                self.players[player_index][0] = args[3]
+                return "Player renamed successfully!"
+
+            if args[1] == "cmdr" or args[1] == "commander" or args[1] == "deck":
+                cmdr_index = self.get_cmdr_index(args[2])
+                self.players[cmdr_index][1] = args[3]
+                return "Renamed commander to {cmdr}".format(cmdr=args[3])
 
         if args[0] == "first":
             if not self.begin:
