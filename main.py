@@ -60,9 +60,12 @@ class State_Manager:
         try:
             alias = self.aliases[author_name]
         except KeyError:
-            print("'{author}' is not a key".format(author=author_name))
+            print("get_player_alias call failed: '{author}' is not a key".format(author=author_name))
 
         return alias
+
+    def save_aliases(self, output):
+        return ""
 
     async def route_message(self, message, stats, dm):
         if message.author == client.user:
@@ -200,6 +203,7 @@ class State_Manager:
             await self.game_channel.send(response[:1950])
             response = response[1950:]
         await self.game_channel.send(response)
+
 
 
 # create instances of stats engine, data manager, and state manager
