@@ -312,7 +312,7 @@ class Statistics:
         self.games = []
 
         # Read game history from file
-        with open("gamehistory.txt", "r") as gamehistory:
+        with open("gamehistory.txt", "r", -1, "utf8") as gamehistory:
             history_arr = gamehistory.read().split("\n")
             # delete the last entry because we know it's a newline
             del history_arr[-1]

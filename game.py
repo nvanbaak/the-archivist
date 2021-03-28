@@ -79,9 +79,18 @@ class Game:
                 # get spelling variants
                 fuzz_str = self.fuzz_cmdr(cmdr, stats)
 
-                # add player to game
-                self.players.append( [alias, cmdr] )
-                return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=cmdr, fuzz=fuzz_str)
+                # if the game hasn't already started...
+                if not self.begin: 
+
+                    # add player to game if not already present
+                    if self.get_player_index(alias) == -1:
+                        self.players.append( [alias, cmdr] )
+                        return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=cmdr, fuzz=fuzz_str)
+                    else:
+                        return "Player {alias} is already participating in this game.".format(alias=alias)
+
+                else:
+                    return "Can't add a new player -- the game has already started."
 
             else:
                 return "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
@@ -92,10 +101,13 @@ class Game:
                 last_index = len(args)
                 cmdr_name = " ".join(args[2:last_index])
 
-                fuzz_str = self.fuzz_cmdr(cmdr_name, stats)
+                if self.get_player_index(player_name) == -1:
+                    fuzz_str = self.fuzz_cmdr(cmdr_name, stats)
 
-                self.players.append( [player_name, cmdr_name] )
-                return "{player} is playing {deck} {fuzz}".format(player=args[1], deck=cmdr_name, fuzz=fuzz_str)
+                    self.players.append( [player_name, cmdr_name] )
+                    return "{player} is playing {deck} {fuzz}".format(player=args[1], deck=cmdr_name, fuzz=fuzz_str)
+                else:
+                    return "Can't add {player} — they're already participating in the game."
             else:
                 return "Can't add player—game has already started"
 
@@ -371,7 +383,7 @@ class Game:
             
             game_str = "|".join([player_str, first_str, elim_str, win_str, note_str])
 
-            with open(destination, "a") as gamehist:
+            with open(destination, "a", -1, "utf8") as gamehist:
                 gamehist.write(game_str + "\n")
 
     def fuzz_cmdr(self, cmdr_name, stats):
