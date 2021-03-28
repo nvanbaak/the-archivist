@@ -43,6 +43,37 @@ class State_Manager:
         self.game_channel = None
         self.current_game = None
         self.aliases = {}
+
+        load = False
+
+        # load any existing aliases
+        with open("alias.txt", "r", -1, "utf8") as alias_list:
+
+            if alias_list:
+                load = True
+                alias_data = alias_list.read().split("\n")
+
+                # delete the newline at the end
+                del alias_data[-1]
+
+                # add each alias to the state machine
+                for alias in alias_data:
+                    alias = alias.split("&separator;")
+                    self.aliases[alias[0]] = alias[1]
+                # note that this 
+
+        # if we loaded aliases, save the dict to the original file — this eliminates duplicate entries (e.g. if someone made a typo while registering)
+        if load:
+
+            # Make a string out of alias dict
+            alias_str = ""
+            for key in self.aliases:
+                alias_str += "{account}&separator;{alias}\n".format(account=key, alias=self.aliases[key])
+
+            # save to file
+            with open("alias.txt","w",-1,"utf8") as alias_list:
+                alias_list.write(alias_str)
+
     
     def set_channel(self, channel_obj):
         self.game_channel = channel_obj
@@ -63,12 +94,6 @@ class State_Manager:
             print("get_player_alias call failed: '{author}' is not a key".format(author=author_name))
 
         return alias
-
-    def save_aliases(self, output):
-
-        
-
-        return ""
 
     async def route_message(self, message, stats, dm):
         if message.author == client.user:
@@ -107,7 +132,7 @@ class State_Manager:
                 alias_str = "{author_name}&separator;{alias}\n".format(author_name=author_name, alias=alias)
 
                 # save alias to alias list
-                with open("alias.txt", a, -1 "utf8") as alias_list:
+                with open("alias.txt", "a", -1, "utf8") as alias_list:
                     alias_list.write(alias_str)
 
                 # confirmation message
