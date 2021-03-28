@@ -47,9 +47,8 @@ class State_Manager:
         load = False
 
         # load any existing aliases
-        with open("alias.txt", "r", -1, "utf8") as alias_list:
-
-            if alias_list:
+        if os.path.exists("alias.txt"):
+            with open("alias.txt", "r", -1, "utf8") as alias_list:
                 load = True
                 alias_data = alias_list.read().split("\n")
 
@@ -60,19 +59,18 @@ class State_Manager:
                 for alias in alias_data:
                     alias = alias.split("&separator;")
                     self.aliases[alias[0]] = alias[1]
-                # note that this 
+                # note that this collapses duplicate entries to whatever the player entered last
 
-        # if we loaded aliases, save the dict to the original file — this eliminates duplicate entries (e.g. if someone made a typo while registering)
-        if load:
+                # save dict back to file (which removes duplicate entries)
 
-            # Make a string out of alias dict
-            alias_str = ""
-            for key in self.aliases:
-                alias_str += "{account}&separator;{alias}\n".format(account=key, alias=self.aliases[key])
+                # Make a string out of alias dict
+                alias_str = ""
+                for key in self.aliases:
+                    alias_str += "{account}&separator;{alias}\n".format(account=key, alias=self.aliases[key])
 
-            # save to file
-            with open("alias.txt","w",-1,"utf8") as alias_list:
-                alias_list.write(alias_str)
+                # save to file
+                with open("alias.txt","w",-1,"utf8") as alias_list:
+                    alias_list.write(alias_str)
 
     
     def set_channel(self, channel_obj):
