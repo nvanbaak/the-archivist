@@ -65,6 +65,9 @@ class State_Manager:
         return alias
 
     def save_aliases(self, output):
+
+        
+
         return ""
 
     async def route_message(self, message, stats, dm):
@@ -101,6 +104,12 @@ class State_Manager:
                 # set that value in the alias list
                 self.aliases[author_name] = alias
                 
+                alias_str = "{author_name}&separator;{alias}\n".format(author_name=author_name, alias=alias)
+
+                # save alias to alias list
+                with open("alias.txt", a, -1 "utf8") as alias_list:
+                    alias_list.write(alias_str)
+
                 # confirmation message
                 await self.game_channel.send("Registered {author} as {alias}!".format(author=author_name, alias=alias))
 
