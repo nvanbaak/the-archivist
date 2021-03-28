@@ -44,12 +44,9 @@ class State_Manager:
         self.current_game = None
         self.aliases = {}
 
-        load = False
-
         # load any existing aliases
         if os.path.exists("alias.txt"):
             with open("alias.txt", "r", -1, "utf8") as alias_list:
-                load = True
                 alias_data = alias_list.read().split("\n")
 
                 # delete the newline at the end
