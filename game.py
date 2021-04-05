@@ -118,10 +118,18 @@ class Game:
                 self.players[player_index][0] = args[3]
                 return "Player renamed successfully!"
 
+            # Commanders are a bit tricker because they can be multiple words
             if args[1] == "cmdr" or args[1] == "commander" or args[1] == "deck":
+
+                # First get the index of the commander being renamed
                 cmdr_index = self.get_cmdr_index(args[2])
-                self.players[cmdr_index][1] = args[3]
-                return "Renamed commander to {cmdr}".format(cmdr=args[3])
+
+                # Get cmdr string
+                cmdr_str = args[2:].join(" ")
+
+                # Replace string at the correct index
+                self.players[cmdr_index][1] = cmdr_str
+                return "Renamed commander to {cmdr}".format(cmdr=cmdr_str)
 
         if args[0] == "first":
             if not self.begin:
