@@ -61,7 +61,8 @@ class State_Manager:
         self.game_channel = None
         
         # Lobby setup
-        self.open_lobbies = random.shuffle(["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Garruk","Ajani","Bolas"])
+        self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Garruk","Ajani","Bolas"]
+        random.shuffle(self.open_lobbies)
         self.active_lobbies = {}
         
         # self.current_game = None
@@ -139,8 +140,18 @@ class State_Manager:
             # Send confirmation message
             await self.game_channel.send(response)
 
+        if message.content.startswith("$lobbies"):
 
+            response = "Open lobbies: \n"
 
+            lobby_list_str = ""
+
+            for lobby in self.active_lobbies:
+                lobby_list_str += ", {lobby}".format(lobby=lobby)
+            
+            response += lobby_list_str[2:]
+
+            await self.game_channel.send(response)
 
 
 
