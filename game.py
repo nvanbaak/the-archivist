@@ -125,7 +125,7 @@ class Game:
                 cmdr_index = self.get_cmdr_index(args[2])
 
                 # Get cmdr string
-                cmdr_str = args[2:].join(" ")
+                cmdr_str = " ".join(args[3:])
 
                 # Replace string at the correct index
                 self.players[cmdr_index][1] = cmdr_str
