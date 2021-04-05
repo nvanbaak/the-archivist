@@ -131,6 +131,9 @@ class Game:
                 self.players[cmdr_index][1] = cmdr_str
                 return "Renamed commander to {cmdr}".format(cmdr=cmdr_str)
 
+            else:
+                return "Use ``$game rename player`` to rename players and ``$game rename cmdr`` for commanders."
+
         if args[0] == "first":
             if not self.begin:
 
