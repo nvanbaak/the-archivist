@@ -95,7 +95,7 @@ class Game:
             else:
                 return "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
 
-        if args[0] == "player":
+        if command.startswith("player"):
             if not self.begin:
                 player_name = args[1]
                 last_index = len(args)
@@ -111,7 +111,7 @@ class Game:
             else:
                 return "Can't add player—game has already started"
 
-        if args[0] == "rename":
+        if command.startswith("rename"):
 
             # First remove the rename command
             command = command[8:]
