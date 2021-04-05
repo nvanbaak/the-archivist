@@ -140,18 +140,23 @@ class State_Manager:
             # Send confirmation message
             await self.game_channel.send(response)
 
+        # Command to print active lobbies
         if message.content.startswith("$lobbies"):
 
+            # start response string
             response = "Open lobbies: \n"
 
+            # iterate through active lobbies and add to string
             lobby_list_str = ""
-
             for lobby in self.active_lobbies:
                 lobby_list_str += ", {lobby}".format(lobby=lobby)
-            
             response += lobby_list_str[2:]
 
+            # send output to discord
             await self.game_channel.send(response)
+
+
+
 
 
 
