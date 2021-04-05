@@ -113,26 +113,32 @@ class Game:
 
         if args[0] == "rename":
 
-            if args[1] == "player":
-                player_index = self.get_player_index(args[2])
-                self.players[player_index][0] = args[3]
-                return "Player renamed successfully!"
+            # First remove the rename command
+            command = command[8:]
 
-            # Commanders are a bit tricker because they can be multiple words
-            if args[1] == "cmdr" or args[1] == "commander" or args[1] == "deck":
+            # return error if no > in command
+            if not " > " in command:
+                return "The proper syntax for this command is ``$game rename *old name* > *new name*``"
 
-                # First get the index of the commander being renamed
-                cmdr_index = self.get_cmdr_index(args[2])
+            # get old and new names
+            args = command.split(" > ")
 
-                # Get cmdr string
-                cmdr_str = " ".join(args[3:])
+            # check if it's a commander name; this is the most likely use case given that aliases are usually handled before we get here
+            cmdr_index = self.get_cmdr_index(args[0])
 
-                # Replace string at the correct index
-                self.players[cmdr_index][1] = cmdr_str
-                return "Renamed commander to {cmdr}".format(cmdr=cmdr_str)
+            if cmdr_index > -1:
+                self.players[cmdr_index][1] = args[1]
+                return "Renamed cmdr {old} to {new}".format(old=args[0], new=args[1])
+
+            # check if it's a player name
+            player_index = self.get_player_index(args[0])
+
+            if player_index > -1:
+                self.players[player_index][0] = args[1]
+                return "Renamed player {player} to {new_player}".format(player=args[0], new_player=args[1])
 
             else:
-                return "Use ``$game rename player`` to rename players and ``$game rename cmdr`` for commanders."
+                return "'{old}' is not a player or commander in the active game.  Use ``$game status`` to double-check the list of players."
 
         if args[0] == "first":
             if not self.begin:
