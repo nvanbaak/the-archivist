@@ -55,14 +55,13 @@ class Lobby:
         except ValueError:
             return "Error — attempted to remove non-existant player {player} from lobby **{lobby}**!".format(player=player, lobby=self.name)
 
-
 class State_Manager:
     def __init__(self):
         # Channel setup
         self.game_channel = None
         
         # Lobby setup
-        self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Garruk","Ajani","Bolas"].shuffle()
+        self.open_lobbies = random.shuffle(["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Garruk","Ajani","Bolas"])
         self.active_lobbies = {}
         
         # self.current_game = None
@@ -99,7 +98,7 @@ class State_Manager:
     def set_channel(self, channel_obj):
         self.game_channel = channel_obj
         print( "Set output channel to {channel}.".format(channel=channel_obj))
-        return "Set output channel to {channel}.".format(channel=channel_obj))
+        return "Set output channel to {channel}.".format(channel=channel_obj)
 
     def is_this_the_game_channel(self, message_obj):
         if self.game_channel == message_obj.channel:
@@ -120,10 +119,9 @@ class State_Manager:
     def activate_lobby(self):
 
         new_lobby = self.open_lobbies.pop(0)
-        self.active_lobbies[new_lobby] = new Lobby(new_lobby)
+        self.active_lobbies[new_lobby] = Lobby(new_lobby)
         
-        return ""
-
+        return "Opened **{lobby}** lobby.".format(lobby=new_lobby)
 
 
     async def route_message(self, message, stats, dm):
@@ -132,7 +130,15 @@ class State_Manager:
     
         print(message)
 
-        if message.content.startswith()
+        # Command to start a new lobby
+        if message.content.startswith("$new lobby"):
+
+            # Open a new lobby and store the return string
+            response = self.activate_lobby()
+
+            # Send confirmation message
+            await self.game_channel.send(response)
+
 
 
 
