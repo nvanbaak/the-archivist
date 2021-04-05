@@ -38,6 +38,24 @@ class Reminder:
         reponse_str = " ".join(self.args)
         print(response_str)
 
+class Lobby:
+    def __init__(self, name):
+        self.game = None
+        self.name = name
+        self.players = []
+    
+    def add_player(self, player):
+        self.players.append(player)
+        return "{player} has joined the **{lobby}** lobby.".format(player=player, lobby=self.name)
+
+    def remove_player(self, player):
+        try:
+            self.players.remove(player)
+            return "{player} has left the **{lobby}** lobby.".format(player=player, lobby=self.name)
+        except ValueError:
+            return "Error — attempted to remove non-existant player {player} from lobby **{lobby}**!".format(player=player, lobby=self.name)
+
+
 class State_Manager:
     def __init__(self):
         # Channel setup
@@ -45,7 +63,7 @@ class State_Manager:
         
         # Lobby setup
         self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Garruk","Ajani","Bolas"].shuffle()
-        self.active_lobbies = []
+        self.active_lobbies = {}
         
         # self.current_game = None
 
@@ -98,11 +116,31 @@ class State_Manager:
 
         return alias
 
+    # Used to create a new lobby
+    def activate_lobby(self):
+
+        new_lobby = self.open_lobbies.pop(0)
+        self.active_lobbies[new_lobby] = new Lobby(new_lobby)
+        
+        return ""
+
+
+
     async def route_message(self, message, stats, dm):
         if message.author == client.user:
             return
     
         print(message)
+
+        if message.content.startswith()
+
+
+
+
+
+        ######
+        # These functions use the pre-lobby architecture
+        ######
 
         if message.content.startswith('$hello'):
 
