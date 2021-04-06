@@ -144,14 +144,12 @@ class State_Manager:
 
         return alias
 
-    # given a player name, looks them up in the player assignment dict and returns a reference to their lobby
+    # given a player name, looks them up in the player assignment dict and returns the name of the lobby they're in
     def get_player_lobby(self, player):
 
         # get reference to lobby
         lobby_name = self.player_assign[player]
-        player_lobby = self.active_lobbies[lobby_name]
-        
-        return player_lobby
+        return lobby_name
 
     # Used to create a new lobby
     def activate_lobby(self):
@@ -196,10 +194,22 @@ class State_Manager:
 
     def new_game_in_lobby(self, lobby_name):
         
-        
-        
-        self.active_lobbies[lobby_name].game = Game(self.game_count)
+        # get ref to lobby
+        lobby = self.active_lobbies[lobby_name]
 
+        # if no game, make a new one
+        if lobby.game == None:
+            
+            # increment game count
+            self.game_count += 1
+
+            # new game
+            lobby.game = Game(self.game_count)
+            return "Started a new game in **{lobby_name}**.".format(lobby_name=lobby_name)
+        
+        # if there's already a game, let them know
+        else:
+            return "There is already an active game **{lobby_name}**.".format(lobby_name=lobby_name)
 
     async def route_message(self, message, stats, dm):
 
@@ -241,34 +251,40 @@ class State_Manager:
         
         # Variant 'new game' command that starts a game in the player's lobby 
         elif message.content.startswith("$start") or message.content.startswith("$game start"):
-            # check if a game already exists in the player's lobby
-            player_lobby == self.get_player_lobby(message.author)
-            if player_lobby.game == None:
-                response = "There is no game in that lobby"
-            # If there's already an active game, return an error message
-            else:
-                response = "Can't start a new game — there is already an active game in **{lobby}**".format(lobby=player_lobby.name)
+            # get the lobby of the player entering the command
+            try:
+                player_lobby = self.get_player_lobby(message.author.name)
+                response = self.new_game_in_lobby(player_lobby)
+            except KeyError:
+                response = "Join a lobby with ``$join`` to use this command."
 
         # Command to join a lobby
         elif message.content.startswith("$join"):
 
             # get names of player and intended lobby
-            player = message.author
+            player = message.author.name
             join_target = message.content[6:]
 
             # if we didn't get a lobby name, join the first available open lobby
             if join_target == "" or join_target == " ":
 
-                if self.active_lobbies:
-                    for lobby in self.active_lobbies:
-                        if not lobby in self.closed_lobbies:
-                            join_target = lobby
-                            break
-                
-                # if there are no available lobbies, make one active
-                else:
-                    join_target = self.activate_lobby()
-                    response += "Opened lobby **{lobby}**.\n".format(lobby=join_target)
+                # If we're already in a lobby, don't go anywhere 
+                try:
+                    current_lobby = self.player_assign[player]
+                    await self.game_channel.send("You're in **{lobby}** right now. You can add the name of a different lobby, e.g. ``$join Venser`` to leave your current lobby and join that one.".format(lobby=current_lobby))
+                    return
+                # If we're not in a lobby, the above block throws a KeyError and we find a lobby to join
+                except KeyError:
+                    if self.active_lobbies:
+                        for lobby in self.active_lobbies:
+                            if not lobby in self.closed_lobbies:
+                                join_target = lobby.name
+                                break
+                    
+                    # if there are no available lobbies, make one active
+                    else:
+                        join_target = self.activate_lobby()
+                        response += "Opened lobby **{lobby}**.\n".format(lobby=join_target)
 
             # if lobby is not active, pull it off the open_lobbies list and make it active
             if not join_target in self.active_lobbies:
@@ -286,7 +302,7 @@ class State_Manager:
 
         # $Game commands
 
-
+        # sets bot output to the specified channel
         if message.content.startswith("$set output"):
             response = self.set_channel(message.channel)
 
@@ -295,6 +311,10 @@ class State_Manager:
             await self.game_channel.send(response)
         else:
             return
+
+
+
+
 
         ######
         # These functions use the pre-lobby architecture
