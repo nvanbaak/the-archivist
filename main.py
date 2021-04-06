@@ -64,7 +64,7 @@ class Lobby:
             response = "["
             list_str = ""
             for player in self.players:
-                list_str += ", {player}".format(player=player.name)
+                list_str += ", {player}".format(player=player)
             response += list_str[2:]
             response += "]"
             return response
@@ -294,11 +294,9 @@ class State_Manager:
                     return
                 # Otherwise, add a "player left **lobby**" message to the response
                 else:
-                    response += "{player} left **{lobby}**.".format(player=player, lobby=current_lobby)
-            # except KeyError:
-            #     pass
-
-
+                    response += "{player} left **{lobby}**.\n".format(player=player, lobby=current_lobby)
+            except KeyError:
+                pass
 
             # if lobby is not active, pull it off the open_lobbies list and make it active
             if not join_target in self.active_lobbies:
