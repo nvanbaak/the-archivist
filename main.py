@@ -46,7 +46,7 @@ class Lobby:
     
     def add_player(self, player):
 
-        if not player = self.players:
+        if not player == self.players:
             self.players.append(player)
             return "{player} has joined **{lobby}**.".format(player=player, lobby=self.name)
         else:
@@ -132,14 +132,14 @@ class State_Manager:
 
         return alias
 
-    # given a player name, looks them up in the player assignment dict and returns the Game object in their lobby
-    def get_game_in_players_lobby(self, player):
+    # given a player name, looks them up in the player assignment dict and returns a reference to their lobby
+    def get_player_lobby(self, player):
 
         # get reference to lobby
         lobby_name = self.player_assign[player]
         player_lobby = self.active_lobbies[lobby_name]
         
-        return player_lobby.game
+        return player_lobby
 
     # Used to create a new lobby
     def activate_lobby(self):
@@ -182,6 +182,13 @@ class State_Manager:
         response += "Created a new game in **{lobby}**.".format(lobby=lobby_name)
         return response         
 
+    def new_game_in_lobby(self, lobby_name):
+        
+        
+        
+        self.active_lobbies[lobby_name].game = Game(self.game_count)
+
+
     async def route_message(self, message, stats, dm):
 
         # Nope out if the message is from this bot
@@ -210,14 +217,32 @@ class State_Manager:
             lobby_list_str = ""
             for lobby in self.active_lobbies:
                 lobby_list_str += ", {lobby}".format(lobby=lobby)
+
+                # if there are players, list them
+                if lobby.players:
+                    player_list_str = ""
+                    for player in lobby.players:
+                        player_list_str += ", {player}".format(player=player[:-5])
+
+                    # add brackets and delete the leading comma
+                    player_list_str = "[" + player_list_str[2:]
+                    player_list_str += "]"
+
             response += lobby_list_str[2:]
 
         # Command to start new game
         elif message.content.startswith("$new game"):
             response = self.new_game()
         
+        # Variant 'new game' command that starts a game in the player's lobby 
         elif message.content.startswith("$start") or message.content.startswith("$game start"):
-
+            # check if a game already exists in the player's lobby
+            player_lobby == self.get_player_lobby(message.author)
+            if player_lobby.game == None:
+                response = "There is no game in that lobby"
+            # If there's already an active game, return an error message
+            else:
+                response = "Can't start a new game — there is already an active game in **{lobby}**".format(lobby=player_lobby.name)
 
         # Command to join a lobby
         elif message.content.startswith("$join"):
