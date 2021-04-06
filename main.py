@@ -60,12 +60,14 @@ class State_Manager:
         # Channel setup
         self.game_channel = None
         
-        # Lobby setup
-        self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Garruk","Ajani","Bolas"]
+        # Lobby setup; "open" libraries are potential lobbies with no activity; "active" libraries can be joined and host games; "closed" libraries have active games and are not available for the state machine to start new games
+        self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Saheeli","Ajani","Bolas","Ashiok","Tamiyo","Nahiri"]
         random.shuffle(self.open_lobbies)
         self.active_lobbies = {}
+        self.closed_lobbies = []
         
-        # self.current_game = None
+        # Player -> Lobby assignment
+        self.player_assign = {}
 
         # alias setup
         self.aliases = {}
@@ -95,6 +97,14 @@ class State_Manager:
                 with open("alias.txt","w",-1,"utf8") as alias_list:
                     alias_list.write(alias_str)
 
+        # game count; currently this value is set by counting the number of games set in the stat manager, so we don't set it here
+        self.game_count = 0
+
+        # legacy game storage; removing this will break any $game commands that don't use the lobby architecture, which is all of them at this point
+        self.current_game = None
+
+
+
     
     def set_channel(self, channel_obj):
         self.game_channel = channel_obj
@@ -112,7 +122,9 @@ class State_Manager:
         try:
             alias = self.aliases[author_name]
         except KeyError:
-            print("get_player_alias call failed: '{author}' is not a key".format(author=author_name))
+            response = "get_player_alias call failed: '{author}' is not a key".format(author=author_name)
+            print(response)
+            return response
 
         return alias
 
@@ -124,12 +136,49 @@ class State_Manager:
         
         return "Opened **{lobby}** lobby.".format(lobby=new_lobby)
 
+    # command to create new Game object inside an available lobby
+    def new_game(self):
+        # set up output str and lobby key
+        response = ""
+        lobby_name = ""
+
+        # check if there's an open lobby
+        if len(self.active_lobbies) == len(self.closed_lobbies):
+
+            # if not, make one
+            new_lobby = self.open_lobbies.pop(0)
+            self.active_lobbies[new_lobby] = Lobby(new_lobby)                
+
+            lobby_name = new_lobby
+
+            response += "Opened **{lobby}** lobby.\n".format(lobby=new_lobby)
+
+        else:
+            # if there is, find it
+            for lobby in self.active_lobbies:
+                if not lobby in self.closed_lobbies:
+                    lobby_name = lobby
+        
+        # make new game in the open lobby
+        self.game_count += 1
+        self.active_lobbies[lobby_name].game = Game(self.game_count)
+
+        # this lobby is now closed, so add it to the list
+        self.closed_lobbies.append(lobby_name)
+
+        response += "Created a new game in **{lobby}**.".format(lobby=lobby_name)
+        return response         
 
     async def route_message(self, message, stats, dm):
+
+        # Nope out if the message is from this bot
         if message.author == client.user:
             return
-    
+        
         print(message)
+
+        # set up response string
+        response = ""
 
         # Command to start a new lobby
         if message.content.startswith("$new lobby"):
@@ -155,7 +204,35 @@ class State_Manager:
             # send output to discord
             await self.game_channel.send(response)
 
+        # Command to start new game
+        if message.content.startswith("$new game"):
+            response = self.new_game()
 
+            await self.game_channel.send(response)
+            return
+        
+        # Command to join a lobby
+        if message.content.startswith("$join"):
+
+            # get player name
+            player = message.author
+
+            # get lobby name
+            join_target = message.content[6:]
+            print(join_target)
+
+            # if lobby is not active, pull it off the open_lobbies list and make it active
+            if not join_target in self.active_lobbies:
+                try:
+                    self.open_lobbies.remove(join_target)
+                    self.active_lobbies[join_target] = Lobby(join_target)
+
+                except ValueError:
+                    return "Couldn't find lobby {lobby}".format(lobby=join_target)
+
+            # Add player to lobby and update player_assign
+            self.active_lobbies[join_target].add_player(player)
+            self.player_assign[player] = join_target
 
 
 
@@ -310,6 +387,9 @@ class State_Manager:
 stats = Statistics()
 dm = Data_Manager()
 state_manager = State_Manager()
+
+# We set this value here because the state manager and the stats engine don't talk to each other right now
+state_manager.game_count = len(stats.games)
 
 @client.event
 async def on_ready():
