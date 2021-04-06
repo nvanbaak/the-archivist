@@ -45,13 +45,17 @@ class Lobby:
         self.players = []
     
     def add_player(self, player):
-        self.players.append(player)
-        return "{player} has joined the **{lobby}** lobby.".format(player=player, lobby=self.name)
+
+        if not player = self.players:
+            self.players.append(player)
+            return "{player} has joined **{lobby}**.".format(player=player, lobby=self.name)
+        else:
+            return "{player} is already in **{lobby}**.".format(player=player, lobby=self.name)
 
     def remove_player(self, player):
         try:
             self.players.remove(player)
-            return "{player} has left the **{lobby}** lobby.".format(player=player, lobby=self.name)
+            return "{player} has left **{lobby}**.".format(player=player, lobby=self.name)
         except ValueError:
             return "Error — attempted to remove non-existant player {player} from lobby **{lobby}**!".format(player=player, lobby=self.name)
 
@@ -61,7 +65,7 @@ class State_Manager:
         self.game_channel = None
         
         # Lobby setup; "open" libraries are potential lobbies with no activity; "active" libraries can be joined and host games; "closed" libraries have active games and are not available for the state machine to start new games
-        self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Saheeli","Ajani","Bolas","Ashiok","Tamiyo","Nahiri"]
+        self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Elspeth","Ajani","Bolas","Vraska","Tamiyo","Nahiri"]
         random.shuffle(self.open_lobbies)
         self.active_lobbies = {}
         self.closed_lobbies = []
@@ -127,6 +131,15 @@ class State_Manager:
             return response
 
         return alias
+
+    # given a player name, looks them up in the player assignment dict and returns the Game object in their lobby
+    def get_game_in_players_lobby(self, player):
+
+        # get reference to lobby
+        lobby_name = self.player_assign[player]
+        player_lobby = self.active_lobbies[lobby_name]
+        
+        return player_lobby.game
 
     # Used to create a new lobby
     def activate_lobby(self):
@@ -203,6 +216,9 @@ class State_Manager:
         elif message.content.startswith("$new game"):
             response = self.new_game()
         
+        elif message.content.startswith("$start") or message.content.startswith("$game start"):
+
+
         # Command to join a lobby
         elif message.content.startswith("$join"):
 
@@ -235,10 +251,12 @@ class State_Manager:
                     return
 
             # Add player to lobby and update player_assign
-            self.active_lobbies[join_target].add_player(player)
+            response += self.active_lobbies[join_target].add_player(player)
             self.player_assign[player] = join_target
 
-            response += "{player} has joined **{lobby}**.".format(player=player, lobby=join_target)
+        # $Game commands
+
+
 
         # Send confirmation message to Discord
         await self.game_channel.send(response)
