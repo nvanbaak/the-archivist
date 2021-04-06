@@ -134,7 +134,7 @@ class State_Manager:
         new_lobby = self.open_lobbies.pop(0)
         self.active_lobbies[new_lobby] = Lobby(new_lobby)
         
-        return "Opened **{lobby}** lobby.".format(lobby=new_lobby)
+        return new_lobby
 
     # command to create new Game object inside an available lobby
     def new_game(self):
@@ -184,10 +184,11 @@ class State_Manager:
         if message.content.startswith("$new lobby"):
 
             # Open a new lobby and store the return string
-            response = self.activate_lobby()
+            new_lobby = self.activate_lobby()
+            response = "Opened **{lobby}** lobby.".format(lobby=new_lobby)
 
         # Command to print active lobbies
-        else if message.content.startswith("$lobbies"):
+        elif message.content.startswith("$lobbies"):
 
             # start response string
             response = "Open lobbies: \n"
@@ -199,18 +200,24 @@ class State_Manager:
             response += lobby_list_str[2:]
 
         # Command to start new game
-        else if message.content.startswith("$new game"):
+        elif message.content.startswith("$new game"):
             response = self.new_game()
         
         # Command to join a lobby
-        else if message.content.startswith("$join"):
+        elif message.content.startswith("$join"):
 
             # get player name
             player = message.author
 
             # get lobby name
             join_target = message.content[6:]
-            print(join_target)
+
+            # if we didn't get a lobby name, join the first available open lobby
+            if join_target == "" or join_target == " ":
+                for lobby in self.active_lobbies:
+                    if not lobby in self.closed_lobbies:
+                        join_target = lobby
+                        break
 
             # if lobby is not active, pull it off the open_lobbies list and make it active
             if not join_target in self.active_lobbies:
@@ -219,13 +226,14 @@ class State_Manager:
                     self.active_lobbies[join_target] = Lobby(join_target)
 
                 except ValueError:
-                    return "Couldn't find lobby {lobby}".format(lobby=join_target)
+                    await self.game_channel.send("Couldn't find lobby '{lobby}'".format(lobby=join_target))
+                    return
 
             # Add player to lobby and update player_assign
             self.active_lobbies[join_target].add_player(player)
             self.player_assign[player] = join_target
 
-            response = "{player} has joined **{lobby}**.".format(player=player, lobby=join_target)
+            response += "{player} has joined **{lobby}**.".format(player=player, lobby=join_target)
 
         # Send confirmation message to Discord
         await self.game_channel.send(response)
