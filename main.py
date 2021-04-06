@@ -286,6 +286,20 @@ class State_Manager:
                         join_target = self.activate_lobby()
                         response += "Opened lobby **{lobby}**.\n".format(lobby=join_target)
 
+            # if we're already in a lobby, check if it's the one we're trying to join
+            try:
+                current_lobby = self.player_assign[player]
+                if join_target == current_lobby:
+                    await self.game_channel.send("You're already in **{lobby}**.".format(lobby=current_lobby))
+                    return
+                # Otherwise, add a "player left **lobby**" message to the response
+                else:
+                    response += "{player} left **{lobby}**.".format(player=player, lobby=current_lobby)
+            # except KeyError:
+            #     pass
+
+
+
             # if lobby is not active, pull it off the open_lobbies list and make it active
             if not join_target in self.active_lobbies:
                 try:
