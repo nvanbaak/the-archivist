@@ -185,7 +185,7 @@ class State_Manager:
 
             # Open a new lobby and store the return string
             new_lobby = self.activate_lobby()
-            response = "Opened **{lobby}** lobby.".format(lobby=new_lobby)
+            response = "Opened lobby **{lobby}**.".format(lobby=new_lobby)
 
         # Command to print active lobbies
         elif message.content.startswith("$lobbies"):
@@ -206,18 +206,23 @@ class State_Manager:
         # Command to join a lobby
         elif message.content.startswith("$join"):
 
-            # get player name
+            # get names of player and intended lobby
             player = message.author
-
-            # get lobby name
             join_target = message.content[6:]
 
             # if we didn't get a lobby name, join the first available open lobby
             if join_target == "" or join_target == " ":
-                for lobby in self.active_lobbies:
-                    if not lobby in self.closed_lobbies:
-                        join_target = lobby
-                        break
+
+                if self.active_lobbies:
+                    for lobby in self.active_lobbies:
+                        if not lobby in self.closed_lobbies:
+                            join_target = lobby
+                            break
+                
+                # if there are no available lobbies, make one active
+                else:
+                    join_target = self.activate_lobby()
+                    response += "Opened lobby **{lobby}**.\n".format(lobby=join_target)
 
             # if lobby is not active, pull it off the open_lobbies list and make it active
             if not join_target in self.active_lobbies:
