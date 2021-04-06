@@ -186,11 +186,8 @@ class State_Manager:
             # Open a new lobby and store the return string
             response = self.activate_lobby()
 
-            # Send confirmation message
-            await self.game_channel.send(response)
-
         # Command to print active lobbies
-        if message.content.startswith("$lobbies"):
+        else if message.content.startswith("$lobbies"):
 
             # start response string
             response = "Open lobbies: \n"
@@ -201,18 +198,12 @@ class State_Manager:
                 lobby_list_str += ", {lobby}".format(lobby=lobby)
             response += lobby_list_str[2:]
 
-            # send output to discord
-            await self.game_channel.send(response)
-
         # Command to start new game
-        if message.content.startswith("$new game"):
+        else if message.content.startswith("$new game"):
             response = self.new_game()
-
-            await self.game_channel.send(response)
-            return
         
         # Command to join a lobby
-        if message.content.startswith("$join"):
+        else if message.content.startswith("$join"):
 
             # get player name
             player = message.author
@@ -234,8 +225,10 @@ class State_Manager:
             self.active_lobbies[join_target].add_player(player)
             self.player_assign[player] = join_target
 
+            response = "{player} has joined **{lobby}**.".format(player=player, lobby=join_target)
 
-
+        # Send confirmation message to Discord
+        await self.game_channel.send(response)
 
         ######
         # These functions use the pre-lobby architecture
