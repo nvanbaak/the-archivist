@@ -113,7 +113,7 @@ class State_Manager:
                 with open("alias.txt","w",-1,"utf8") as alias_list:
                     alias_list.write(alias_str)
 
-        # game count; currently this value is set by counting the number of games set in the stat manager, so we don't set it here
+        # game count; currently this value is set by counting the number of games set in the stat manager, so we can't set it here
         self.game_count = 0
 
         # legacy game storage; removing this will break any $game commands that don't use the lobby architecture, which is all of them at this point
@@ -209,7 +209,7 @@ class State_Manager:
         
         # if there's already a game, let them know
         else:
-            return "There is already an active game **{lobby_name}**.".format(lobby_name=lobby_name)
+            return "There is already an active game in **{lobby_name}**.".format(lobby_name=lobby_name)
 
     async def route_message(self, message, stats, dm):
 
@@ -217,20 +217,24 @@ class State_Manager:
         if message.author == client.user:
             return
         
+        # write message to console
         print(message)
+
+        # grab message content so we don't have to type "message.content" a million times
+        content = message.content
 
         # set up response string
         response = ""
 
         # Command to start a new lobby
-        if message.content.startswith("$new lobby"):
+        if content.startswith("$new lobby"):
 
             # Open a new lobby and store the return string
             new_lobby = self.activate_lobby()
             response = "Opened lobby **{lobby}**.".format(lobby=new_lobby)
 
         # Command to print active lobbies
-        elif message.content.startswith("$lobbies"):
+        elif content.startswith("$lobbies"):
 
             # start response string
             response = "Open lobbies: \n"
@@ -246,11 +250,11 @@ class State_Manager:
             response += lobby_list_str[2:]
 
         # Command to start new game
-        elif message.content.startswith("$new game"):
+        elif content.startswith("$new game"):
             response = self.new_game()
         
         # Variant 'new game' command that starts a game in the player's lobby 
-        elif message.content.startswith("$start") or message.content.startswith("$game start"):
+        elif content.startswith("$start") or content.startswith("$game start"):
             # get the lobby of the player entering the command
             try:
                 player_lobby = self.get_player_lobby(message.author.name)
@@ -259,11 +263,11 @@ class State_Manager:
                 response = "Join a lobby with ``$join`` to use this command."
 
         # Command to join a lobby
-        elif message.content.startswith("$join"):
+        elif content.startswith("$join"):
 
             # get names of player and intended lobby
             player = message.author.name
-            join_target = message.content[6:]
+            join_target = content[6:]
 
             # if we didn't get a lobby name, join the first available open lobby
             if join_target == "" or join_target == " ":
@@ -292,9 +296,11 @@ class State_Manager:
                 if join_target == current_lobby:
                     await self.game_channel.send("You're already in **{lobby}**.".format(lobby=current_lobby))
                     return
-                # Otherwise, add a "player left **lobby**" message to the response
+                # Otherwise, add a "player left **lobby**" message to the response and remove them from the lobby
                 else:
-                    response += "{player} left **{lobby}**.\n".format(player=player, lobby=current_lobby)
+                    self.active_lobbies[current_lobby].remove_player(player)
+
+                    response += "{player} left **{lobby}**.\n".format(player=player, lobby=current_lobby) 
             except KeyError:
                 pass
 
@@ -313,16 +319,58 @@ class State_Manager:
             self.player_assign[player] = join_target
 
         # $Game commands
+        elif content.startswith("$game"):
+
+            # get lobby or return error message if there isn't one
+            try:
+                lobby_name = self.get_player_lobby(message.author.name)
+                player_lobby = self.active_lobbies[lobby_name]
+            except KeyError:
+                await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
+                return
+
+            # if there's no game, we might have to start one            
+            if player_lobby.game == None:
+                # If they're just checking on game status, let them know there's no game
+                if content.startswith("$game status"):
+                    await self.game_channel.send("**{lobby_name}** currently has no active game.".format(lobby_name=lobby_name))
+                    return
+                # otherwise start a new game in the lobby and continue
+                else:
+                    response += self.new_game_in_lobby(lobby_name)
+                    response += "\n"
+
+            # get alias
+            alias = self.get_player_alias(message.author.name)
+            
+            # Pass the message on to the game lobby, then store the result
+            game_str = player_lobby.game.handle_command(message, alias, stats)
+            
+            # If the game ended, clean up
+            if game_str == "end":
+                # store data
+                player_lobby.game.store_data("gamehistory.txt")
+
+                # close the game
+                player_lobby.game = None
+
+                # add to response
+                response += "Thanks for playing!"
+            # otherwise add the return string to the response
+            else:
+                response += game_str
 
         # sets bot output to the specified channel
-        if message.content.startswith("$set output"):
+        elif content.startswith("$set output"):
             response = self.set_channel(message.channel)
 
         # Send confirmation message to Discord
         if response != "":
             await self.game_channel.send(response)
         else:
-            return
+            # Eventually we'll just end the function call, but right now we're in the middle of a refactor and this lets us access the non-transitioned code below
+            # return
+            pass
 
 
 
@@ -483,6 +531,7 @@ state_manager.game_count = len(stats.games)
 async def on_ready():
     print('Bot successfully logged in as: {user}'.format(user=client.user))
     state_manager.set_channel(client.get_channel(config.game_channel_id))
+    await state_manager.game_channel.send("Archivist online!")
 
 @client.event
 async def on_message(message):
