@@ -61,6 +61,15 @@ class Game:
     def pod_size(self):
         return len(self.players)
 
+    def rename_cmdr(self, old_name, new_name):
+        # check if the commander is in there
+        for player in self.players:
+            if player[1] == old_name:
+                player[1] = new_name
+                return "Renamed {player}'s commander to {new_name}!".format(player=player[0], new_name=new_name)
+            else:
+                returns "Could not find any commanders named {old_name}.".format(old_name=old_name)
+
     # the main workhorse function of the class; performs a number of basic data commands based on user input
     def handle_command(self, message_obj, alias, stats):
         command = message_obj.content[6:]

@@ -151,6 +151,21 @@ class State_Manager:
         lobby_name = self.player_assign[player]
         return lobby_name
 
+    # if there is no game in the given lobby, creates a game there.  Must be wrapped in a try/except block to catch KeyErrors in case the lobby is not active.
+    def ensure_game_exists(self, lobby_name):
+
+        # get the lobby        
+        lobby = self.active_lobbies[lobby_name]
+        
+        # if no game, make one
+        if lobby.game == None:
+            lobby.game = Game(self.game_count)
+            self.game_count += 1
+
+        # return game
+        return lobby.game
+
+
     # Used to create a new lobby
     def activate_lobby(self):
 
@@ -318,6 +333,38 @@ class State_Manager:
             response += self.active_lobbies[join_target].add_player(player)
             self.player_assign[player] = join_target
 
+        # data commands
+        elif message.content.startswith('$data'):
+            # global game_channel
+            response = dm.handle_command(message)
+
+            if response == "":
+                pass
+            else:
+                await self.game_channel.send(response)
+
+        # Command to rename commander name in an active game; this has to come *after* the $data commands, which currently use > for renaming database entries
+        elif " > " in content:
+            
+            # check lobby
+            try:
+                lobby_name = self.get_player_lobby(message.author.name)
+                player_lobby = self.active_lobbies[lobby_name]
+            except KeyError:
+                await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
+                return
+
+            # Get game reference; technically thish should be in a try/except block, but anything that would throw an error will already have thrown an error in the previous try/except block
+            game = self.ensure_game_exists(player_lobby)
+
+            # retrieve command information
+            content = content.replace("$ ", "")
+            content = content.replace("$", "")
+            names = content.split(" > ")
+
+            # fire off the rename
+            response = game.rename_cmdr(names[0], names[1])
+
         # $Game commands
         elif content.startswith("$game"):
 
@@ -437,15 +484,6 @@ class State_Manager:
                 pass
             else:
                 await self.send_multiple_responses(response)
-
-        if message.content.startswith('$data'):
-            # global game_channel
-            response = dm.handle_command(message)
-
-            if response == "":
-                pass
-            else:
-                await self.game_channel.send(response)
 
     async def send_multiple_responses(self, response):
         while len(response) > 1949:
