@@ -349,13 +349,12 @@ class State_Manager:
             # check lobby
             try:
                 lobby_name = self.get_player_lobby(message.author.name)
-                player_lobby = self.active_lobbies[lobby_name]
             except KeyError:
                 await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
                 return
 
             # Get game reference; technically thish should be in a try/except block, but anything that would throw an error will already have thrown an error in the previous try/except block
-            game = self.ensure_game_exists(player_lobby)
+            game = self.ensure_game_exists(lobby_name)
 
             # retrieve command information
             content = content.replace("$ ", "")

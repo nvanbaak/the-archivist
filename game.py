@@ -67,8 +67,9 @@ class Game:
             if player[1] == old_name:
                 player[1] = new_name
                 return "Renamed {player}'s commander to {new_name}!".format(player=player[0], new_name=new_name)
-            else:
-                returns "Could not find any commanders named {old_name}.".format(old_name=old_name)
+ 
+        # if we made it through the loop without hitting anything, send a failure message
+        return "Could not find any commanders named {old_name}.".format(old_name=old_name)
 
     # the main workhorse function of the class; performs a number of basic data commands based on user input
     def handle_command(self, message_obj, alias, stats):
