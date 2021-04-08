@@ -120,19 +120,11 @@ class State_Manager:
         self.current_game = None
 
 
+    ##################################
+    #       player lookup methods
+    ##################################
 
-    
-    def set_channel(self, channel_obj):
-        self.game_channel = channel_obj
-        print( "Set output channel to {channel}.".format(channel=channel_obj))
-        return "Set output channel to {channel}.".format(channel=channel_obj)
-
-    def is_this_the_game_channel(self, message_obj):
-        if self.game_channel == message_obj.channel:
-            return True
-        else:
-            return False
-
+    # given a player name, finds the lobby they're in
     def get_player_alias(self, author_name):
         alias = None
         try:
@@ -144,27 +136,16 @@ class State_Manager:
 
         return alias
 
-    # given a player name, looks them up in the player assignment dict and returns the name of the lobby they're in
+    # given a player name, looks them up in the player assignment dict and returns the name of the lobby they're in or throws a KeyError exception
     def get_player_lobby(self, player):
 
         # get reference to lobby
         lobby_name = self.player_assign[player]
         return lobby_name
 
-    # if there is no game in the given lobby, creates a game there.  Must be wrapped in a try/except block to catch KeyErrors in case the lobby is not active.
-    def ensure_game_exists(self, lobby_name):
-
-        # get the lobby        
-        lobby = self.active_lobbies[lobby_name]
-        
-        # if no game, make one
-        if lobby.game == None:
-            lobby.game = Game(self.game_count)
-            self.game_count += 1
-
-        # return game
-        return lobby.game
-
+    ##################################
+    #      game / lobby creation
+    ##################################
 
     # Used to create a new lobby
     def activate_lobby(self):
@@ -207,6 +188,7 @@ class State_Manager:
         response += "Created a new game in **{lobby}**.".format(lobby=lobby_name)
         return response         
 
+    # creates a new game in the specified lobby if one does not already exist
     def new_game_in_lobby(self, lobby_name):
         
         # get ref to lobby
@@ -226,6 +208,25 @@ class State_Manager:
         else:
             return "There is already an active game in **{lobby_name}**.".format(lobby_name=lobby_name)
 
+    # if there is no game in the given lobby, creates a game there.  Must be wrapped in a try/except block to catch KeyErrors in case the lobby is not active.
+    def ensure_game_exists(self, lobby_name):
+
+        # get the lobby        
+        lobby = self.active_lobbies[lobby_name]
+        
+        # if no game, make one
+        if lobby.game == None:
+            lobby.game = Game(self.game_count)
+            self.game_count += 1
+
+        # return game
+        return lobby.game
+
+    ##################################
+    #       discord interaction
+    ##################################
+
+    # executes a user command entered into discord, then sends back a response
     async def route_message(self, message, stats, dm):
 
         # Nope out if the message is from this bot
@@ -484,11 +485,18 @@ class State_Manager:
             else:
                 await self.send_multiple_responses(response)
 
+    # Breaks a string into multiple chunks and sends them separately (allowing the bot to send strings larger than Discord's per-message character limit)
     async def send_multiple_responses(self, response):
         while len(response) > 1949:
             await self.game_channel.send(response[:1950])
             response = response[1950:]
         await self.game_channel.send(response)
+
+    # sets the bot's output channel to the given channel
+    def set_channel(self, channel_obj):
+        self.game_channel = channel_obj
+        print( "Set output channel to {channel}.".format(channel=channel_obj))
+        return "Set output channel to {channel}.".format(channel=channel_obj)
 
 
 

@@ -133,22 +133,8 @@ class Game:
             # get old and new names
             args = command.split(" > ")
 
-            # check if it's a commander name; this is the most likely use case given that aliases are usually handled before we get here
-            cmdr_index = self.get_cmdr_index(args[0])
-
-            if cmdr_index > -1:
-                self.players[cmdr_index][1] = args[1]
-                return "Renamed cmdr {old} to {new}".format(old=args[0], new=args[1])
-
-            # check if it's a player name
-            player_index = self.get_player_index(args[0])
-
-            if player_index > -1:
-                self.players[player_index][0] = args[1]
-                return "Renamed player {player} to {new_player}".format(player=args[0], new_player=args[1])
-
-            else:
-                return "'{old}' is not a player or commander in the active game.  Use ``$game status`` to double-check the list of players."
+            # rename
+            return self.rename_cmdr(args[0],args[1])
 
         if args[0] == "first":
             if not self.begin:
