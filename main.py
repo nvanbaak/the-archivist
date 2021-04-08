@@ -405,32 +405,20 @@ class State_Manager:
         else:
 
             # we'll need the player's lobby for any of these commands, so let's get it now
-            # try:
-            #     player_lobby = self.get_player_lobby
-
-
-
-
-
+            try:
+                lobby_name = self.get_player_lobby(message.author.name)
+                lobby_obj = self.active_lobbies[lobby_name]
+            except KeyError:
+                await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
+                return
 
             # Variant 'new game' command that starts a game in the player's lobby 
             if content.startswith("$start") or content.startswith("$game start"):
                 # get the lobby of the player entering the command
-                try:
-                    player_lobby = self.get_player_lobby(message.author.name)
-                    response = self.new_game_in_lobby(player_lobby)
-                except KeyError:
-                    response = "Join a lobby with ``$join`` to use this command."
+                response = self.new_game_in_lobby(lobby_name)
 
             # Command to rename commander name in an active game; this has to come *after* the $data commands, which currently use > for renaming database entries
             elif " > " in content:
-                
-                # check lobby
-                try:
-                    lobby_name = self.get_player_lobby(message.author.name)
-                except KeyError:
-                    await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
-                    return
 
                 # Get game reference; technically thish should be in a try/except block, but anything that would throw an error will already have thrown an error in the previous try/except block
                 game = self.ensure_game_exists(lobby_name)
@@ -446,16 +434,8 @@ class State_Manager:
             # $Game commands
             elif content.startswith("$game"):
 
-                # get lobby or return error message if there isn't one
-                try:
-                    lobby_name = self.get_player_lobby(message.author.name)
-                    player_lobby = self.active_lobbies[lobby_name]
-                except KeyError:
-                    await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
-                    return
-
                 # if there's no game, we might have to start one            
-                if player_lobby.game == None:
+                if lobby_obj.game == None:
                     # If they're just checking on game status, let them know there's no game
                     if content.startswith("$game status"):
                         await self.game_channel.send("**{lobby_name}** currently has no active game.".format(lobby_name=lobby_name))
@@ -466,7 +446,7 @@ class State_Manager:
                         response += "\n"
                 # if there's a game but it's a cancel command, we deal with it before it would be handed off to the game object
                 elif content.startswith("$game cancel"):
-                    player_lobby.game = None
+                    lobby_obj.game = None
                     self.game_count -= 1
                     await self.game_channel.send("I have cancelled the game for you.")
                     return
@@ -475,15 +455,15 @@ class State_Manager:
                 alias = self.get_player_alias(message.author.name)
                 
                 # Pass the message on to the game lobby, then store the result
-                game_str = player_lobby.game.handle_command(message, alias, stats)
+                game_str = lobby_obj.game.handle_command(message, alias, stats)
                 
                 # If the game ended, clean up
                 if game_str == "end":
                     # store data
-                    player_lobby.game.store_data("gamehistory.txt")
+                    lobby_obj.game.store_data("gamehistory.txt")
 
                     # close the game
-                    player_lobby.game = None
+                    lobby_obj.game = None
 
                     # add to response
                     response += "Thanks for playing!"
