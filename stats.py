@@ -19,7 +19,13 @@ class Statistics:
             "!cmdr" : self.games_with_exactly_these_players,
             "-cmdr" : self.games_without_players,
             "+cmdr" : self.games_with_players,
-            "cmdr" : self.games_with_players
+            "cmdr" : self.games_with_players,
+            "-win" : self.games_these_guys_did_not_win,
+            "+win" : self.games_these_guys_won,
+            "win" : self.games_these_guys_won,
+            "-pod" : self.pods_not_this_size,
+            "+pod" : self.pods_this_size,
+            "pod" : self.pods_this_size
         }
 
 
@@ -148,11 +154,95 @@ class Statistics:
         # return the results once we're done looping
         return result_list
 
+    ##################################
+    #     GAME DETAIL FILTERING      #
+    ##################################
+
+    # Only returns games where one of the named players/commanders won
+    def games_these_guys_won(self, game_list, player_list):
+        
+        result_list = []
+
+        # check all the games
+        for game in game_list:
+
+            our_buddies_won = False
+
+            # Look up the winning player / commander
+            if game.winner[0] in player_list or game.winner[1] in player_list:
+                our_buddies_won = True
+            
+            if our_buddies_won:
+                result_list.append(game)
+        
+        return result_list
+
+    # only returns games where none of the named players/commanders won
+    def games_these_guys_did_not_win(self, game_list, player_list):
+        result_list = []
+
+        # check all the games
+        for game in game_list:
+
+            our_buddies_won = False
+
+            # Look up the winning player / commander
+            if game.winner[0] in player_list or game.winner[1] in player_list:
+                our_buddies_won = True
+            
+            if not our_buddies_won:
+                result_list.append(game)
+        
+        return result_list
+
+    # returns games based on the given operation and pod size
+    def pods_this_size(self, mode, game_list, pod_size):
+
+        result_list = []
+
+        for game in game_list:
+
+            if mode == "=":
+                if len(game.players) == pod_size:
+                    result_list.append(game)
+            elif mode == ">":
+                if len(game.players) > pod_size:
+                    result_list.append(game)
+            elif mode == "<":
+                if len(game.players) < pod_size:
+                    result_list.append(game)
+        
+        return result_list
+    
+    # returns games based on not meeting the given operation and pod size
+    def pods_not_this_size(self, mode, game_list, pod_size):
+        result_list = []
+
+        for game in game_list:
+
+            if mode == "=":
+                if len(game.players) != pod_size:
+                    result_list.append(game)
+            elif mode == ">":
+                if len(game.players) <= pod_size:
+                    result_list.append(game)
+            elif mode == "<":
+                if len(game.players) >= pod_size:
+                    result_list.append(game)
+        
+        return result_list
 
 
     ##################################
     #       STATISTICS METHODS       #
     ##################################
+
+    # Returns the total number of games
+    def tally_games(self, game_list):
+        
+        response = "There are {num} games matching those filters.".format(num=len(game_list))
+        
+        return response
 
     # Counts wins for all players in the given list of games
     def tally_player_wins(self, game_list):
@@ -196,7 +286,7 @@ class Statistics:
 
 
     # Given a list of filter arguments, returns a dict with filter options
-    def parse_filters(self, terms):
+    def parse_filters(self, terms): 
         
         # set up dict to be returned when we're done
         filter_args = {}
@@ -206,15 +296,29 @@ class Statistics:
         # for each term:
         for term in terms:
 
-            # Check for player participation requirements
-            if "player=" in term or "cmdr=" in term:
+            # Check filter words
+            if "player=" in term or "cmdr=" in term or "win=" in term:
                 term = term.split("=")
 
                 # This is counter-intuitive; basically the code in the try block should only work if a previous filter has already added that setting to the dictionary.  That shouldn't happen, so we give them an error message.  If the setting does not exist, it throws a KeyError, which tells us it's safe to add the filter setting.
                 try:
-                    error_log += " • **Filter conflict:** {filter}={player} requirement conflicts with existing {existing} requirement and was ignored. To require multiple players, join the player names with commas (without spaces), e.g. ``!player=Gideon,Liliana,Chandra``\n".format(filter=term[0], player=term[1], existing=filter_args[term[0]])
+                    error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored. To require multiple terms, join the terms with semicolons (without spaces), e.g. ``!cmdr=\"The Gitrog Monster\";Chandra;Atraxa``\n".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
                 except KeyError:
-                    filter_args[term[0]] = term[1].split(",")
+                    filter_args[term[0]] = term[1].split(";")
+
+            elif "pod=" in term or "pod>" in term or "pod<" in term:
+                # This one's handled a bit differently because we want to preserve the =/>/<, which means we can't use the split method above
+
+                # Get the endpoint of the inequality statement
+                index = 5
+
+                filter_term = term[:index]
+                filter_value = term[index:]
+                            
+                try:
+                    error_log += " • **Filter conflict:** {term} requirement conflicts with existing {existing} requirement and was ignored. To require multiple terms, join the terms with semicolons (without spaces), e.g. ``!cmdr=\"The Gitrog Monster\";Chandra;Atraxa``\n".format(term=term, existing=filter_args[term[:index]])
+                except KeyError:
+                    filter_args[filter_term] = int(filter_value)
 
         # after checking all the filters, save the error log to the dict
         filter_args["error_log"] = error_log
@@ -232,11 +336,18 @@ class Statistics:
 
         # run through each option, filtering the games list as we go
         for option in filter_dict:
-            if "player" in option:
-                games_list = self.master_filter_dict[option](0, games_list, filter_dict[option])
-            elif "cmdr" in option:
-                games_list = self.master_filter_dict[option](1, games_list, filter_dict[option])
-
+            try:
+                if "player" in option:
+                    games_list = self.master_filter_dict[option](0, games_list, filter_dict[option])
+                elif "cmdr" in option:
+                    games_list = self.master_filter_dict[option](1, games_list, filter_dict[option])
+                elif "win" in option:
+                    games_list = self.master_filter_dict[option](games_list, filter_dict[option])
+                elif "pod" in option:
+                    print(self.master_filter_dict[option[:4]])
+                    games_list = self.master_filter_dict[option[:4]](option[4], games_list, filter_dict[option])
+            except KeyError:
+                pass
 
         # drop the error log in console, then return the games
         print(error_log)
@@ -254,11 +365,20 @@ class Statistics:
         # filter games
         games_list = self.filter_games(filter_dict)
 
+        # perform requested analytics
+
+        # refresh stats manager game set
         if command == "reset" or command == "refresh":
             return self.import_games("gamehistory.txt")
 
+        # Tally wins
         elif command == "wins":
             return self.tally_player_wins(games_list)
+
+        # Tally total games
+        elif command == "games":
+            return self.tally_games(games_list)
+
 
         else:
             return ""
