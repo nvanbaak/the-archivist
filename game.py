@@ -359,7 +359,15 @@ class Game:
         if data_arr[4]:
             notes_arr = data_arr[4].split("&")
             for note in notes_arr:
-                self.notes.append(note.split(":"))
+                split_notes = note.split(":")
+                
+                # replace character placeholders with actual characters
+                split_notes[1] = split_notes[1].replace("*colon;",":")
+                split_notes[1] = split_notes[1].replace("ampersand;","&")
+                split_notes[1] = split_notes[1].replace("*pipe;","|")
+
+                # append
+                self.notes.append(split_notes)
 
         # This probably won't come up, but if we're reading data the game is long over
         self.begin = True
