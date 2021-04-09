@@ -440,7 +440,7 @@ class State_Manager:
             terms = terms.split(" ")
 
             # Finally, replace underscores
-            terms = map(lambda t: t.replace("_", " "))
+            terms = map(lambda t: t.replace("_", " "), terms)
 
             response = await stats.handle_command(command, terms, message.channel)
 

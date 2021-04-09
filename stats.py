@@ -46,7 +46,7 @@ class Statistics:
     # mode can be 0 for player names or 1 for cmdr names.
 
     # Given a list of Game objects, returns the subset of Games in which all of the specified players participated
-    def games_with_players(self, mode, game_list, *player_names):
+    def games_with_players(self, mode, game_list, player_names):
 
         result_list = []
 
@@ -80,7 +80,7 @@ class Statistics:
         return result_list
 
     # Given a list of Game objects, returns the subset of Games in which none of the specified players participated        
-    def games_without_players(self, mode, game_list, *player_names):
+    def games_without_players(self, mode, game_list, player_names):
         result_list = []
 
         # run through all the games
@@ -184,16 +184,100 @@ class Statistics:
 
     # Given a list of filter arguments, returns a dict with filter options
     def parse_filters(self, terms):
-        pass
+        
+        # set up dict to be returned when we're done
+        filter_args = {}
+
+        error_log = ""
+
+        # for each term:
+        for term in terms:
+
+            # Check for player participation requirements
+            if "player=" in term:
+                term = term.split("=")
+
+                # This is counter-intuitive; basically the code in the try block should only work if a previous filter has already added that setting to the dictionary.  That shouldn't happen, so we give them an error message.  If the setting does not exist, it throws a KeyError, which tells us it's safe to add the filter setting.
+                try:
+                    error_log += " • **Filter conflict:** {filter}={player} requirement conflicts with existing {existing} requirement and was ignored. To require multiple players, join the player names with commas (without spaces), e.g. ``!player=Gideon,Liliana,Chandra``\n".format(filter=term[0], player=term[1], existing=filter_args[term[0]])
+                except KeyError:
+                    filter_args[term[0]] = term[1].split(",")
+        
+
+        # after checking all the filters, save the error log to the dict
+        filter_args["error_log"] = error_log
+            
+        # return the dict
+        return filter_args
+
+    # returns a list of games from the stats engine master databse, reduced using the filters in the provided dict
+    def filter_games(self, filter_dict):
+        
+        games_list = self.games
+
+        # retrieve the error log so we can keep adding to it
+        error_log = filter_dict["error_log"]
+
+        # Run through possible filters, starting with !player
+        try:
+            exact_players = filter_dict["!player"]
+            games_list = self.games_with_exactly_these_players(0, games_list, exact_players)
+
+            exact_flag = True
+        except KeyError:
+            exact_flag = False
+        
+        # -player
+        try:
+            forbidden_players = filter_dict["-player"]
+            if not exact_flag:
+                games_list = self.games_without_players(0, games_list,forbidden_players)
+            else:
+                error_log += "**Filter specificity error:** ``!player`` overrides ``-player``"              
+        except KeyError:
+            pass
+
+        # +player
+        try:
+            required_players = filter_dict["+player"]
+            if not exact_flag and filter_dict["+player"]:
+                games_list = self.games_with_players(0, games_list,required_players)
+            else:
+                error_log += "**Filter specificity error:** ``!player`` overrides ``+player``"
+        except KeyError:
+            pass
+
+        # player
+        try:
+            required_players = filter_dict["player"]
+            if not exact_flag and filter_dict["player"]:
+                games_list = self.games_with_players(0, games_list,required_players)
+            else:
+                error_log += "**Filter specificity error:** ``!player`` overrides ``player``"
+        except KeyError:
+            pass
+
+        # drop the error log in console, then return the games
+        print(error_log)
+
+        return games_list
+        
+
 
     # called by the bot to invoke various methods
     async def handle_command(self, command, terms, channel):
+
+        # parse filter terms
+        filter_dict = self.parse_filters(terms)        
+
+        # filter games
+        games_list = self.filter_games(filter_dict)
 
         if command == "reset" or command == "refresh":
             return self.import_games("gamehistory.txt")
 
         elif command == "wins":
-            return self.tally_player_wins(self.games)
+            return self.tally_player_wins(games_list)
 
         else:
             return ""
