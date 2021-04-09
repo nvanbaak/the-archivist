@@ -15,7 +15,11 @@ class Statistics:
             "!player" : self.games_with_exactly_these_players,
             "-player" : self.games_without_players,
             "+player" : self.games_with_players,
-            "player" : self.games_with_players
+            "player" : self.games_with_players,
+            "!cmdr" : self.games_with_exactly_these_players,
+            "-cmdr" : self.games_without_players,
+            "+cmdr" : self.games_with_players,
+            "cmdr" : self.games_with_players
         }
 
 
@@ -203,7 +207,7 @@ class Statistics:
         for term in terms:
 
             # Check for player participation requirements
-            if "player=" in term:
+            if "player=" in term or "cmdr=" in term:
                 term = term.split("=")
 
                 # This is counter-intuitive; basically the code in the try block should only work if a previous filter has already added that setting to the dictionary.  That shouldn't happen, so we give them an error message.  If the setting does not exist, it throws a KeyError, which tells us it's safe to add the filter setting.
@@ -211,7 +215,6 @@ class Statistics:
                     error_log += " • **Filter conflict:** {filter}={player} requirement conflicts with existing {existing} requirement and was ignored. To require multiple players, join the player names with commas (without spaces), e.g. ``!player=Gideon,Liliana,Chandra``\n".format(filter=term[0], player=term[1], existing=filter_args[term[0]])
                 except KeyError:
                     filter_args[term[0]] = term[1].split(",")
-        
 
         # after checking all the filters, save the error log to the dict
         filter_args["error_log"] = error_log
@@ -229,8 +232,11 @@ class Statistics:
 
         # run through each option, filtering the games list as we go
         for option in filter_dict:
-            if option != "error_log":
+            if "player" in option:
                 games_list = self.master_filter_dict[option](0, games_list, filter_dict[option])
+            elif "cmdr" in option:
+                games_list = self.master_filter_dict[option](1, games_list, filter_dict[option])
+
 
         # drop the error log in console, then return the games
         print(error_log)
