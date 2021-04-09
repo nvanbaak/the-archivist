@@ -74,6 +74,7 @@ class Game:
     # the main workhorse function of the class; performs a number of basic data commands based on user input
     def handle_command(self, alias, command, content, stats):
 
+        # sets cmdr name using alias
         if command == "cmdr":
             # check if they have an alias registered:
             if alias:
@@ -97,11 +98,12 @@ class Game:
             else:
                 return "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
 
-        if command == "player":
+        # sets player and cmdr name using provided arguments
+        elif command == "player":
             if not self.begin:
                 
                 # split string into player (index 0) & cmdr (index 1) names
-                names = command.split(" ", 1)
+                names = content.split(" ", 1)
 
                 if self.get_player_index(names[0]) == -1:
                     fuzz_str = self.fuzz_cmdr(names[1], stats)
@@ -113,7 +115,8 @@ class Game:
             else:
                 return "Can't add player—game has already started"
 
-        if command == "rename":
+        # renames a commander
+        elif command == "rename":
 
             # return error if no > in content
             if not " > " in content:
@@ -123,115 +126,116 @@ class Game:
             args = content.split(" > ")
 
             # rename
-            return self.rename_cmdr(args[0],args[1])
+            return self.rename_cmdr(args[0],content)
 
-        if command == "first":
-            if not self.begin:
+        # sets the first player
+        elif command == "first":
+            player_index = self.get_player_index(content)
 
-                player_index = self.get_player_index(args[1])
+            # -1 is our failure mode
+            if player_index == -1:
+                return 'I was unable to find "{player}" in the list of players for this game.'.format(player=content)
 
-                # -1 is our failure mode
-                if player_index == -1:
-                    return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
-
-                # If the player was found, add them to self.first and start the game
-                else:
-                    self.first = self.players[player_index]
-                    self.begin = True
-                    return "{player} goes first!  Good luck!".format(player=args[1])
-
+            # If the player was found, add them to self.first and start the game
             else:
-                return "{player} can't go first because the game has already started!".format(player=args[1])
+                self.first = self.players[player_index]
+                
+                if not self.begin:
+                    self.begin = True
+                    return "{player} goes first!  Good luck!".format(player=content)
+                else:
+                    return "Changed first player to {player}. If this is a mistake, you may have forgotten to end the previous game.".format(player=content)
 
-        if args[0] == "elim" or args[0] == "eliminated" or args[0] == "defeat":
+        # sets a player as eliminated
+        elif command == "elim":
             if self.begin:
 
-                player_index = self.get_player_index(args[1])
+                player_index = self.get_player_index(content)
 
                 # -1 is our failure mode
                 if player_index == -1:
-                    return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
+                    return 'I was unable to find "{player}" in the list of players for this game.'.format(player=content)
 
                 # If the player was found, we get their information from the player list and mark them as eliminated
                 else:
                     self.eliminated.append(self.players[player_index])
-                    return "Ouch! Better luck next time, {player}!".format(player=args[1])
+                    return "Ouch! Better luck next time, {player}!".format(player=content)
             else:
-                return "{player} could not have been eliminated because the game has not started yet!".format(player=args[1])
+                return "{player} could not have been eliminated because the game has not started yet!".format(player=content)
 
-        if args[0] == "win" or args[0] == "victory" or args[0] == "winner":
+        # declares a player as the winner
+        elif command == "win":
             if self.begin:
 
-                if args[1] == "draw":
+                if content == "draw":
                     self.winner = "draw"
                     return "Welp, that must have been interesting."
 
                 else:
-                    player_index = self.get_player_index(args[1])
+                    player_index = self.get_player_index(content)
 
                     if player_index > -1:
                         self.winner = self.players[player_index]
                         self.game_over = True
 
-                        win_str = "Congratulations {player}!".format(player=args[1])
+                        win_str = "Congratulations {player}!".format(player=content)
 
                         win_str += "\n Anyone who wants to comment on the game can now do so by typing:\n```$game note your note here```\n"
 
                         return win_str
                     else:
-                        return 'I was unable to find "{player}" in the list of players for this game.'.format(player=args[1])
+                        return 'I was unable to find "{player}" in the list of players for this game.'.format(player=content)
             else:
-                return "I can't declare {player} the winner until I know who went first!".format(player=args[1])
+                return "I can't declare {player} the winner until I know who went first!".format(player=content)
 
-        if args[0] == "state" or args[0] == "status":
+        # returns a string summarizing the status of the game
+        elif command == "status":
             return self.game_state()
             
-        if args[0] == "random":
-            args_length = len(args)
-            output_str = "Random selection: "
+        # elif command == "random":
+            
+        #     args_length = len(args)
+        #     output_str = "Random selection: "
 
-            # check if user supplied additional arguments, else return a random player
-            if args_length > 1:
-                if args[1] == "player":
+        #     # check if user supplied additional arguments, else return a random player
+        #     if args_length > 1:
+        #         if content == "player":
 
-                    # We may have to randomly select a player multiple times
-                    if args_length > 2:
-                        num_selections == int(args[2])
-                        # target_list = []
-                        index = 0
-                        while index < num_selections:
+        #             # We may have to randomly select a player multiple times
+        #             if args_length > 2:
+        #                 num_selections == int(args[2])
+        #                 # target_list = []
+        #                 index = 0
+        #                 while index < num_selections:
 
-                            target = random.choice(self.players)
-                            output_str += target + " "
-                            index += 1
-                    else:
-                        output_str = random.choice(self.players)
+        #                     target = random.choice(self.players)
+        #                     output_str += target + " "
+        #                     index += 1
+        #             else:
+        #                 output_str = random.choice(self.players)
 
-            # else return a random player
-            else:
-                output_str = random.choice(self.players)
+        #     # else return a random player
+        #     else:
+        #         output_str = random.choice(self.players)
 
-            return output_str
+        #     return output_str
 
-        if args[0] == "threat":    
+        # returns a "threat analysis" string.  While the plan is eventually to have a statistically-powered bayesian calculation, the current "analysis" is a random number generator.
+        if command == "threat":    
             target = random.choice(self.players)
             return "Considered analysis of the situation suggests that {target} is the biggest threat".format(target=target)
 
-        if args[0] == "note":
+        # appends commentary to the game object before storage.
+        if command == "note":
             if self.game_over:
                 # Get author of message
-                author = message_obj.author.name
-                
-                # Delete the first word of the note (which is "note")
-                del args[0]
-                # Rejoin to store as a single string
-                note_str = " ".join(args)
+                author = alias
 
-                note_str = note_str.replace(":", " ")
-                note_str = note_str.replace("&", " ")
-                note_str = note_str.replace("|", " ")
+                content = content.replace(":", "*colon;")
+                content = content.replace("&", "*ampersand;")
+                content = content.replace("|", "*pipe;")
 
-                self.notes.append( (author, note_str) )
+                self.notes.append( (author, content) )
  
                 # Add author to list of people who completed notes
                 if author not in self.completed_notes:
@@ -241,7 +245,7 @@ class Game:
                     if len(self.completed_notes) == len(self.players):
                         return "end"
 
-                return "Thanks, {player}".format(player=author)
+                return "Thanks, {player}.".format(player=author)
             else:
                 return "The game is not over.  History cannot be written until after it happens."
 

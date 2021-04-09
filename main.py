@@ -440,6 +440,8 @@ class State_Manager:
                 game = self.ensure_game_exists(lobby_name)
 
                 # retrieve command information
+                content = content.replace("$ rename", "")
+                content = content.replace("$rename ", "")
                 content = content.replace("$ ", "")
                 content = content.replace("$", "")
                 names = content.split(" > ")
@@ -454,13 +456,14 @@ class State_Manager:
                 content = content.replace("$ ", "")
                 content = content.replace("$", "")
 
-                # get the attempted command
-                args = content.split(" ")
+                # get the attempted command and arguments
+                args = content.split(" ", 1)
                 command = args[0]
-
-                # get the provided arguments minus the command word
-                cmd_length = len(command) + 1
-                content = content[cmd_length:]
+                try:
+                    content = args[1]
+                except IndexError:
+                    # An error here means we were given a one-word command, so we assign an empty string instead
+                    content = ""
 
                 # Check if we recognize the command
                 try:
@@ -492,7 +495,7 @@ class State_Manager:
                     alias = self.get_player_alias(message.author.name)
                     
                     # Pass the message on to the game lobby, then store the result
-                    game_str = lobby_obj.game.handle_command(content, command, alias, stats)
+                    game_str = lobby_obj.game.handle_command(alias, command, content, stats)
                     
                     # If the game ended, clean up
                     if game_str == "end":
