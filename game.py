@@ -72,30 +72,22 @@ class Game:
         return "Could not find any commanders named {old_name}.".format(old_name=old_name)
 
     # the main workhorse function of the class; performs a number of basic data commands based on user input
-    def handle_command(self, message_obj, alias, stats):
-        command = message_obj.content[6:]
-        args = command.split(" ")
+    def handle_command(self, alias, command, content, stats):
 
-        if command.startswith("cmdr") or command.startswith("commander") or command.startswith("deck"):
+        if command == "cmdr":
             # check if they have an alias registered:
             if alias:
-                # remove command term from message content
-                cmdr = ""
-                if command.startswith("cmdr ") or command.startswith("deck "):
-                    cmdr = command[5:]
-                if command.startswith("commander "):
-                    cmdr = command[10:]
 
                 # get spelling variants
-                fuzz_str = self.fuzz_cmdr(cmdr, stats)
+                fuzz_str = self.fuzz_cmdr(content, stats)
 
                 # if the game hasn't already started...
                 if not self.begin: 
 
                     # add player to game if not already present
                     if self.get_player_index(alias) == -1:
-                        self.players.append( [alias, cmdr] )
-                        return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=cmdr, fuzz=fuzz_str)
+                        self.players.append( [alias, content] )
+                        return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=content, fuzz=fuzz_str)
                     else:
                         return "Player {alias} is already participating in this game.".format(alias=alias)
 
@@ -105,17 +97,17 @@ class Game:
             else:
                 return "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
 
-        if command.startswith("player"):
+        if command == "player":
             if not self.begin:
-                player_name = args[1]
-                last_index = len(args)
-                cmdr_name = " ".join(args[2:last_index])
+                
+                # split string into player (index 0) & cmdr (index 1) names
+                names = command.split(" ", 1)
 
-                if self.get_player_index(player_name) == -1:
-                    fuzz_str = self.fuzz_cmdr(cmdr_name, stats)
+                if self.get_player_index(names[0]) == -1:
+                    fuzz_str = self.fuzz_cmdr(names[1], stats)
 
-                    self.players.append( [player_name, cmdr_name] )
-                    return "{player} is playing {deck} {fuzz}".format(player=args[1], deck=cmdr_name, fuzz=fuzz_str)
+                    self.players.append( [names[0], names[1]] )
+                    return "{player} is playing {cmdr} {fuzz}".format(player=names[0], cmdr=names[1], fuzz=fuzz_str)
                 else:
                     return "Can't add {player} — they're already participating in the game."
             else:
