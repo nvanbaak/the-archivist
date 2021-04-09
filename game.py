@@ -113,22 +113,19 @@ class Game:
             else:
                 return "Can't add player—game has already started"
 
-        if command.startswith("rename"):
+        if command == "rename":
 
-            # First remove the rename command
-            command = command[8:]
-
-            # return error if no > in command
-            if not " > " in command:
+            # return error if no > in content
+            if not " > " in content:
                 return "The proper syntax for this command is ``$game rename *old name* > *new name*``"
 
             # get old and new names
-            args = command.split(" > ")
+            args = content.split(" > ")
 
             # rename
             return self.rename_cmdr(args[0],args[1])
 
-        if args[0] == "first":
+        if command == "first":
             if not self.begin:
 
                 player_index = self.get_player_index(args[1])
