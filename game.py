@@ -192,33 +192,33 @@ class Game:
         elif command == "status":
             return self.game_state()
             
-        # elif command == "random":
+        elif command == "random":
             
-        #     args_length = len(args)
-        #     output_str = "Random selection: "
+            # args_length = len(args)
+            # output_str = "Random selection: "
 
-        #     # check if user supplied additional arguments, else return a random player
-        #     if args_length > 1:
-        #         if content == "player":
+            # # check if user supplied additional arguments, else return a random player
+            # if args_length > 1:
+            #     if content == "player":
 
-        #             # We may have to randomly select a player multiple times
-        #             if args_length > 2:
-        #                 num_selections == int(args[2])
-        #                 # target_list = []
-        #                 index = 0
-        #                 while index < num_selections:
+            #         # We may have to randomly select a player multiple times
+            #         if args_length > 2:
+            #             num_selections == int(args[2])
+            #             # target_list = []
+            #             index = 0
+            #             while index < num_selections:
 
-        #                     target = random.choice(self.players)
-        #                     output_str += target + " "
-        #                     index += 1
-        #             else:
-        #                 output_str = random.choice(self.players)
+            #                 target = random.choice(self.players)
+            #                 output_str += target + " "
+            #                 index += 1
+            #         else:
+            #             output_str = random.choice(self.players)
 
-        #     # else return a random player
-        #     else:
-        #         output_str = random.choice(self.players)
+            # # else return a random player
+            # else:
+            output_str = random.choice(self.players)
 
-        #     return output_str
+            return output_str
 
         # returns a "threat analysis" string.  While the plan is eventually to have a statistically-powered bayesian calculation, the current "analysis" is a random number generator.
         if command == "threat":    
