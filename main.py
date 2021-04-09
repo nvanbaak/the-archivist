@@ -407,7 +407,42 @@ class State_Manager:
 
         # Stats commands
         elif content.startswith('$stats'):
-            response = await stats.handle_command(message)
+
+            # The stats manager expects an arbitrary number of unordered filter terms, so we do the initial parsing work here
+
+            # start by removing the $stats keyword
+            content = content.replace("$ stats ", "")
+            content = content.replace("$stats ", "")
+
+            # separate the command from the arguments
+            args = content.split(" ", 1)
+            command = args[0]
+            try:
+                terms = args[1]
+            except IndexError:
+                terms = ""
+
+            # Separate the filter arguments while preserving multi-word terms; we do this by temporarily changing spaces to underscores while splitting the terms
+
+            # repeat while quotes remain
+            while "\"" in terms:
+                
+                # split off the area inside the quotes
+                terms = terms.split("\"", 2)
+
+                # in the second list item, replace the spaces
+                terms[1] = terms[1].replace(" ", "_")
+
+                # rejoin the list, this time without quotes; the next loop will hit the next set of quotes
+                terms = "".join(terms)
+
+            # Now all remaining spaces should be term separators
+            terms = terms.split(" ")
+
+            # Finally, replace underscores
+            terms = map(lambda t: t.replace("_", " "))
+
+            response = await stats.handle_command(command, terms, message.channel)
 
             if response != "":
                 await self.send_multiple_responses(response)

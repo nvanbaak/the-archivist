@@ -144,6 +144,7 @@ class Statistics:
     # Counts wins for all players in the given list of games
     def tally_player_wins(self, game_list):
 
+        # counting these guys is easier with a dictionary
         win_totals = {}
         
         # for each game:
@@ -158,12 +159,20 @@ class Statistics:
             except KeyError:
                 win_totals[winner] = 1
 
-        # now make a string
-        response = "Win totals:\n"
+        # Now we transfer the dict to a list to sort
+        sorted_winners = []
 
         for winner in win_totals:
-            response += " • {player}: {total}\n".format(player=winner, total=win_totals[winner])
+            sorted_winners.append([winner, win_totals[winner]])
 
+        sorted_winners.sort(reverse=True, key=lambda p: p[1])
+
+        # finally, turn the results into a string
+        response = "Win totals:\n"
+
+        for winner in sorted_winners:
+            response += " • {player}: {total}\n".format(player=winner[0], total=winner[1])
+        
         return response
 
 
@@ -172,17 +181,31 @@ class Statistics:
     #         COMMAND PARSING        #
     ##################################
 
-    # called by the bot to invoke various methods
-    async def handle_command(self, message_obj):
-        args = message_obj.content[7:].split(" ")
 
-        if args[0] == "reset" or args[0] == "refresh":
+    # Given a list of filter arguments, returns a dict with filter options
+    def parse_filters(self, terms):
+        pass
+
+    # called by the bot to invoke various methods
+    async def handle_command(self, command, terms, channel):
+
+        if command == "reset" or command == "refresh":
             return self.import_games("gamehistory.txt")
 
-        elif args[0] == "wins":
+        elif command == "wins":
             return self.tally_player_wins(self.games)
 
-        elif args[0] == "games" or args[0] == "game":
+        else:
+            return ""
+
+        
+
+
+
+        # All of these commands will be refactored, so there's currently no way to reach them in the progam logic
+
+
+        if args[0] == "games" or args[0] == "game":
             del args[0]
             return self.game_stats(args)
 
@@ -407,15 +430,15 @@ class Statistics:
                     for note in game.notes:
                         result_str += '\n"{content}"\n—{author}\n~'.format(content=note[1], author=note[0])
 
-                    await message_obj.channel.send(result_str)
+                    await channel.send(result_str)
                     
                     result_count -= 1
 
                 else:
                     return ""
 
-        else:
-            return ""
+
+
 
     ##################################
     #          STATS METHODS         #
