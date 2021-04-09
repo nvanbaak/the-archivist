@@ -10,6 +10,15 @@ class Statistics:
 
         self.import_games("gamehistory.txt")
 
+        # master list of filter options to make the Command Parsing section easier to type out
+        self.master_filter_dict = {
+            "!player" : self.games_with_exactly_these_players,
+            "-player" : self.games_without_players,
+            "+player" : self.games_with_players,
+            "player" : self.games_with_players
+        }
+
+
     ##################################
     #         GAME RETRIEVAL         #
     ##################################
@@ -218,44 +227,10 @@ class Statistics:
         # retrieve the error log so we can keep adding to it
         error_log = filter_dict["error_log"]
 
-        # Run through possible filters, starting with !player
-        try:
-            exact_players = filter_dict["!player"]
-            games_list = self.games_with_exactly_these_players(0, games_list, exact_players)
-
-            exact_flag = True
-        except KeyError:
-            exact_flag = False
-        
-        # -player
-        try:
-            forbidden_players = filter_dict["-player"]
-            if not exact_flag:
-                games_list = self.games_without_players(0, games_list,forbidden_players)
-            else:
-                error_log += "**Filter specificity error:** ``!player`` overrides ``-player``"              
-        except KeyError:
-            pass
-
-        # +player
-        try:
-            required_players = filter_dict["+player"]
-            if not exact_flag and filter_dict["+player"]:
-                games_list = self.games_with_players(0, games_list,required_players)
-            else:
-                error_log += "**Filter specificity error:** ``!player`` overrides ``+player``"
-        except KeyError:
-            pass
-
-        # player
-        try:
-            required_players = filter_dict["player"]
-            if not exact_flag and filter_dict["player"]:
-                games_list = self.games_with_players(0, games_list,required_players)
-            else:
-                error_log += "**Filter specificity error:** ``!player`` overrides ``player``"
-        except KeyError:
-            pass
+        # run through each option, filtering the games list as we go
+        for option in filter_dict:
+            if option != "error_log":
+                games_list = self.master_filter_dict[option](0, games_list, filter_dict[option])
 
         # drop the error log in console, then return the games
         print(error_log)
