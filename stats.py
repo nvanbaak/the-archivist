@@ -7,326 +7,166 @@ class Statistics:
     def __init__(self):
         # We start with an empty games array and read all past games from memory
         self.games = []
-        self.pods = [True, True, True, True, True, True]
-        self.require_players = []
-        self.block_players = []
-        self.require_cmdrs = []
-        self.block_cmdrs = []
-        self.require_elim = []
-        self.block_elim = []
-        self.require_win = []
-        self.block_win = []
 
-        self.refresh(False)
+        self.import_games("gamehistory.txt")
 
     ##################################
-    #         FILTER METHODS         #
+    #         GAME RETRIEVAL         #
     ##################################
 
-    # sets the filters that define the game set
-    def set_filters(self, args):
-
-        allow_pod_modifier: True
-        log_str = "Filtering game data..."
-
-        for arg in args:
-
-            # determine whether we're requiring or blocking
-            permission = True
-            if "-" in arg:
-                permission = False
-                arg = arg.replace("-", "")
-            elif "+" in arg:
-                arg = arg.replace("+", "")
-
-            # pod size filters
-            if "pod" in arg:
-                arg = arg.replace("pod", "")
-
-                # do we allow or disallow these pod sizes?
-                perm_str = "Disallowed"
-                if permission:
-                    perm_str = "Allowed"
-
-
-                # "hard equals" that restricts all results to a specific size; only works on true
-                if "==" in arg:
-                    arg = arg.replace("==", "")
-                    index = 0
-                    while index < 6:
-                        self.pods[index] = (index == int(arg) - 2)
-                        index += 1
-                    log_str += "\n • Restricted pod size to {num}".format(num=int(arg))
-
-                # pods with smaller sizes than the given number
-                if "<" in arg:
-                    arg = arg.replace("<", "")
-                    index = int(arg) - 3
-                    while index > -1:
-                        self.pods[index] = permission
-                        index -= 1
-
-                    log_str += "\n • {permission} pod sizes below {index}".format(permission=perm_str, index=index+2)
-
-                # pods larger than the given number
-                if ">" in arg:
-                    arg = arg.replace(">", "")
-                    index = int(arg) - 1
-                    while index < 6:
-                        self.pods[index] = permission
-                        index += 1
-
-                    log_str += "\n • {permission} pod sizes above {index}".format(permission=perm_str, index=int(arg))
-
-                # pods equal to the given number
-                if "=" in arg:
-                    arg = arg.replace("=", "")
-                    self.pods[int(arg) - 2] = permission
-                    log_str += "\n • {permission} pod sizes of {index}".format(permission=perm_str, index=int(arg))
-
-            # player filters
-            elif "player" in arg:
-                arg = arg.replace("player=","")
-                # if *requiring*:
-                if permission: 
-                    # add to require array
-                    self.require_players.append(arg)
-                    log_str += "\n • Required {player} in all games".format(player=arg)
-                    # remove from block array
-                    if arg in self.block_players:
-                        log_str += " and removed them from blacklist"
-                        index = self.block_players.index(arg)
-                        del self.block_players[index]
-                else:
-                    # otherwise, vice versa
-                    self.block_players.append(arg)
-                    log_str += "\n • Disallowed games where {player} participated".format(player=arg)
-                    if arg in self.require_players:
-                        log_str += " and removed them from require list"
-                        index = self.require_players.index(arg)
-                        del self.require_players[index]
-
-            # commander filters
-            elif "cmdr" in arg or "commander" in arg:
-                # remove the commander term
-                arg = arg.replace("cmdr=","")
-                arg = arg.replace("commander=","")
-
-                # replace underscores with spaces
-                arg = arg.replace("_"," ")
-
-                # if requiring:
-                if permission:
-                    # add to require array
-                    self.require_cmdrs.append(arg)
-                    log_str += "\n • Required {cmdr} in all games".format(cmdr=arg)
-                    # remove from block array
-                    if arg in self.block_cmdrs:
-                        log_str += " and removed them from blacklist"
-                        index = self.block_cmdrs.index(arg)
-                        del self.block_cmdrs[index]
-                else:
-                    self.block_cmdrs.append(arg)
-                    log_str += "\n • Disallowed games with {cmdr}".format(cmdr=arg)
-                    # remove from block array
-                    if arg in self.require_cmdrs:
-                        log_str += " and removed them from require list"
-                        index = self.require_cmdrs.index(arg)
-                        del self.require_cmdrs[index]
-
-            # winner filters
-            elif "win" in arg or "winner" in arg:
-                #replace winner term
-                arg = arg.replace("win=", "")
-                arg = arg.replace("winner=", "")
-
-                if permission:
-                    # add to require array
-                    self.require_win.append(arg)
-                    log_str += "\n • Required games won by {winner}".format(winner=arg)
-                    # remove from block array
-                    if arg in self.block_win:
-                        log_str += " and removed them from blacklist"
-                        index = self.block_win.index(arg)
-                        del self.block_win[index]
-                else:
-                    self.block_win.append(arg)
-                    log_str += "\n • Removed games won by {winner}".format(winner=arg)
-                    # remove from block array
-                    if arg in self.require_win:
-                        log_str += " and removed them from require list"
-                        index = self.require_win.index(arg)
-                        del self.require_win[index]
-
-        filter_after_refresh = True
-        self.refresh(filter_after_refresh)
-        log_str += "\n...Done. New sample set is {num} games.".format(num=len(self.games))
-        return log_str
-
-    # returns a breakdown of the filter settings currently in effect
-    def filter_settings(self):
-        log_str = "These are the current filter settings:"
-
-        # pod filters
-        log_str += "\n Allowed pod sizes: "
-        index = 0
-        pod_arr = []
-        # add the pod sizes current set to true
-        while index < 6:
-            if self.pods[index]:
-                pod_arr.append("{num}".format(num=index+2))
-            index += 1
-        # join into a string and concat
-        log_str += ", ".join(pod_arr)
-
-        # player filters
-        if self.require_players:
-            log_str += "\nThese players are required in all games:"
-            for pl in self.require_players:
-                log_str += "\n • {player}".format(player=pl)
-        
-        if self.block_players:
-            log_str += "\nExcluding games with these players:"
-            for pl in self.block_players:
-                log_str += "\n • {player}".format(player=pl)
-
-        # commander filters
-        if self.require_cmdrs:
-            log_str += "\nThese commanders are required in all games:"
-            for cmdr in self.require_cmdrs:
-                log_str += "\n • {cmdr}".format(cmdr=cmdr)
-        
-        if self.block_cmdrs:
-            log_str += "\nExcluding games with these commanders:"
-            for cmdr in self.block_cmdrs:
-                log_str += "\n • {cmdr}".format(cmdr=cmdr)
-
-        # winner filters
-        if self.require_win:
-            log_str += "\nDisplaying games with these winners:"
-            for winner in self.require_win:
-                log_str += "\n • {winner)".format(winner=winner)
-
-        if self.block_win:
-            log_str += "\nExcluding games with these winners:"
-            for winner in self.block_win:
-                log_str += "\n • {winner}".format(winner=winner)
-
-        return log_str
-
-    # filters the game set based on the established filter rules
-    def filter_games(self):
-        # set up new array to filter into
-        new_game_array = []
-
-        # iterate through games
-        for game in self.games:
-
-            # check against pod size constraints
-            index = game.pod_size() - 2
-            # if it's false, we skip the rest of the loop
-            if not self.pods[index]:
-                continue
-
-            # Check against winner constraints
-            if self.require_win:
-
-                # we assume guilty until proven innocent
-                fits_winner_requirement = False
-                for winner in game.winner:
-                    if winner in self.require_win:
-                        fits_winner_requirement = True
-                        break
-
-                # if we didn't fit the requirements, skip the rest of the loop
-                if not fits_winner_requirement:
-                    continue
-
-            if self.block_win:
-
-                # for blocks, we assume innocent until proven guilty
-                fits_block_requirement = True
-                for winner in game.winner:
-                    if winner in self.require_win:
-                        fits_block_requirement = False
-                        break
-                
-                # skip if we don't meet requirements
-                if not fits_block_requirement:
-                    continue
-
-            # Iterate through players to hit player and commander requirements
-            
-            # These two are true by default but go to false if any requirements exist.
-            # We'll toggle them back to true later if we find the required items
-            fits_player_require = True
-            fits_cmdr_require = True
-
-            if self.require_players:
-                fits_player_require = False     
-            if self.require_cmdrs:
-                fits_cmdr_require = False
-
-            # these two are just true
-            fits_player_blacklist = True    # These get turned off if we find them in the game
-            fits_cmdr_blacklist = True
-            for player in game.players:
-                if player[0] in self.require_players:
-                    fits_player_require = True
-                if player[1] in self.require_cmdrs:
-                    fits_cmdr_require = True
-                
-                # these two break because either condition disqualifies the whole game, so no need to keep evaluating
-                if player[0] in self.block_players:
-                    fits_player_blacklist = False
-                    break
-                if player[1] in self.block_cmdrs:
-                    fits_cmdr_blacklist = False
-                    break
-            
-            # if we made it here that means we haven't been disqualified, so we can append
-            if fits_cmdr_blacklist and fits_cmdr_require and fits_player_blacklist and fits_player_require:
-                new_game_array.append(game)
-
-        # once we're done, change the games reference to the new array
-        self.games = new_game_array
-
-    # set all filters to maximally permissive settings
-    def reset_filters(self):
-        self.pods = [True, True, True, True, True, True]
-        self.require_players = []
-        self.block_players = []
-        self.require_cmdrs = []
-        self.block_cmdrs = []
-        self.require_elim = []
-        self.block_elim = []
-
-        # we don't need to filter again because there are no filters active now
-        filter_after_refresh = False
-        self.refresh(filter_after_refresh)
-
-    # Pull a fresh set of data from memory
-    def refresh(self, filter_when_done):
-
+    # Reads game data from a .txt document into an array of Game objects
+    def import_games(self, file_location):
         # clear current game history
         self.games = []
 
-        # Read game history from file
-        with open("gamehistory.txt", "r", -1, "utf8") as gamehistory:
-            history_arr = gamehistory.read().split("\n")
-            # delete the last entry because we know it's a newline
-            del history_arr[-1]
-            # For each game, create a Game object and append it to the Stats object
-            index = 0
-            for game_data in history_arr:
-                new_game = Game(index)
-                new_game.parse_data(game_data)
-                self.games.append(new_game)
-                index += 1
+        # Read game history from file, splitting at newlines
+        if os.path.exists(file_location):
+            with open(file_location, "r", -1, "utf8") as gamehistory:
+                history_arr = gamehistory.read().split("\n")
+                
+                # last list entry is empty because of the newline at the end of the file, so we delete it here
+                del history_arr[-1]
 
-        if filter_when_done:
-            self.filter_games()
-        return "Successfully loaded game history! Sample set now {num} games.".format(num=len(self.games))
+                # for each entry, make a Game object and put it in the stats bin
+                index = 0 # some user-facing methods care about database index
+                for game_data in history_arr:
+                    new_game = Game(index)
+                    new_game.parse_data(game_data)
+                    self.games.append(new_game)
+                    index +=1
+            
+            print("Loaded {num} games from {location}.".format(num=len(self.games), location=file_location))
+
+            return "Successfully loaded game history! Sample set now {num} games.".format(num=len(self.games))
+
+    ##################################
+    #     PLAYER / CMDR FILTERING    #
+    ##################################
+
+    # mode can be 0 for player names or 1 for cmdr names.
+
+    # Given a list of Game objects, returns the subset of Games in which all of the specified players participated
+    def games_with_players(self, mode, game_list, *player_names):
+
+        result_list = []
+
+        # check all games in the database
+        for game in game_list:
+            
+            # Assume the game is valid until we prove a required player is not present
+            everyone_here = True
+
+            # now check that each player in the parameters is present
+            for player_name in player_names:
+                # to begin, we haven't found them yet
+                are_they_here = False
+                
+                for player in game.players:
+                    # did we find them?
+                    if player[mode] == player_name:    
+                        are_they_here = True
+                        break
+
+                # didn't find them?  This game's a bust, then
+                if not are_they_here:
+                    everyone_here = False
+                    break
+            
+            # if everyone's here, add the game to the result list
+            if everyone_here:
+                result_list.append(game)
+
+        # once we've gone through all the games, return the list
+        return result_list
+
+    # Given a list of Game objects, returns the subset of Games in which none of the specified players participated        
+    def games_without_players(self, mode, game_list, *player_names):
+        result_list = []
+
+        # run through all the games
+        for game in game_list:
+
+            # Initially we assume we're good to go
+            undesirables_present = False
+
+            for player_name in player_names:
+                for player in game.players:
+                    # check the lists against each other; one match and we break
+                    if player[mode] == player_name:
+                        undesirables_present = True
+                        break
+                
+                # we don't need to keep looping if we found a blacklist target
+                if undesirables_present:
+                    break
+
+            # if we got through everything without hitting a blacklisted name, append to results
+            if not undesirables_present:
+                result_list.append(game)
+
+        return result_list
+
+    # Given a list of games and a list of players, returns only games where that exact set of players participated. More computationally efficient than running the two previous methods sequentially.
+    def games_with_exactly_these_players(self, mode, game_list, player_list):
+
+        result_list = []
+
+        # loop through candidate games
+        for game in game_list:
+
+            # start with a checksum for easy disqualification
+            if len(game.players) == len(player_list):
+
+                # assume we're good to go
+                rosters_match = True
+
+                # get the player names out of the game object
+                for player in game.players:
+                    
+                    # If that name is not in the desired roster, throw out the game
+                    if not player[mode] in player_list:
+                        rosters_match = False
+                        break
+                
+                # If the rosters are the same size, and all of the game's players are in the desired roster, then they match. Therefore we add it to the result list
+                if rosters_match:
+                    result_list.append(game)
+        
+        # return the results once we're done looping
+        return result_list
+
+
+
+    ##################################
+    #       STATISTICS METHODS       #
+    ##################################
+
+    # Counts wins for all players in the given list of games
+    def tally_player_wins(self, game_list):
+
+        win_totals = {}
+        
+        # for each game:
+        for game in game_list:
+
+            # grab the winner's name
+            winner = game.winner[0]
+
+            # if they're already in the total count, plus one win. Otherwise, start them at 1 win.
+            try:
+                win_totals[winner] += 1
+            except KeyError:
+                win_totals[winner] = 1
+
+        # now make a string
+        response = "Win totals:\n"
+
+        for winner in win_totals:
+            response += " • {player}: {total}\n".format(player=winner, total=win_totals[winner])
+
+        return response
+
+
 
     ##################################
     #         COMMAND PARSING        #
@@ -336,33 +176,21 @@ class Statistics:
     async def handle_command(self, message_obj):
         args = message_obj.content[7:].split(" ")
 
-        if args[0] == "reset":
-            if args[1] == "filter" or args[1] == "filters":
-                self.reset_filters()
-                return "All filters reset. New sample set is {num} games.".format(num=len(self.games))
+        if args[0] == "reset" or args[0] == "refresh":
+            return self.import_games("gamehistory.txt")
 
-        if args[0] == "filter":
-            if args[1] == "reset":
-                self.reset_filters()
-                return "All filters reset. New sample set is {num} games.".format(num=len(self.games))
-            elif args[1] == "setting" or args[1] == "settings":
-                return self.filter_settings()
-            else:
-                del args[0]
-                return self.set_filters(args)
+        elif args[0] == "wins":
+            return self.tally_player_wins(self.games)
 
-        if args[0] == "refresh":
-            return self.refresh(True)
-
-        if args[0] == "games" or args[0] == "game":
+        elif args[0] == "games" or args[0] == "game":
             del args[0]
             return self.game_stats(args)
 
-        if args[0] == "player":
+        elif args[0] == "player":
             del args[0]
             return self.player_stats(args)
 
-        if args[0] == "deck" or args[0] == "commander" or args[0] == "cmdr":
+        elif args[0] == "deck" or args[0] == "commander" or args[0] == "cmdr":
             
             # get the commander name
             cmdr_name = " ".join(args[1:])
@@ -541,7 +369,7 @@ class Statistics:
 
             return response_str
 
-        if args[0] == "notes":
+        elif args[0] == "notes":
 
             result_count = min(10, len(self.games))
             sort_method = "most recent"

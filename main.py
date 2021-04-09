@@ -409,10 +409,9 @@ class State_Manager:
         elif content.startswith('$stats'):
             response = await stats.handle_command(message)
 
-            if response == "":
-                pass
-            else:
+            if response != "":
                 await self.send_multiple_responses(response)
+                return
 
         ##################################
         #    These commands DO require
@@ -436,7 +435,7 @@ class State_Manager:
             # Command to rename commander in an active game; this has to come *after* the $data commands, which currently use > for renaming database entries
             elif " > " in content:
 
-                # Get game reference; technically thish should be in a try/except block, but anything that would throw an error will already have thrown an error in the previous try/except block
+                # Get game reference; technically this should be in a try/except block, but anything that would throw an error will already have thrown an error in the previous try/except block
                 game = self.ensure_game_exists(lobby_name)
 
                 # retrieve command information
