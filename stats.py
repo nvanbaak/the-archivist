@@ -278,6 +278,18 @@ class Statistics:
         
         return response
 
+    # Returns elimination stats
+    # def get_eliminations(self, game_list):
+
+    #     # 
+    #     result_list = {}
+
+    #     for game in game_list:
+
+    #         elim_str = ""
+
+    #         for player in game.eliminated:
+
 
 
     ##################################
@@ -378,6 +390,9 @@ class Statistics:
         # Tally total games
         elif command == "games":
             return self.tally_games(games_list)
+
+        # elif command == "elims" or command == "eliminations":
+        #     return self.get_eliminations(games_list)
 
 
         else:
