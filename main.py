@@ -137,13 +137,21 @@ class State_Manager:
     ##################################
 
     # given a player name, finds the lobby they're in
-    def get_player_alias(self, author_name):
+    def get_player_alias(self, author_obj):
         alias = None
         try:
-            alias = self.aliases[author_name]
+            alias = self.aliases[author_obj.id]
         except KeyError:
-            response = "get_player_alias call failed: '{author}' is not a key".format(author=author_name)
-            print(response)
+            
+            print("get_player_alias call failed: '{author}' is not a key".format(author=author_obj.name))
+
+            response = ""
+
+            if author_obj.nick:
+                response = author_obj.nick
+            else:
+                response = author_obj.name
+
             return response
 
         return alias
@@ -262,7 +270,12 @@ class State_Manager:
         # Command to register an alias
         if content.startswith('$register'):
             # retrieve Discord name and given name from message
-            author_name = message.author.name
+            author_name = message.author.id
+            author_nickname = ""
+            if message.author.nick:
+                author_nickname = message.author.nick
+            else:
+                author_nickname = message.author.name
             alias = content
             alias = alias.replace("$register ","")
             alias = alias.replace("$register","")
@@ -278,7 +291,7 @@ class State_Manager:
                     alias_list.write(alias_str)
 
                 # confirmation message
-                await self.game_channel.send("Registered {author} as {alias}!".format(author=author_name, alias=alias))
+                await self.game_channel.send("Registered {author} as {alias}!".format(author=author_nickname, alias=alias))
 
             else:
                 await self.game_channel.send("You need to provide a name to use that command.")
@@ -526,7 +539,7 @@ class State_Manager:
                         return
 
                     # get alias
-                    alias = self.get_player_alias(message.author.name)
+                    alias = self.get_player_alias(message.author.id)
                     
                     # Pass the message on to the game lobby, then store the result
                     game_str = lobby_obj.game.handle_command(alias, command, content, stats)

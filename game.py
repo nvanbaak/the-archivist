@@ -249,10 +249,10 @@ class Game:
             else:
                 return "The game is not over.  History cannot be written until after it happens."
 
-        if args[0] == "end":
+        if command == "end":
             return "end"
 
-        if args[0] == "cancel":
+        if command == "cancel":
             return "cancel"
 
         else:

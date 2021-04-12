@@ -641,7 +641,7 @@ class Statistics:
 
 
     ##################################
-    #          STATS METHODS         #
+    #       OLD STATS METHODS        #
     ##################################
 
     # stats reference function for looking at player performance
