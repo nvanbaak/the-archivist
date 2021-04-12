@@ -100,6 +100,7 @@ class State_Manager:
                 for alias in alias_data:
                     alias = alias.split("&separator;")
                     self.aliases[alias[0]] = alias[1]
+                    print("{alias} alias = {nickname}".format(alias=alias[0],nickname=alias[1]))
                 # note that this collapses duplicate entries to whatever the player entered last
 
                 # save dict back to file (which removes duplicate entries)
@@ -140,17 +141,17 @@ class State_Manager:
     def get_player_alias(self, author_obj):
         alias = None
         try:
-            alias = self.aliases[author_obj.id]
+            alias = self.aliases[str(author_obj.id)]
         except KeyError:
             
             print("get_player_alias call failed: '{author}' is not a key".format(author=author_obj.name))
 
             response = ""
 
-            if author_obj.nick:
-                response = author_obj.nick
-            else:
+            if author_obj.nick == "None":
                 response = author_obj.name
+            else:
+                response = author_obj.nick
 
             return response
 
@@ -272,7 +273,7 @@ class State_Manager:
             # retrieve Discord name and given name from message
             author_name = message.author.id
             author_nickname = ""
-            if message.author.nick:
+            if message.author.nick != "None":
                 author_nickname = message.author.nick
             else:
                 author_nickname = message.author.name
@@ -299,13 +300,9 @@ class State_Manager:
         # Command to say hi
         elif content.startswith('$hello'):
 
-            alias = self.get_player_alias(message.author.name)
+            alias = self.get_player_alias(message.author)
 
-            if alias:
-                await message.channel.send('Hello {alias}!'.format(alias=alias))
-
-            else:
-                await message.channel.send('Hello {message.author.name}!'.format(message=message))
+            await message.channel.send('Hello {alias}!'.format(alias=alias))
 
         # Command to spew ~3000 characters of MtG ipsum; mostly intended for use as a test of the multiple replies function
         elif content.startswith("$lorem"):
@@ -343,7 +340,7 @@ class State_Manager:
         elif content.startswith("$join"):
 
             # get names of player and intended lobby
-            player = message.author.name
+            player = self.get_player_alias(message.author)
             join_target = content[6:]
 
             # if we didn't get a lobby name, join the first available open lobby
@@ -358,9 +355,12 @@ class State_Manager:
                 except KeyError:
                     if self.active_lobbies:
                         for lobby in self.active_lobbies:
+                            print("{player} attempting to join lobby {lobby}...")
                             if not lobby in self.closed_lobbies:
                                 join_target = lobby.name
                                 break
+                            else:
+                                print("Lobby was closed.")
                     
                     # if there are no available lobbies, make one active
                     else:
@@ -467,9 +467,12 @@ class State_Manager:
         ##################################
 
         else:
+            # first get the player alias
+            alias = self.get_player_alias(message.author)
+
             # we'll need the player's lobby for any of these commands, so let's get it now
             try:
-                lobby_name = self.get_player_lobby(message.author.name)
+                lobby_name = self.get_player_lobby(alias)
                 lobby_obj = self.active_lobbies[lobby_name]
             except KeyError:
                 await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
@@ -539,7 +542,7 @@ class State_Manager:
                         return
 
                     # get alias
-                    alias = self.get_player_alias(message.author.id)
+                    alias = self.get_player_alias(message.author)
                     
                     # Pass the message on to the game lobby, then store the result
                     game_str = lobby_obj.game.handle_command(alias, command, content, stats)
