@@ -534,7 +534,7 @@ class State_Manager:
                         else:
                             response += self.new_game_in_lobby(lobby_name)
                             response += "\n"
-                    elif content.startswith("cancel"):
+                    elif command.startswith("cancel"):
                         # if there's a game but it's a cancel command, we deal with it before it would be handed off to the game object
                         lobby_obj.game = None
                         self.game_count -= 1

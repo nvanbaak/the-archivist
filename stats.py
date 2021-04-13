@@ -290,6 +290,11 @@ class Statistics:
 
     #         for player in game.eliminated:
 
+    ##################################
+    #         DISPLAY METHODS        #
+    ##################################
+
+    # def ascending_sort(self, list_items, )
 
 
     ##################################
