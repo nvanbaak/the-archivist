@@ -35,19 +35,19 @@ And that's it!  Restart the bot and you're good to go!
 
 ## Features
 
-The Archivist has three main feature families accessed via the `$game`,`$stats`, and `$data` commands.  In the current version, commands can be entered in any channel, but output tends to go to the channel whose id is specified in config.py.  (The bot currently replies to stats commands in the channel the command was sent to.)
+The Archivist has three main feature families: a set of in-game commands to record data, a statistics engine to analyze previous games, and a data manager to mess with the database.  In the current version, commands can be entered in any channel, but output tends to go to the channel whose id is specified in config.py.  (The bot currently replies to stats commands in the channel the command was sent to.)
 
-(A note on commands: square brackets ( '[' and ']' ) denote *terms to be replaced,* e.g. if the readme tells you a command is `$stats player [name]`, then a search for player Bob would be typed `$stats player Bob`, *without brackets.*)
+(A note on notation in this readme: square brackets ( '[' and ']' ) denote *terms to be replaced,* e.g. if the readme tells you a command is `$stats player=[name]`, then a search for player Bob would be typed `$stats player=Bob`, *without brackets.*)
 
 ### Game tracking
 
-TL;DR, The Archivist allows you to track games played with your friends and save them to a persistant location for later analysis or bragging rights.  A complete explanation of the game workflow is available by typing `$game help` while the bot is running, but I'll give an overview here.
+TL;DR, The Archivist allows you to track games played with your friends and save them to a persistant location for later analysis or bragging rights.
 
-1. Before the game begins, players can add themselves to the game with `$game player` followed by their name and the name of their deck, separated by spaces. (The help menu says "commander" but there's currently no reason you couldn't pass deck names for a different MtG format, or even like Pokemon or something)
-2. Once the game starts (by choosing a player to go first with `$game first` followed by the name of the player), you can optionally record who dies first with `$game elim` followed by the player's name.
-3. Declaring a winner  (`$game winner name goes here`) gives all players the opportunity to leave notes for posterity.
-4. Finally, `$game end` saves the game data to the database and clears it from the active game slot.
-5. You can type `$game status` at any point to get information on the game.  `$game cancel` will close out the game without saving information.
+1. Game tracking is now relative to one or more *lobbies*, which can be joined with `$join` or `$join [lobby]`.  To use a lobby, players create an alias which will be associated with their database information using the `$register [alias]` command.  Archivist maintains a list of aliases linked to Discord user ids, meaning aliases persist across sessions.  Lobby assignment does *not* persist across sessions.
+2. Once in a lobby, players can use the `$cmdr [name of commander]` command to add themselves to the game with that particular commander.  If you want to use Archivist for a non-EDH (or even not MtG) format, you can just put a name for your deck instead.  Archivist considers the game to have started once you choose a player to go first with `$first [alias]`. You can optionally record who dies first with `$game elim` followed by the player's name.
+3. Declaring a winner  (`$winner [alias]`) gives all players the opportunity to leave notes for posterity with `$note [an arbitrarily long explanation of why you definitely should have won that game if not for those meddling kids]`.
+4. Finally, `$end` saves the game data to the database and clears it from the active game slot.
+5. You can type `$status` at any point to get information on the game in the lobby you're currently assigned to.  `$cancel` will close out the game without saving information.
 
 ![example of game in progress](./assets/screenshots/game_status.png)
 

@@ -279,22 +279,25 @@ class Statistics:
         return response
 
     # Returns elimination stats
-    # def get_eliminations(self, game_list):
+    def get_eliminations(self, game_list):
 
-    #     # 
-    #     result_list = {}
+        # 
+        result_list = {}
 
-    #     for game in game_list:
+        for game in game_list:
 
-    #         elim_str = ""
+            elim_str = ""
 
-    #         for player in game.eliminated:
+            for player in game.eliminated:
 
     ##################################
     #         DISPLAY METHODS        #
     ##################################
 
-    # def ascending_sort(self, list_items, )
+    def ascending_sort(self, list_items):
+
+
+
 
 
     ##################################
