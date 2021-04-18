@@ -272,11 +272,7 @@ class State_Manager:
         if content.startswith('$register'):
             # retrieve Discord name and given name from message
             author_name = message.author.id
-            author_nickname = ""
-            if message.author.nick != "None":
-                author_nickname = message.author.nick
-            else:
-                author_nickname = message.author.name
+            author_nickname = message.author.name
             alias = content
             alias = alias.replace("$register ","")
             alias = alias.replace("$register","")

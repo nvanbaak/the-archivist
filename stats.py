@@ -245,7 +245,7 @@ class Statistics:
         return response
 
     # Counts wins for all players in the given list of games
-    def tally_player_wins(self, game_list):
+    def tally_player_wins(self, game_list, filter_dict):
 
         # counting these guys is easier with a dictionary
         win_totals = {}
@@ -268,7 +268,19 @@ class Statistics:
         for winner in win_totals:
             sorted_winners.append([winner, win_totals[winner]])
 
-        sorted_winners.sort(reverse=True, key=lambda p: p[1])
+        # if there's a filter setting, use it to sort the list
+        try:
+            sort_type = filter_dict[sort]
+            
+            if sort_type == "rand" or sort_type == "random":
+                random.shuffle(sorted_winners)
+            elif sort_type == "desc":
+                sorted_winners.sort(reverse=False, key=lambda p: p[1])
+            else:
+                sorted_winners.sort(reverse=True, key=lambda p: p[1])
+        # if not sort term was given, we sort most to least
+        except KeyError:
+            sorted_winners.sort(reverse=True, key=lambda p: p[1])
 
         # finally, turn the results into a string
         response = "Win totals:\n"
@@ -289,15 +301,7 @@ class Statistics:
             elim_str = ""
 
             for player in game.eliminated:
-
-    ##################################
-    #         DISPLAY METHODS        #
-    ##################################
-
-    def ascending_sort(self, list_items):
-
-
-
+                return
 
 
     ##################################
@@ -306,8 +310,7 @@ class Statistics:
 
 
     # Given a list of filter arguments, returns a dict with filter options
-    def parse_filters(self, terms): 
-        
+    def parse_filters(self, terms):
         # set up dict to be returned when we're done
         filter_args = {}
 
@@ -339,6 +342,14 @@ class Statistics:
                     error_log += " • **Filter conflict:** {term} requirement conflicts with existing {existing} requirement and was ignored. To require multiple terms, join the terms with semicolons (without spaces), e.g. ``!cmdr=\"The Gitrog Monster\";Chandra;Atraxa``\n".format(term=term, existing=filter_args[term[:index]])
                 except KeyError:
                     filter_args[filter_term] = int(filter_value)
+
+            elif "sort=" in term:
+                term = term.split("=")
+                try:
+                    error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored. To require multiple terms, join the terms with semicolons (without spaces), e.g. ``!cmdr=\"The Gitrog Monster\";Chandra;Atraxa``\n".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
+                except KeyError:
+                    filter_args[term[0]] = term[1].split(";")
+
 
         # after checking all the filters, save the error log to the dict
         filter_args["error_log"] = error_log
@@ -393,7 +404,7 @@ class Statistics:
 
         # Tally wins
         elif command == "wins":
-            return self.tally_player_wins(games_list)
+            return self.tally_player_wins(games_list, filter_dict)
 
         # Tally total games
         elif command == "games":
