@@ -270,7 +270,7 @@ class Statistics:
 
         # if there's a filter setting, use it to sort the list
         try:
-            sort_type = filter_dict[sort]
+            sort_type = filter_dict["sort"]
             
             if sort_type == "rand" or sort_type == "random":
                 random.shuffle(sorted_winners)
@@ -346,9 +346,9 @@ class Statistics:
             elif "sort=" in term:
                 term = term.split("=")
                 try:
-                    error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored. To require multiple terms, join the terms with semicolons (without spaces), e.g. ``!cmdr=\"The Gitrog Monster\";Chandra;Atraxa``\n".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
+                    error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored. You may only sort one way at a time.".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
                 except KeyError:
-                    filter_args[term[0]] = term[1].split(";")
+                    filter_args[term[0]] = term[1]
 
 
         # after checking all the filters, save the error log to the dict
