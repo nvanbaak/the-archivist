@@ -250,8 +250,8 @@ class State_Manager:
     # executes a user command entered into discord, then sends back a response
     async def route_message(self, message, stats, dm):
 
-        # Nope out if the message is from this bot
-        if message.author == client.user:
+        # Nope out if the message is from this bot or doesn't start with $
+        if message.author == client.user or not message.content.startswith("$"):
             return
         
         # write message to console
@@ -496,7 +496,7 @@ class State_Manager:
                 response = game.rename_cmdr(names[0], names[1])
 
             # Game commands
-            elif content.startswith("$"):
+            else:
 
                 # get the $ out of there
                 content = content.replace("$ ", "")
