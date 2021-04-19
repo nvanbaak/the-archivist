@@ -129,17 +129,17 @@ class State_Manager:
     #       player info methods
     ##################################
 
-    # given a player name, finds the lobby they're in
+    # given a player obj, returns the alias associated with their id
     def get_player_alias(self, author_obj):
         alias = None
         try:
             alias = self.aliases[str(author_obj.id)]
-            print("Alias exists")
 
         except KeyError:
             
             response = ""
 
+            # If there's a nickname, use that; otherwise use the account name
             if author_obj.nick == None:
                 response = author_obj.name
             else:
@@ -360,7 +360,12 @@ class State_Manager:
         elif content.startswith("$join"):
 
             # get names of player and intended lobby
-            player = self.get_player_alias(message.author)
+            try:
+                player = self.aliases[str(message.author.id)]
+            except KeyError:
+                await self.game_channel.send("Please register with `$register *your alias*` before joining a lobby.  Archivist uses aliases to track player statistics")
+                return
+
             join_target = content[6:]
 
             # if we didn't get a lobby name, join the first available open lobby
@@ -414,7 +419,6 @@ class State_Manager:
             # Add player to lobby and update player_assign
             response += self.active_lobbies[join_target].add_player(player)
             self.player_assign[player] = join_target
-
 
         # sets bot output to the specified channel
         elif content.startswith("$set output"):
