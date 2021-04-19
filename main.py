@@ -157,7 +157,7 @@ class State_Manager:
         return lobby_name
 
     # Overwrites the local alias list with the alias dictionary in the state manager
-    def update_local_aliases(self, player):
+    def update_local_aliases(self):
 
         # Make a string out of alias dict
         alias_str = ""
@@ -300,18 +300,23 @@ class State_Manager:
             else:
                 await self.game_channel.send("You need to provide a name to use that command.")
 
+        # Command to remove the user's alias from the database
         elif content.startswith('$unregister'):
             # grab id from message content
             author_id = message.author.id
 
             # pop off that key from the alias dict
-            response = self.aliases.pop(author_id)
+            try:
+                pop_return = self.aliases.pop(author_id)
 
-            # overwrite the storage alias list
-            self.update_local_aliases()
+                # overwrite the storage alias list
+                self.update_local_aliases()
 
-            return "Unregistered: {reponse}".format(response=response)
-
+                response = "Successfully unregistered alias."
+            
+            except KeyError:
+                
+                response = "Unregister failed: You were already unregistered with Archivist."
 
         # Command to say hi
         elif content.startswith('$hello'):
