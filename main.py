@@ -301,7 +301,16 @@ class State_Manager:
                 await self.game_channel.send("You need to provide a name to use that command.")
 
         elif content.startswith('$unregister'):
+            # grab id from message content
             author_id = message.author.id
+
+            # pop off that key from the alias dict
+            response = self.aliases.pop(author_id)
+
+            # overwrite the storage alias list
+            self.update_local_aliases()
+
+            return "Unregistered: {reponse}".format(response=response)
 
 
         # Command to say hi
