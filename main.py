@@ -134,13 +134,13 @@ class State_Manager:
         alias = None
         try:
             alias = self.aliases[str(author_obj.id)]
+            print("Alias exists")
+
         except KeyError:
             
-            print("get_player_alias call failed: '{author}' is not a key".format(author=author_obj.name))
-
             response = ""
 
-            if author_obj.nick == "None":
+            if author_obj.nick == None:
                 response = author_obj.name
             else:
                 response = author_obj.nick
@@ -315,7 +315,6 @@ class State_Manager:
                 response = "Successfully unregistered alias."
             
             except KeyError:
-                
                 response = "Unregister failed: You were already unregistered with Archivist."
 
         # Command to say hi
