@@ -104,15 +104,7 @@ class State_Manager:
                 # note that this collapses duplicate entries to whatever the player entered last
 
                 # save dict back to file (which removes duplicate entries)
-
-                # Make a string out of alias dict
-                alias_str = ""
-                for key in self.aliases:
-                    alias_str += "{account}&separator;{alias}\n".format(account=key, alias=self.aliases[key])
-
-                # save to file
-                with open("alias.txt","w",-1,"utf8") as alias_list:
-                    alias_list.write(alias_str)
+                self.update_local_aliases()
 
         # game count; currently this value is set by counting the number of games set in the stat manager, so we can't set it here
         self.game_count = 0
@@ -134,7 +126,7 @@ class State_Manager:
 
 
     ##################################
-    #       player lookup methods
+    #       player info methods
     ##################################
 
     # given a player name, finds the lobby they're in
@@ -163,6 +155,21 @@ class State_Manager:
         # get reference to lobby
         lobby_name = self.player_assign[player]
         return lobby_name
+
+    # Overwrites the local alias list with the alias dictionary in the state manager
+    def update_local_aliases(self, player):
+
+        # Make a string out of alias dict
+        alias_str = ""
+        for key in self.aliases:
+            alias_str += "{account}&separator;{alias}\n".format(account=key, alias=self.aliases[key])
+
+        # save to file
+        with open("alias.txt","w",-1,"utf8") as alias_list:
+            alias_list.write(alias_str)
+
+        return "Updated alias list at alias.txt!"
+
 
     ##################################
     #      game / lobby creation
@@ -292,6 +299,10 @@ class State_Manager:
 
             else:
                 await self.game_channel.send("You need to provide a name to use that command.")
+
+        elif content.startswith('$unregister'):
+            author_id = message.author.id
+
 
         # Command to say hi
         elif content.startswith('$hello'):
