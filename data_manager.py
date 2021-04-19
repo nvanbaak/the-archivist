@@ -27,7 +27,12 @@ class Data_Manager:
 
         # Then route
         if args[1] == "load" or args[1] == "reload":
-            return self.load_games()
+            try:
+                file_location = args[2]
+            except:
+                file_location = "gamehistory.txt"
+
+            return self.load_games(file_location)
 
         # all our actual commands go here
         elif self.games:
@@ -283,23 +288,26 @@ class Data_Manager:
         return "This function returns a summary of the database contents"
 
     # loads all games from memory
-    def load_games(self):
+    def load_games(self, file_location):
 
         # clear current game history
         self.games = []
 
         # Read game history from file
-        with open("gamehistory.txt", "r") as gamehistory:
-            history_arr = gamehistory.read().split("\n")
-            # delete the last entry because we know it's a newline
-            del history_arr[-1]
-            # For each game, create a Game object and append it to the Stats object
-            index = 0
-            for game_data in history_arr:
-                new_game = Game(index)
-                new_game.parse_data(game_data)
-                self.games.append(new_game)
-                index += 1
+        if os.path.exists(file_location):
+            with open(file_location, "r") as gamehistory:
+                history_arr = gamehistory.read().split("\n")
+                # delete the last entry because we know it's a newline
+                del history_arr[-1]
+                # For each game, create a Game object and append it to the Stats object
+                index = 0
+                for game_data in history_arr:
+                    new_game = Game(index)
+                    new_game.parse_data(game_data)
+                    self.games.append(new_game)
+                    index += 1
+        else:
+            return "Could not open {file_location} — load failed.".format(file_location=file_location)
 
         # Now we back up the data
 

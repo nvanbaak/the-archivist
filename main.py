@@ -437,11 +437,6 @@ class State_Manager:
             # global game_channel
             response = dm.handle_command(message)
 
-            if response == "":
-                pass
-            else:
-                await self.game_channel.send(response)
-
         # Stats commands
         elif content.startswith('$stats'):
 
