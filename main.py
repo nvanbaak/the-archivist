@@ -278,7 +278,7 @@ class State_Manager:
         # Command to register an alias
         if content.startswith('$register'):
             # retrieve Discord name and given name from message
-            author_name = message.author.id
+            author_name = str(message.author.id)
             author_nickname = message.author.name
             alias = content
             alias = alias.replace("$register ","")
@@ -303,7 +303,7 @@ class State_Manager:
         # Command to remove the user's alias from the database
         elif content.startswith('$unregister'):
             # grab id from message content
-            author_id = message.author.id
+            author_id = str(message.author.id)
 
             # pop off that key from the alias dict
             try:
