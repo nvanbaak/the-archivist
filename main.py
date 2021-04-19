@@ -353,7 +353,7 @@ class State_Manager:
                         for lobby in self.active_lobbies:
                             print("{player} attempting to join lobby {lobby}...")
                             if not lobby in self.closed_lobbies:
-                                join_target = lobby.name
+                                join_target = lobby
                                 break
                             else:
                                 print("Lobby was closed.")
