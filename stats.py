@@ -285,9 +285,23 @@ class Statistics:
         # finally, turn the results into a string
         response = "Win totals:\n"
 
+        # set return limit to user-entered limit or 10 if no limit given
+        try:
+            result_limit = filter_dict["limit"]
+            print(result_limit)
+        except KeyError:
+            result_limit = 10
+
+
+        # iterate through winners while there's room
+        result_index = 0
         for winner in sorted_winners:
-            response += " • {player}: {total}\n".format(player=winner[0], total=winner[1])
-        
+            if result_index < result_limit:
+                response += " • {player}: {total}\n".format(player=winner[0], total=winner[1])
+                result_limit += 1
+            else:
+                break
+
         return response
 
     # Returns elimination stats
@@ -333,7 +347,7 @@ class Statistics:
                 # This one's handled a bit differently because we want to preserve the =/>/<, which means we can't use the split method above
 
                 # Get the endpoint of the inequality statement
-                index = 5
+                index = 4
 
                 filter_term = term[:index]
                 filter_value = term[index:]
@@ -343,7 +357,7 @@ class Statistics:
                 except KeyError:
                     filter_args[filter_term] = int(filter_value)
 
-            elif "sort=" in term:
+            elif "sort=" in term or "limit=" in term:
                 term = term.split("=")
                 try:
                     error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored. You may only sort one way at a time.".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
