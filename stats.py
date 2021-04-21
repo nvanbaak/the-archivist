@@ -287,8 +287,7 @@ class Statistics:
 
         # set return limit to user-entered limit or 10 if no limit given
         try:
-            result_limit = filter_dict["limit"]
-            print(result_limit)
+            result_limit = int(filter_dict["limit"])
         except KeyError:
             result_limit = 10
 
@@ -298,7 +297,7 @@ class Statistics:
         for winner in sorted_winners:
             if result_index < result_limit:
                 response += " • {player}: {total}\n".format(player=winner[0], total=winner[1])
-                result_limit += 1
+                result_index += 1
             else:
                 break
 

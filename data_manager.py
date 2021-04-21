@@ -9,7 +9,6 @@ from game import Game
 class Data_Manager:
     def __init__(self):
         self.games = []
-        self.output = "gamehistory_test.txt"
         self.current_action = None
         self.confirm_flag = False
 
