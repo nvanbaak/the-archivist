@@ -303,7 +303,7 @@ class Statistics:
         return response
 
     # Returns elimination stats
-    def get_eliminations(self, game_list):
+    def get_eliminations(self, game_list, filter_dict):
 
         # build dictionary of eliminated players
 
@@ -469,7 +469,7 @@ class Statistics:
             return self.tally_games(games_list)
 
         elif command == "elims" or command == "eliminations":
-            return self.get_eliminations(games_list)
+            return self.get_eliminations(games_list, filter_dict)
 
 
         else:
