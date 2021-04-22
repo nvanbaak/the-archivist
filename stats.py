@@ -291,7 +291,6 @@ class Statistics:
         except KeyError:
             result_limit = 10
 
-
         # iterate through winners while there's room
         result_index = 0
         for winner in sorted_winners:
@@ -306,15 +305,61 @@ class Statistics:
     # Returns elimination stats
     def get_eliminations(self, game_list):
 
-        # 
+        # build dictionary of eliminated players
+
         result_list = {}
 
         for game in game_list:
 
-            elim_str = ""
-
+            elim_index = 1
             for player in game.eliminated:
-                return
+
+                try:
+                    result_list[player[0]] += 1
+                except KeyError:
+                    result_list[player[0]] = 1
+
+                elim_index += 1
+    
+        # transfer dict to list for sorting
+        sorted_elims = []
+
+        for elim in result_list:
+            sorted_elims.append([elim, result_list[elim]])
+
+        # if there's a filter setting, use it to sort the list
+        try:
+            sort_type = filter_dict["sort"]
+            
+            if sort_type == "rand" or sort_type == "random":
+                random.shuffle(sorted_elims)
+            elif sort_type == "desc":
+                sorted_elims.sort(reverse=False, key=lambda p: p[1])
+            else:
+                sorted_elims.sort(reverse=True, key=lambda p: p[1])
+        # if not sort term was given, we sort most to least
+        except KeyError:
+            sorted_elims.sort(reverse=True, key=lambda p: p[1])
+
+        # set return limit to user-entered limit or 10 if no limit given
+        try:
+            result_limit = int(filter_dict["limit"])
+        except KeyError:
+            result_limit = 10
+
+        # build response string
+
+        response = "Eliminations:\n"
+
+        result_index = 0
+        for winner in sorted_elims:
+            if result_index < result_limit:
+                response += " • {player}: eliminated {total} times\n".format(player=winner[0], total=winner[1])
+                result_index += 1
+            else:
+                break
+            
+        return response
 
 
     ##################################
@@ -423,8 +468,8 @@ class Statistics:
         elif command == "games":
             return self.tally_games(games_list)
 
-        # elif command == "elims" or command == "eliminations":
-        #     return self.get_eliminations(games_list)
+        elif command == "elims" or command == "eliminations":
+            return self.get_eliminations(games_list)
 
 
         else:
