@@ -264,7 +264,7 @@ class Data_Manager:
 
                 for item in game.eliminated:
                     if item[mode] == target:
-                        item[mode] == new_name
+                        item[mode] = new_name
                         if log_index < 10:
                             log_index += 1
                             log_str += "\n • Game #{index}: replaced eliminated player '{old}' with '{new}'".format(index=index, old=target,new=new_name)
