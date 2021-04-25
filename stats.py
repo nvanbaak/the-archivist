@@ -10,6 +10,14 @@ class Statistics:
 
         self.import_games("gamehistory.txt")
 
+        # get list of players in database
+        self.player_names = []
+
+        for game in self.games:
+            for player in game.players:
+                if not player[0] in self.player_names:
+                    self.player_names.append(player[0])
+
         # master list of filter options to make the Command Parsing section easier to type out
         self.master_filter_dict = {
             "!player" : self.games_with_exactly_these_players,
@@ -408,6 +416,11 @@ class Statistics:
                 except KeyError:
                     filter_args[term[0]] = term[1]
 
+            elif "wins" in term:
+                try:
+                    error_log += " • **Filter conflict:** 'player wins' filter conflicts with existing {existing} filter.".format(existing=filter_args["mode"])
+                except KeyError:
+                    filter_args["mode"] = term
 
         # after checking all the filters, save the error log to the dict
         filter_args["error_log"] = error_log
@@ -470,6 +483,8 @@ class Statistics:
 
         elif command == "elims" or command == "eliminations":
             return self.get_eliminations(games_list, filter_dict)
+
+        
 
 
         else:
