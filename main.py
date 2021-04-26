@@ -141,10 +141,7 @@ class State_Manager:
             response = ""
 
             # If there's a nickname, use that; otherwise use the account name
-            if author_obj.nick == None:
-                response = author_obj.name
-            else:
-                response = author_obj.nick
+            response = author_obj.nick or author_obj.name:
 
             return response
 
