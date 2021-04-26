@@ -236,6 +236,22 @@ class State_Manager:
         else:
             return "There is already an active game in **{lobby_name}**.".format(lobby_name=lobby_name)
 
+    # cancels the current game in the given lobby, then starts a new game with the same players and commanders.
+    def restart_game_in_lobby(self, lobby_name)
+
+        lobby = self.active_lobbies[lobby_name]
+
+        if lobby.game == None:
+
+            response = "No game to restart.  "
+            response += self.new_game_in_lobby(lobby_name)
+            return response
+
+        else:
+
+        response = 
+
+
     # if there is no game in the given lobby, creates a game there.  Must be wrapped in a try/except block to catch KeyErrors in case the lobby is not active.
     def ensure_game_exists(self, lobby_name):
 
@@ -501,6 +517,15 @@ class State_Manager:
             if content.startswith("$start"):
                 # get the lobby of the player entering the command
                 response = self.new_game_in_lobby(lobby_name)
+
+            # variant 'new game' command that starts a new game with the same players and commanders
+            elif content.startswith("$restart")
+                player_list = []
+                for player in self.active_lobbies[lobby_name].game.players:
+                    player_list.append(player)
+
+                response = self.new_game_in_lobby(lobby_name)
+                
 
             # Command to rename commander in an active game; this has to come *after* the $data commands, which currently use > for renaming database entries
             elif " > " in content:

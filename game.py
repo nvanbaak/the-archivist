@@ -175,12 +175,16 @@ class Game:
                     player_index = self.get_player_index(content)
 
                     if player_index > -1:
+                        if self.winner:
+                            win_str = "Changed winner {old_winner} to {new_winner}.  If you didn't mean to do that, `$win {old_winner}` will change it back.".format(old_winner=self.winner[0], new_winner=content)
+                        
+                        else:
+                            win_str = "Congratulations {player}!".format(player=content)
+
+                            win_str += "\n Anyone who wants to comment on the game can now do so by typing:\n```$note your note here```\n"
+                        
                         self.winner = self.players[player_index]
                         self.game_over = True
-
-                        win_str = "Congratulations {player}!".format(player=content)
-
-                        win_str += "\n Anyone who wants to comment on the game can now do so by typing:\n```$game note your note here```\n"
 
                         return win_str
                     else:
@@ -191,7 +195,8 @@ class Game:
         # returns a string summarizing the status of the game
         elif command == "status":
             return self.game_state()
-            
+        
+        # returns a random player
         elif command == "random":
             
             # args_length = len(args)
@@ -219,6 +224,17 @@ class Game:
             output_str = random.choice(self.players)
 
             return output_str
+
+        # deletes all information except the participating players and commanders.
+        elif command = "restart":
+            self.first = []
+            self.eliminated = []
+            self.winner = []
+            self.notes = []
+            self.begin = False
+            self.game_over = False
+            self.index = index
+            self.completed_notes = []
 
         # returns a "threat analysis" string.  While the plan is eventually to have a statistically-powered bayesian calculation, the current "analysis" is a random number generator.
         if command == "threat":    
