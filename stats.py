@@ -243,27 +243,46 @@ class Statistics:
     # returns games based on custom details about particular players
     def custom_player_filtering(self, game_list, player_name, conditions):
 
-        p_win_cond = False
-        p_lose_cond = False
-        p_elim_cond = False
-        p_first_cond = False
-        p_cmdr_cond = False
+        result_list = []
 
-        # first go through the conditions to see what we need to check for
+        # If the game meets all of these flags, we'll add it to the result list
+        p_win_cond = True
+        p_lose_cond = True
+        p_elim_cond = True
+        p_first_cond = True
+        p_cmdr_cond = True
+
+        # we turn off flags that the user wants us to check
         for condition in conditions:
             if condition == "win" or condition == "winner":
-                p_win_cond = True
+                p_win_cond = False
             elif condition == "lose" or condition == "loser":
-                p_lose_cond = True
+                p_lose_cond = False
             elif condition == "elim":
-                p_elim_cond = True
+                p_elim_cond = False
             elif condition == "first":
-                p_first_cond = True
+                p_first_cond = False
             else:
                 p_cmdr_cond = condition            
-            
-            print("Checking {cond}!".format(cond=condition))
-            
+
+        if p_win_cond == p_lose_cond == False:
+            print("Filter error — It is categorically impossible for the same player to win and lose simultaneously.")
+            return []
+
+        # now we check all the games
+        for game in game_list:
+
+            if not p_win_cond:
+                
+
+
+
+
+
+
+
+
+
         return game_list
 
 
