@@ -243,10 +243,27 @@ class Statistics:
     # returns games based on custom details about particular players
     def custom_player_filtering(self, game_list, player_name, conditions):
 
+        p_win_cond = False
+        p_lose_cond = False
+        p_elim_cond = False
+        p_first_cond = False
+        p_cmdr_cond = False
+
         # first go through the conditions to see what we need to check for
         for condition in conditions:
+            if condition == "win" or condition == "winner":
+                p_win_cond = True
+            elif condition == "lose" or condition == "loser":
+                p_lose_cond = True
+            elif condition == "elim":
+                p_elim_cond = True
+            elif condition == "first":
+                p_first_cond = True
+            else:
+                p_cmdr_cond = condition            
+            
             print("Checking {cond}!".format(cond=condition))
-
+            
         return game_list
 
 
