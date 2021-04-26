@@ -245,43 +245,62 @@ class Statistics:
 
         result_list = []
 
-        # If the game meets all of these flags, we'll add it to the result list
-        p_win_cond = True
-        p_lose_cond = True
-        p_elim_cond = True
-        p_first_cond = True
-        p_cmdr_cond = True
+        # List of flags we'll be checking 
+        p_win_cond = False
+        p_lose_cond = False
+        p_first_cond = False
+        p_elim_cond = False
+        p_cmdr_cond = False
 
-        # we turn off flags that the user wants us to check
+        # Turn on the flags we want to check
         for condition in conditions:
             if condition == "win" or condition == "winner":
-                p_win_cond = False
+                p_win_cond = True
             elif condition == "lose" or condition == "loser":
-                p_lose_cond = False
-            elif condition == "elim":
-                p_elim_cond = False
+                p_lose_cond = True
             elif condition == "first":
-                p_first_cond = False
+                p_first_cond = True
+            elif condition == "elim":
+                p_elim_cond = True
             else:
                 p_cmdr_cond = condition            
 
-        if p_win_cond == p_lose_cond == False:
+        if p_win_cond == p_lose_cond == True:
             print("Filter error — It is categorically impossible for the same player to win and lose simultaneously.")
             return []
 
         # now we check all the games
         for game in game_list:
 
-            if not p_win_cond:
-                
+            if p_win_cond:
+                if not game.winner[0] == player_name:
+                    continue
+        
+            if p_lose_cond:
+                if game.winner[0] == player_name:
+                    continue
 
+            if p_first_cond:
+                if not game.first[0] == player_name:
+                    continue
 
+            if p_elim_cond:
+                for player in game.eliminated:
+                    if player[0] == player_name:
+                        p_elim_cond = False
+                        break
+                if p_elim_cond:
+                    # ie if we care about eliminations but didn't just find the player on the elimination list
+                    continue
 
+            if p_cmdr_cond:
+                player_index = game.get_player_index(player_name)
+                cmdr_name = game.players[player_index][1]
+                if not p_cmdr_cond == cmdr_name:
+                    continue
 
-
-
-
-
+            # if we made it here, every condition is met, so append
+            result_list.append(game)
 
         return game_list
 
