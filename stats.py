@@ -240,6 +240,19 @@ class Statistics:
         
         return result_list
 
+    # returns games based on custom details about particular players
+    def custom_player_filtering(self, game_list, player_name, conditions):
+
+        # first go through the conditions to see what we need to check for
+        for condition in conditions:
+            print("Checking {cond}!".format(cond=condition))
+
+        return game_list
+
+
+
+
+
 
     ##################################
     #       STATISTICS METHODS       #
@@ -506,17 +519,23 @@ class Statistics:
                 except KeyError:
                     filter_args[term[0]] = term[1]
 
-            elif term == "win" or term == "wins":
+            elif term == "win" or term == "wins" or term == "decks" or term == "cmdrs":
                 try:
                     error_log += " • **Filter conflict:** 'player wins' filter conflicts with existing {existing} filter.".format(existing=filter_args["mode"])
                 except KeyError:
                     filter_args["mode"] = term
 
-            elif term in self.player_names:
-                try:
-                    error_log += " • **Filter conflict:** '{player}' filter conflicts with existing {existing} filter.".format(existing=filter_args["player"])
-                except KeyError:
-                    filter_args["player_stats"] = term
+            # Because player conditions are more complicated than most terms, we handle them here to save the bot from checking the player list for each condition
+            else:
+                for name in self.player_names:
+                    if name in term:
+                        try:
+                            error_log += " • **Filter conflict:** existing filter setting '{existing}' for player {name}; did not apply filter setting '{term}'.".format(existing=filter_args[name], name=name, term=term)
+                        except KeyError:
+                            term = term.split("=")
+                            filter_args[name] = term[1].split(";")
+
+
 
         # after checking all the filters, save the error log to the dict
         filter_args["error_log"] = error_log
@@ -546,6 +565,13 @@ class Statistics:
                     games_list = self.master_filter_dict[option[:4]](option[4], games_list, filter_dict[option])
             except KeyError:
                 pass
+        
+        # player filters don't use the master dictionary because playernames are dynamic
+        for name in self.player_names:
+            try:
+                player_filters = filter_dict[name]
+                games_list = "filter"
+
 
         # drop the error log in console, then return the games
         print(error_log)
@@ -586,7 +612,7 @@ class Statistics:
 
             try:
                 if filter_dict["mode"] == "win":
-                    return self.player_stats(command)
+                    return self.player_stats(command, filter_dict)
                 else:
                     return ""
 
