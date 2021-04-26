@@ -249,6 +249,7 @@ class Game:
 
             return response
 
+
         # returns a "threat analysis" string.  While the plan is eventually to have a statistically-powered bayesian calculation, the current "analysis" is a random number generator.
         if command == "threat":    
             target = random.choice(self.players)

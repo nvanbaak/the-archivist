@@ -121,7 +121,8 @@ class State_Manager:
             "rename" : "game",
             "status" : "game",
             "threat" : "game",
-            "win" : "game"
+            "win" : "game",
+            "restart" : "game"
         }
 
 
