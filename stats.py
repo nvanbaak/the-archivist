@@ -302,7 +302,7 @@ class Statistics:
             # if we made it here, every condition is met, so append
             result_list.append(game)
 
-        return game_list
+        return result_list
 
 
 
@@ -625,6 +625,7 @@ class Statistics:
         for name in self.player_names:
             try:
                 games_list = self.custom_player_filtering(games_list, name, filter_dict[name])
+                print("Filtering for player {name}".format(name=name))
             except KeyError:
                 pass
 
