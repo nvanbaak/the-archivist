@@ -87,16 +87,20 @@ class Game:
 
                     # add player to game if not already present
                     if self.get_player_index(alias) == -1:
-                        self.players.append( [alias, content] )
+                        self.players.append( [alias, content] 
+                        
                         return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=content, fuzz=fuzz_str)
                     else:
-                        return "Player {alias} is already participating in this game.".format(alias=alias)
+                        p_index = self.get_player_index(alias)
+                        self.players[p_index][1] = content
+
+                        return "Player {alias} has changed commanders to {cmdr}.{fuzz}".format(alias=alias, cmdr=content, fuzz=fuzz_str)
 
                 else:
-                    return "Can't add a new player -- the game has already started."
+                    return "Can't add a new player -- the game has already started. If you forgot to add them before starting the game, you can use `$restart` to create a new game with the same commanders."
 
             else:
-                return "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  Your name is only stored temporarily for the purposes of making it simpler for you to enter certain types of game data."
+                return "You need to register your name with the Archivist to use this command. To register, type ``$register your name``.  The Archivist will remember you by this name."
 
         # sets player and cmdr name using provided arguments
         elif command == "player":
@@ -226,7 +230,7 @@ class Game:
             return output_str
 
         # deletes all information except the participating players and commanders.
-        elif command = "restart":
+        elif command == "restart":
             self.first = []
             self.eliminated = []
             self.winner = []
@@ -235,6 +239,15 @@ class Game:
             self.game_over = False
             self.index = index
             self.completed_notes = []
+
+            response = "Started a new game with these people:\n" 
+            
+            for player in self.players:
+                response += " • {player} ({cmdr})\n".format(player=player[0], cmdr=player[1])
+
+            response += "\nYou can change your commander with the `$cmdr` command."
+
+            return response
 
         # returns a "threat analysis" string.  While the plan is eventually to have a statistically-powered bayesian calculation, the current "analysis" is a random number generator.
         if command == "threat":    
