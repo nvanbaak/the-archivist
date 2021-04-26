@@ -369,6 +369,96 @@ class Statistics:
             
         return response
 
+    # Returns player win-rate statistics; currently does not interact with filter arguments
+    def player_stats(self, player_name):
+
+        total_games = 0
+        total_duels = 0
+        total_multis = 0
+        games_won = 0
+        duel_wins = 0
+        multi_wins = 0
+        average_duel_wins = 0
+        average_multi_wins = 0
+        baseline_win_chance = 0
+
+        winning_duels = []
+        winning_multis = []
+
+        for game in self.games:
+            index = game.get_player_index(player_name)
+            if index > -1:
+                total_games += 1
+
+                pod_size = game.pod_size()
+
+                average_win = round(1 / pod_size, 2)
+                baseline_win_chance += average_win
+                
+                
+                if pod_size > 2:
+                    total_multis += 1
+                    average_multi_wins += average_win
+
+                    if game.winner[0] == player_name:
+                        games_won += 1
+                        multi_wins += 1
+                        winning_multis.append(game)
+                else:
+                    total_duels += 1
+                    average_duel_wins += average_win
+
+                    if game.winner[0] == player_name:
+                        games_won += 1
+                        duel_wins += 1
+                        winning_duels.append(game)
+                        
+        # Stats for all games
+        total_win_rate = round((games_won / total_games) * 100, 2)
+        expected_wins_general = baseline_win_chance = round(baseline_win_chance, 2)
+        expected_win_rate_general = round((expected_wins_general / total_games) * 100, 2)
+        general_efficiency = round((games_won / expected_wins_general) * 100, 0)
+
+        # Stats for duels; if there's no duels in the pool we skip this section
+        if total_duels > 0:        
+            duel_win_rate = round((duel_wins / total_duels) * 100, 2)
+            average_duel_win_rate = round((average_duel_wins / total_duels), 2)
+            duel_win_efficiency = round((duel_wins / average_duel_wins)*100, 0)
+
+        # Stats for multis; if there's no multiplayer games in the pool we skip this section
+        if total_multis > 0:
+            multi_win_rate = round((multi_wins / total_multis) * 100, 2)
+            average_multi_win_rate = round((average_multi_wins / total_multis), 2)
+            multi_win_efficiency = round((multi_wins / average_multi_wins) * 100, 0)
+
+        # create a string to display the information
+        log_str = "Here are the stats on {name}:".format(name=player_name)
+
+        log_str += "\n • **{num} games** played, with {duels} duels and {multi} multiplayer games".format(num=total_games, duels=total_duels, multi=total_multis)
+
+        if total_duels > 0:
+            log_str += "\n • {player} won {duel_wins} duels (statistical average: {avg_duel_wins} wins) for a win rate of {duel_win_rate}% (efficiency: {efficiency}%)".format(player=player_name,duel_wins=duel_wins,avg_duel_wins=average_duel_wins,duel_win_rate=duel_win_rate,efficiency=duel_win_efficiency)
+
+        if total_multis > 0:
+            log_str += "\n • {player} won {multi_wins} multiplayer games (statistical average: {avg_multi_wins} wins) for a win rate of {multi_win_rate}% (efficiency: {efficiency}%)".format(player=player_name,multi_wins=multi_wins,avg_multi_wins=round(average_multi_wins,2),multi_win_rate=multi_win_rate,efficiency=multi_win_efficiency)
+
+        log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins} ({efficiency}% efficiency)".format(actual_wins=games_won, projected_wins=baseline_win_chance,efficiency=general_efficiency)
+
+        if winning_duels:
+            example_win = random.choice(winning_duels)
+            example_note = random.choice(example_win.notes)
+
+            log_str += '\n • A sample note from a victorious duel: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+
+        if winning_multis:
+            example_win = random.choice(winning_multis)
+            example_note = random.choice(example_win.notes)
+
+            log_str += '\n • A sample note from a victorious multiplayer game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+        
+        return log_str
+
+
 
     ##################################
     #         COMMAND PARSING        #
@@ -416,11 +506,17 @@ class Statistics:
                 except KeyError:
                     filter_args[term[0]] = term[1]
 
-            elif "wins" in term:
+            elif term == "win" or term == "wins":
                 try:
                     error_log += " • **Filter conflict:** 'player wins' filter conflicts with existing {existing} filter.".format(existing=filter_args["mode"])
                 except KeyError:
                     filter_args["mode"] = term
+
+            elif term in self.player_names:
+                try:
+                    error_log += " • **Filter conflict:** '{player}' filter conflicts with existing {existing} filter.".format(existing=filter_args["player"])
+                except KeyError:
+                    filter_args["player_stats"] = term
 
         # after checking all the filters, save the error log to the dict
         filter_args["error_log"] = error_log
@@ -481,12 +577,26 @@ class Statistics:
         elif command == "games":
             return self.tally_games(games_list)
 
+        # Tally eliminations
         elif command == "elims" or command == "eliminations":
             return self.get_eliminations(games_list, filter_dict)
 
+        # Report on player statistics
+        elif command in self.player_names:
+
+            try:
+                if filter_dict["mode"] == "win":
+                    return self.player_stats(command)
+                else:
+                    return ""
+
+            except KeyError:
+                pass
+            
+
+
+            return "player win stats"
         
-
-
         else:
             return ""
 
@@ -736,100 +846,13 @@ class Statistics:
     #       OLD STATS METHODS        #
     ##################################
 
-    # stats reference function for looking at player performance
-    def player_stats(self, args):
 
-        total_games = 0
-        total_duels = 0
-        total_multis = 0
-        games_won = 0
-        duel_wins = 0
-        multi_wins = 0
-        average_duel_wins = 0
-        average_multi_wins = 0
-        baseline_win_chance = 0
-
-        winning_duels = []
-        winning_multis = []
-
-        for game in self.games:
-            index = game.get_player_index(args[0])
-            if index > -1:
-                total_games += 1
-
-                pod_size = game.pod_size()
-
-                average_win = round(1 / pod_size, 2)
-                baseline_win_chance += average_win
-                
-                
-                if pod_size > 2:
-                    total_multis += 1
-                    average_multi_wins += average_win
-
-                    if game.winner[0] == args[0]:
-                        games_won += 1
-                        multi_wins += 1
-                        winning_multis.append(game)
-                else:
-                    total_duels += 1
-                    average_duel_wins += average_win
-
-                    if game.winner[0] == args[0]:
-                        games_won += 1
-                        duel_wins += 1
-                        winning_duels.append(game)
-                        
-        # Stats for all games
-        total_win_rate = round((games_won / total_games) * 100, 2)
-        expected_wins_general = baseline_win_chance = round(baseline_win_chance, 2)
-        expected_win_rate_general = round((expected_wins_general / total_games) * 100, 2)
-        general_efficiency = round((games_won / expected_wins_general) * 100, 0)
-
-        # Stats for duels; if there's no duels in the pool we skip this section
-        if total_duels > 0:        
-            duel_win_rate = round((duel_wins / total_duels) * 100, 2)
-            average_duel_win_rate = round((average_duel_wins / total_duels), 2)
-            duel_win_efficiency = round((duel_wins / average_duel_wins)*100, 0)
-
-        # Stats for multis; if there's no multiplayer games in the pool we skip this section
-        if total_multis > 0:
-            multi_win_rate = round((multi_wins / total_multis) * 100, 2)
-            average_multi_win_rate = round((average_multi_wins / total_multis), 2)
-            multi_win_efficiency = round((multi_wins / average_multi_wins) * 100, 0)
-
-        # create a string to display the information
-        log_str = "Here are the stats on {name}:".format(name=args[0])
-
-        log_str += "\n • **{num} games** played, with {duels} duels and {multi} multiplayer games".format(num=total_games, duels=total_duels, multi=total_multis)
-
-        if total_duels > 0:
-            log_str += "\n • {player} won {duel_wins} duels (statistical average: {avg_duel_wins} wins) for a win rate of {duel_win_rate}% (efficiency: {efficiency}%)".format(player=args[0],duel_wins=duel_wins,avg_duel_wins=average_duel_wins,duel_win_rate=duel_win_rate,efficiency=duel_win_efficiency)
-
-        if total_multis > 0:
-            log_str += "\n • {player} won {multi_wins} multiplayer games (statistical average: {avg_multi_wins} wins) for a win rate of {multi_win_rate}% (efficiency: {efficiency}%)".format(player=args[0],multi_wins=multi_wins,avg_multi_wins=round(average_multi_wins,2),multi_win_rate=multi_win_rate,efficiency=multi_win_efficiency)
-
-        log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins} ({efficiency}% efficiency)".format(actual_wins=games_won, projected_wins=baseline_win_chance,efficiency=general_efficiency)
-
-        if winning_duels:
-            example_win = random.choice(winning_duels)
-            example_note = random.choice(example_win.notes)
-
-            log_str += '\n • A sample note from a victorious duel: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
-
-        if winning_multis:
-            example_win = random.choice(winning_multis)
-            example_note = random.choice(example_win.notes)
-
-            log_str += '\n • A sample note from a victorious multiplayer game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
-        
-        return log_str
 
     # stats reference function for analyzing game breakdown
     def game_stats(self, args):
 
         # "$stats game totals"
-        if args[0] == "total" or args[0] == "totals":
+        if player_name == "total" or args[0] == "totals":
             return "I have records of {total} games.".format(total=len(self.games))
 
         # "$stats games by ..."
