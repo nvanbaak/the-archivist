@@ -518,16 +518,7 @@ class State_Manager:
             if content.startswith("$start"):
                 # get the lobby of the player entering the command
                 response = self.new_game_in_lobby(lobby_name)
-
-            # variant 'new game' command that starts a new game with the same players and commanders
-            elif content.startswith("$restart")
-                player_list = []
-                for player in self.active_lobbies[lobby_name].game.players:
-                    player_list.append(player)
-
-                response = self.new_game_in_lobby(lobby_name)
                 
-
             # Command to rename commander in an active game; this has to come *after* the $data commands, which currently use > for renaming database entries
             elif " > " in content:
 
