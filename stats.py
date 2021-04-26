@@ -569,9 +569,9 @@ class Statistics:
         # player filters don't use the master dictionary because playernames are dynamic
         for name in self.player_names:
             try:
-                player_filters = filter_dict[name]
-                games_list = "filter"
-
+                games_list = self.custom_player_filtering(games_list, name, filter_dict[name])
+            except KeyError:
+                pass
 
         # drop the error log in console, then return the games
         print(error_log)
