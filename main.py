@@ -141,7 +141,7 @@ class State_Manager:
             response = ""
 
             # If there's a nickname, use that; otherwise use the account name
-            response = author_obj.nick or author_obj.name:
+            response = author_obj.nick or author_obj.name
 
             return response
 
@@ -235,19 +235,19 @@ class State_Manager:
             return "There is already an active game in **{lobby_name}**.".format(lobby_name=lobby_name)
 
     # cancels the current game in the given lobby, then starts a new game with the same players and commanders.
-    def restart_game_in_lobby(self, lobby_name)
+    # def restart_game_in_lobby(self, lobby_name):
 
-        lobby = self.active_lobbies[lobby_name]
+    #     lobby = self.active_lobbies[lobby_name]
 
-        if lobby.game == None:
+    #     if lobby.game == None:
 
-            response = "No game to restart.  "
-            response += self.new_game_in_lobby(lobby_name)
-            return response
+    #         response = "No game to restart.  "
+    #         response += self.new_game_in_lobby(lobby_name)
+    #         return response
 
-        else:
+    #     else:
 
-        response = 
+    #     response = 
 
 
     # if there is no game in the given lobby, creates a game there.  Must be wrapped in a try/except block to catch KeyErrors in case the lobby is not active.

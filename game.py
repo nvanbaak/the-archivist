@@ -87,7 +87,7 @@ class Game:
 
                     # add player to game if not already present
                     if self.get_player_index(alias) == -1:
-                        self.players.append( [alias, content] 
+                        self.players.append( [alias, content] ) 
                         
                         return "{alias} is playing {cmdr} {fuzz}".format(alias=alias, cmdr=content, fuzz=fuzz_str)
                     else:
