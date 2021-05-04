@@ -237,7 +237,6 @@ class Game:
             self.notes = []
             self.begin = False
             self.game_over = False
-            self.index = index
             self.completed_notes = []
 
             response = "Started a new game with these people:\n" 
