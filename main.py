@@ -9,7 +9,7 @@ from fuzzywuzzy import process
 from game import Game
 from stats import Statistics
 from data_manager import Data_Manager
-
+from lobby import Lobby
 
 client = discord.Client()
 
@@ -38,38 +38,6 @@ class Reminder:
         reponse_str = " ".join(self.args)
         print(response_str)
 
-class Lobby:
-    def __init__(self, name):
-        self.game = None
-        self.name = name
-        self.players = []
-    
-    def add_player(self, player):
-
-        if not player == self.players:
-            self.players.append(player)
-            return "{player} has joined **{lobby}**.".format(player=player, lobby=self.name)
-        else:
-            return "{player} is already in **{lobby}**.".format(player=player, lobby=self.name)
-
-    def remove_player(self, player):
-        try:
-            self.players.remove(player)
-            return "{player} has left **{lobby}**.".format(player=player, lobby=self.name)
-        except ValueError:
-            return "Error — attempted to remove non-existant player {player} from lobby **{lobby}**!".format(player=player, lobby=self.name)
-
-    def list_players(self):
-        if self.players:
-            response = "["
-            list_str = ""
-            for player in self.players:
-                list_str += ", {player}".format(player=player)
-            response += list_str[2:]
-            response += "]"
-            return response
-        else:
-            return ""
 
 class State_Manager:
     def __init__(self):
@@ -234,22 +202,6 @@ class State_Manager:
         else:
             return "There is already an active game in **{lobby_name}**.".format(lobby_name=lobby_name)
 
-    # cancels the current game in the given lobby, then starts a new game with the same players and commanders.
-    # def restart_game_in_lobby(self, lobby_name):
-
-    #     lobby = self.active_lobbies[lobby_name]
-
-    #     if lobby.game == None:
-
-    #         response = "No game to restart.  "
-    #         response += self.new_game_in_lobby(lobby_name)
-    #         return response
-
-    #     else:
-
-    #     response = 
-
-
     # if there is no game in the given lobby, creates a game there.  Must be wrapped in a try/except block to catch KeyErrors in case the lobby is not active.
     def ensure_game_exists(self, lobby_name):
 
@@ -346,6 +298,14 @@ class State_Manager:
         # returns the after-action report of a random EDH game in the database
         elif content.startswith('$randomEDH'):
             await message.channel.send(stats.random_game().game_state())
+
+        # help command
+        elif content.startswith('$help'):
+            content = content.split(" ")
+            try:
+                menu = content[1]
+            except IndexError:
+                response = ""
 
         # Command to start a new lobby
         elif content.startswith("$new lobby"):
