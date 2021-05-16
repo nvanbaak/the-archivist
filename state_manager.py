@@ -1,9 +1,21 @@
 import discord
 import os
+import random
+import config
+
 from lobby import Lobby
+from game import Game
+from data_manager import Data_Manager
+from stats import Statistics
+
 
 class State_Manager:
-    def __init__(self):
+    def __init__(self, client):
+        # engine setup
+        self.stats = Statistics()
+        self.dm = Data_Manager()
+        self.client = client
+
         # Channel setup
         self.game_channel = None
         
@@ -38,7 +50,7 @@ class State_Manager:
                 self.update_local_aliases()
 
         # game count; currently this value is set by counting the number of games set in the stat manager, so we can't set it here
-        self.game_count = 0
+        self.game_count = len(self.stats.games)
 
         self.command_dict = {
             "cancel" : "game",
@@ -184,10 +196,10 @@ class State_Manager:
     ##################################
 
     # executes a user command entered into discord, then sends back a response
-    async def route_message(self, message, stats, dm):
+    async def route_message(self, message):
 
         # Nope out if the message is from this bot or doesn't start with $
-        if message.author == client.user or not message.content.startswith("$"):
+        if message.author == self.client.user or not message.content.startswith("$"):
             return
         
         # write message to console
@@ -260,7 +272,7 @@ class State_Manager:
 
         # returns the after-action report of a random EDH game in the database
         elif content.startswith('$randomEDH'):
-            await message.channel.send(stats.random_game().game_state())
+            await message.channel.send(self.stats.random_game().game_state())
 
         # help command
         elif content.startswith('$help'):
@@ -372,7 +384,7 @@ class State_Manager:
         # Data commands
         elif content.startswith('$data'):
             # global game_channel
-            response = dm.handle_command(message)
+            response = self.dm.handle_command(message)
 
         # Stats commands
         elif content.startswith('$stats'):
@@ -411,7 +423,7 @@ class State_Manager:
             # Finally, replace underscores
             terms = map(lambda t: t.replace("_", " "), terms)
 
-            response = await stats.handle_command(command, terms, message.channel)
+            response = await self.stats.handle_command(command, terms, message.channel)
 
             if response != "":
                 await self.send_multiple_responses(response)
@@ -501,7 +513,7 @@ class State_Manager:
                     alias = self.get_player_alias(message.author)
                     
                     # Pass the message on to the game lobby, then store the result
-                    game_str = lobby_obj.game.handle_command(alias, command, content, stats)
+                    game_str = lobby_obj.game.handle_command(alias, command, content, self.stats)
                     
                     # If the game ended, clean up
                     if game_str == "end":

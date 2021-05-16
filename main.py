@@ -6,22 +6,10 @@ from threading import Timer
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
-from game import Game
-from stats import Statistics
-from data_manager import Data_Manager
-from lobby import Lobby
-from state-_manager import State_Manager
+from state_manager import State_Manager
 
 client = discord.Client()
-
-
-# create instances of stats engine, data manager, and state manager
-stats = Statistics()
-dm = Data_Manager()
-state_manager = State_Manager()
-
-# We set this value here because the state manager and the stats engine don't talk to each other right now
-state_manager.game_count = len(stats.games)
+state_manager = State_Manager(client)
 
 @client.event
 async def on_ready():
@@ -31,6 +19,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    await state_manager.route_message(message, stats, dm)
+    await state_manager.route_message(message)
 
 client.run(config.bot_token)
