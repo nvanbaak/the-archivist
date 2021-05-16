@@ -1,3 +1,5 @@
+import discord
+import os
 from lobby import Lobby
 
 class State_Manager:
