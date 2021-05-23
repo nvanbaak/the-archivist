@@ -1,3 +1,5 @@
+from threading import Timer
+
 class Reminder:
     def __init__(self, message_obj):
         args = message_obj.content.split(" ")
@@ -18,8 +20,7 @@ class Reminder:
         t = Timer(self.time, self.handle_command)
         t.start()
 
-
     def handle_command(self):
-        reponse_str = " ".join(self.args)
+        response_str = " ".join(self.args)
         print(response_str)
-        return reponse_str
+        return response_str

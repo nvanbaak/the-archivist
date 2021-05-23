@@ -1,10 +1,5 @@
 import discord
 import config
-import random
-import os
-from threading import Timer
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
 
 from state_manager import State_Manager
 
