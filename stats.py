@@ -1150,9 +1150,6 @@ class Statistics:
     # stats reference function for analyzing game breakdown
     def game_stats(self, args):
 
-        # "$stats game totals"
-        if player_name == "total" or args[0] == "totals":
-            return "I have records of {total} games.".format(total=len(self.games))
 
         # "$stats games by ..."
         if args[0] == "by":
@@ -1175,60 +1172,6 @@ class Statistics:
                         response_str += "\n• [{index_value}]: {tally} games".format(index_value=index+2, tally=tally)
                     # increment the index either way
                     index += 1
-
-                return response_str
-
-
-            # "...player"
-            if args[1] == "player" or args[1] == "players":
-                # Empty array of players to start
-                players = []
-                arr_length = 0
-
-                # Iterate through all games
-                for game in self.games:
-
-                    # Get player names
-                    for player in game.players:
-                        name_str = player[0]
-
-                        # search for it in the arr
-                        index = 0
-                        for player_name in players:
-                            # if the name matches, increment the count
-                            if player_name[0] == name_str:
-                                player_name[1] += 1
-                                break
-                            index += 1
-
-                        # if the index matches the array length, our target wasn't there, so we add it with a count of 1
-                        if index == len(players):
-                            players.append([name_str, 1])
-                            arr_length += 1
-                
-                # then we sort the array; NB sort() modifies the original array
-                players.sort(reverse=True, key=lambda d: d[1])
-
-                # Now that we have our data, we can present it
-                response_str = "These are the players in my records:"
-
-                # we limit display using either the user value or 10 if they didn't give us one
-                display_size = 10
-                if len(args) > 2:
-                    display_size = int(args[2])
-
-                index = 0
-
-                for player in players:
-                    if index < display_size:
-                        response_str += "\n • {player}: {total} games".format(player=player[0], total=player[1])
-                        index += 1
-                    else:
-                        break
-
-                # then we close up
-                if arr_length > display_size:
-                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-display_size)
 
                 return response_str
 
