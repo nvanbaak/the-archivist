@@ -609,8 +609,7 @@ class Statistics:
                 elif "win" in option:
                     games_list = self.master_filter_dict[option](games_list, filter_dict[option])
                 elif "pod" in option:
-                    print(self.master_filter_dict[option[:4]])
-                    games_list = self.master_filter_dict[option[:4]](option[4], games_list, filter_dict[option])
+                    games_list = self.master_filter_dict[option[:3]](option[3], games_list, filter_dict[option])
             except KeyError:
                 pass
         

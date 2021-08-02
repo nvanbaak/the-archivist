@@ -400,7 +400,7 @@ class State_Manager:
 
             args = content.split(" ", 1)
             command = args[0]
-            
+
             try:
                 terms = args[1]
             except IndexError:
@@ -424,7 +424,8 @@ class State_Manager:
             terms = terms.split(" ")
 
             # Finally, replace underscores
-            terms = map(lambda t: t.replace("_", " "), terms)
+            for term in terms:
+                term = term.replace("_", " ")
 
             response = await self.stats.handle_command(command, terms, message.channel)
 
