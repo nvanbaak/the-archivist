@@ -65,7 +65,8 @@ class State_Manager:
             "status" : "game",
             "threat" : "game",
             "win" : "game",
-            "restart" : "game"
+            "restart" : "game",
+            "rematch" : "game"
         }
 
 
@@ -201,7 +202,7 @@ class State_Manager:
         # Nope out if the message is from this bot or doesn't start with $
         if message.author == self.client.user or not message.content.startswith("$"):
             return
-        
+
         # write message to console
         print(message)
 
@@ -439,99 +440,103 @@ class State_Manager:
         ##################################
 
         else:
-            # first get the player alias
-            alias = self.get_player_alias(message.author)
+            if message.channel == self.game_channel:
+                # first get the player alias
+                alias = self.get_player_alias(message.author)
 
-            # we'll need the player's lobby for any of these commands, so let's get it now
-            try:
-                lobby_name = self.get_player_lobby(alias)
-                lobby_obj = self.active_lobbies[lobby_name]
-            except KeyError:
-                await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
-                return
-
-            # Variant 'new game' command that starts a game in the player's lobby 
-            if content.startswith("$start"):
-                # get the lobby of the player entering the command
-                response = self.new_game_in_lobby(lobby_name)
-                
-            # Command to rename commander in an active game; this has to come *after* the $data commands, which currently use > for renaming database entries
-            elif " > " in content:
-
-                # Get game reference; technically this should be in a try/except block, but anything that would throw an error will already have thrown an error in the previous try/except block
-                game = self.ensure_game_exists(lobby_name)
-
-                # retrieve command information
-                content = content.replace("$ rename", "")
-                content = content.replace("$rename ", "")
-                content = content.replace("$ ", "")
-                content = content.replace("$", "")
-                names = content.split(" > ")
-
-                # fire off the rename
-                response = game.rename_cmdr(names[0], names[1])
-
-            # Game commands
-            else:
-
-                # get the $ out of there
-                content = content.replace("$ ", "")
-                content = content.replace("$", "")
-
-                # get the attempted command and arguments
-                args = content.split(" ", 1)
-                command = args[0]
+                # we'll need the player's lobby for any of these commands, so let's get it now
                 try:
-                    content = args[1]
-                except IndexError:
-                    # An error here means we were given a one-word command, so we assign an empty string instead
-                    content = ""
-
-                # Check if we recognize the command
-                try:
-                    manager = self.command_dict[command]
-                # This was our last chance to recognize the command, so if it's not a game command it's not a command.
+                    lobby_name = self.get_player_lobby(alias)
+                    lobby_obj = self.active_lobbies[lobby_name]
                 except KeyError:
-                    await message.channel.send("I didn't recognize that command.")
+                    await self.game_channel.send("Join a lobby with ``$join`` to use this command.")
                     return
 
-                if manager == "game":
-                    # if there's no game, we might have to start one            
-                    if lobby_obj.game == None:
-                        # If they're just checking on game status, let them know there's no game
-                        if content.startswith("status"):
-                            await self.game_channel.send("**{lobby_name}** currently has no active game.".format(lobby_name=lobby_name))
-                            return
-                        # otherwise start a new game in the lobby and continue
-                        else:
-                            response += self.new_game_in_lobby(lobby_name)
-                            response += "\n"
-                    elif command.startswith("cancel"):
-                        # if there's a game but it's a cancel command, we deal with it before it would be handed off to the game object
-                        lobby_obj.game = None
-                        self.game_count -= 1
-                        await self.game_channel.send("I have cancelled the game for you.")
+                # Variant 'new game' command that starts a game in the player's lobby 
+                if content.startswith("$start"):
+                    # get the lobby of the player entering the command
+                    response = self.new_game_in_lobby(lobby_name)
+                    
+                # Command to rename commander in an active game; this has to come *after* the $data commands, which currently use > for renaming database entries
+                elif " > " in content:
+
+                    # Get game reference; technically this should be in a try/except block, but anything that would throw an error will already have thrown an error in the previous try/except block
+                    game = self.ensure_game_exists(lobby_name)
+
+                    # retrieve command information
+                    content = content.replace("$ rename", "")
+                    content = content.replace("$rename ", "")
+                    content = content.replace("$ ", "")
+                    content = content.replace("$", "")
+                    names = content.split(" > ")
+
+                    # fire off the rename
+                    response = game.rename_cmdr(names[0], names[1])
+
+                # Game commands
+                else:
+
+                    # get the $ out of there
+                    content = content.replace("$ ", "")
+                    content = content.replace("$", "")
+
+                    # get the attempted command and arguments
+                    args = content.split(" ", 1)
+                    command = args[0]
+                    try:
+                        content = args[1]
+                    except IndexError:
+                        # An error here means we were given a one-word command, so we assign an empty string instead
+                        content = ""
+
+                    # Check if we recognize the command
+                    try:
+                        manager = self.command_dict[command]
+                    # This was our last chance to recognize the command, so if it's not a game command it's not a command.
+                    except KeyError:
+                        await message.channel.send("I didn't recognize that command.")
                         return
 
-                    # get alias
-                    alias = self.get_player_alias(message.author)
-                    
-                    # Pass the message on to the game lobby, then store the result
-                    game_str = lobby_obj.game.handle_command(alias, command, content, self.stats)
-                    
-                    # If the game ended, clean up
-                    if game_str == "end":
-                        # store data
-                        lobby_obj.game.store_data("gamehistory.txt")
+                    if manager == "game":
+                        # if there's no game, we might have to start one            
+                        if lobby_obj.game == None:
+                            # If they're just checking on game status, let them know there's no game
+                            if content.startswith("status"):
+                                await self.game_channel.send("**{lobby_name}** currently has no active game.".format(lobby_name=lobby_name))
+                                return
+                            # otherwise start a new game in the lobby and continue
+                            else:
+                                response += self.new_game_in_lobby(lobby_name)
+                                response += "\n"
+                        elif command.startswith("cancel"):
+                            # if there's a game but it's a cancel command, we deal with it before it would be handed off to the game object
+                            lobby_obj.game = None
+                            self.game_count -= 1
+                            await self.game_channel.send("I have cancelled the game for you.")
+                            return
 
-                        # close the game
-                        lobby_obj.game = None
+                        # get alias
+                        alias = self.get_player_alias(message.author)
+                        
+                        # Pass the message on to the game lobby, then store the result
+                        game_str = lobby_obj.game.handle_command(alias, command, content, self.stats)
+                        
+                        # If the game ended, clean up
+                        if game_str == "end":
+                            # store data
+                            lobby_obj.game.store_data("gamehistory.txt")
 
-                        # add to response
-                        response += "Thanks for playing!"
-                    # otherwise add the return string to the response
-                    else:
-                        response += game_str
+                            # Update stats engine
+                            self.stats.games.append(lobby_obj.game)
+
+                            # close the game
+                            lobby_obj.game = None
+
+                            # add to response
+                            response += "Thanks for playing!"
+                        # otherwise add the return string to the response
+                        else:
+                            response += game_str
 
         # Send a response to discord if we have something to say
         if response != "":

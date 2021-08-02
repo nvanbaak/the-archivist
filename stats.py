@@ -437,7 +437,7 @@ class Statistics:
             
         return response
 
-    # Returns player win-rate statistics; currently does not interact with filter arguments
+    # Returns player win-rate statistics
     def player_stats(self, player_name, games_list):
 
         total_games = 0
@@ -662,9 +662,7 @@ class Statistics:
                 return self.player_stats(command, games_list)
             except KeyError:
                 return "Could not retrieve gameplay stats for {}".format(command)
-        
-            return "player win stats"
-        
+
         else:
             return ""
 
