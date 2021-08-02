@@ -785,52 +785,6 @@ class Statistics:
 
             return response_str
 
-        elif args[0] == "notes":
-
-            result_count = min(10, len(self.games))
-            sort_method = "most recent"
-
-            # see if they gave us a length term
-            if len(args) > 1:
-                result_count = int(args[1])
-
-            if len(args) > 2:
-                if args[2] == "random":
-                    sort_method = "random"
-                elif args[2] == "old" or args[2] == "oldest":
-                    sort_method = "oldest"
-
-            game_sample = []
-            if sort_method == "random":
-                game_sample = random.shuffle(self.games)
-            elif sort_method == "oldest":
-                game_sample = self.games
-            else:
-                game_sample = reversed(self.games)
-
-            await message_obj.channel.send("Returning {count} {sort} game notes:".format(count=result_count,sort=sort_method))
-
-            for game in reversed(self.games):
-                if result_count > 0:
-
-                    result_str = "\n\n**GAME #{num}**\nPlayers: ".format(num=game.index)
-
-                    for player in game.players:
-                        result_str += "{player} ({cmdr}), ".format(player=player[0], cmdr=player[1])
-
-                    result_str += "\n\n**{winner} won** the game.  Here's what players said:".format(winner=game.winner[0])
-
-                    for note in game.notes:
-                        result_str += '\n"{content}"\n—{author}\n~'.format(content=note[1], author=note[0])
-
-                    await channel.send(result_str)
-                    
-                    result_count -= 1
-
-                else:
-                    return ""
-
-
 
     ##################################
     #       STATISTICS METHODS       #
@@ -1217,11 +1171,3 @@ class Statistics:
                 break
 
         return results_list
-
-    ##################################
-    #       OLD STATS METHODS        #
-    ##################################
-
-    # returns a random game from the sample set
-    def random_game(self):
-        return random.choice(self.games)
