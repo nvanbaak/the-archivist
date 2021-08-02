@@ -250,7 +250,7 @@ class Statistics:
         p_lose_cond = False
         p_first_cond = False
         p_elim_cond = False
-        p_cmdr_cond = False
+        p_cmdr_cond = []
 
         # Turn on the flags we want to check
         for condition in conditions:
@@ -263,7 +263,7 @@ class Statistics:
             elif condition == "elim":
                 p_elim_cond = True
             else:
-                p_cmdr_cond = condition            
+                p_cmdr_cond.append(condition)            
 
         if p_win_cond == p_lose_cond == True:
             print("Filter error — It is categorically impossible for the same player to win and lose simultaneously.")
@@ -285,11 +285,12 @@ class Statistics:
                     continue
 
             if p_elim_cond:
+                player_eliminated = False
                 for player in game.eliminated:
                     if player[0] == player_name:
-                        p_elim_cond = False
-                        break
-                if p_elim_cond:
+                        player_eliminated = True
+
+                if not player_eliminated:
                     # ie if we care about eliminations but didn't just find the player on the elimination list
                     continue
 
@@ -617,7 +618,6 @@ class Statistics:
         for name in self.player_names:
             try:
                 games_list = self.custom_player_filtering(games_list, name, filter_dict[name])
-                print("Filtering for player {name}".format(name=name))
             except KeyError:
                 pass
 
