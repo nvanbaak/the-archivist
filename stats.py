@@ -34,7 +34,8 @@ class Statistics:
             "-pod" : self.pods_not_this_size,
             "+pod" : self.pods_this_size,
             "pod" : self.pods_this_size,
-            "index" : self.games_by_index
+            "index" : self.games_by_index,
+            "recent" : self.games_by_recency
         }
 
 
@@ -314,10 +315,10 @@ class Statistics:
         return result_list
 
     ##################################
-    #      MISC. GAME FILTERING      #
+    #      GAME INDEX FILTERING      #
     ##################################
 
-    def recency_filtering(self, game_list, mode, index):
+    def games_by_recency(self, game_list, mode, index):
 
         recent_games = []
         current_game_index = len(self.games)
@@ -402,7 +403,6 @@ class Statistics:
         return result_list
 
 
-
     ##################################
     #         COMMAND PARSING        #
     ##################################
@@ -460,6 +460,10 @@ class Statistics:
                     filter_args[term[0]] = term[1]
 
             elif "recent" in term:
+
+                if term.startswith("recent"):
+                    term = "+" + term
+
                 term = term.split("=")
                 try:
                     error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored.".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
@@ -510,6 +514,9 @@ class Statistics:
                     games_list = self.master_filter_dict[option[:3]](option[3], games_list, filter_dict[option])
                 elif "index" in option:
                     games_list = self.master_filter_dict[option](games_list, filter_dict["index"])
+                elif "recent" in option:
+                    games_list = self.master_filter_dict[option[1:]](games_list, option[0], int(filter_dict[option]))
+
             except KeyError:
                 pass
         
