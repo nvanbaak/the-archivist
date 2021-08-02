@@ -1150,7 +1150,6 @@ class Statistics:
     # stats reference function for analyzing game breakdown
     def game_stats(self, args):
 
-
         # "$stats games by ..."
         if args[0] == "by":
 
@@ -1174,57 +1173,6 @@ class Statistics:
                     index += 1
 
                 return response_str
-
-            # "...winner"
-            if args[1] == "winner" or args[1] == "winners" or args[1] == "wins" or args[1] == "win":
-                # Empty array of players to start
-                winners = []
-                arr_length = 0
-
-                # Iterate through all games
-                for game in self.games:
-                    win_str = game.winner[0] #+ " (" + game.winner[1] + ")"
-
-                    # check against list
-                    index = 0
-                    for winner in winners:
-                        # if the name matches, increment the count
-                        if winner[0] == win_str:
-                            winner[1] += 1
-                            break
-                        index += 1
-
-                    # if the index matches the array length, our target wasn't there, so we add it with a count of 1
-                    if index == arr_length:
-                        winners.append([win_str, 1])
-                        arr_length += 1
-
-                # then sort
-                winners.sort(reverse=True, key=lambda d: d[1])
-
-                # Now that we have our data, we can present it
-                response_str = "My records show the following victories:"
-                index = 0
-
-                display_size = 10
-                if len(args) > 2:
-                    display_size = args[2]
-
-                for player in winners:
-                    if index < display_size:
-                        response_str += "\n • {player}: {total} victories".format(player=player[0], total=player[1])
-                        index += 1
-                    else:
-                        break
-
-                # then we close up
-                if arr_length > display_size:
-                    response_str += "\n ...along with {arr_length} more competitors.".format(arr_length=arr_length-display_size)
-
-                return response_str
-
-            else:
-                return ""
 
         else: return ""
 
