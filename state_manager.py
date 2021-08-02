@@ -66,7 +66,8 @@ class State_Manager:
             "threat" : "game",
             "win" : "game",
             "restart" : "game",
-            "rematch" : "game"
+            "rematch" : "game",
+            "redo" : "game"
         }
 
 
@@ -515,8 +516,17 @@ class State_Manager:
                             await self.game_channel.send("I have cancelled the game for you.")
                             return
 
-                        # get alias
-                        alias = self.get_player_alias(message.author)
+                        if command.startswith("rematch"):
+
+                            response += "\n"
+
+                            # grab the last game
+                            last_game = self.stats.games[-1]
+                            for player in last_game.players:
+                                response += "\n" + lobby_obj.game.add_player(player[0],player[1])
+
+                            await self.game_channel.send(response)
+                            return
                         
                         # Pass the message on to the game lobby, then store the result
                         game_str = lobby_obj.game.handle_command(alias, command, content, self.stats)

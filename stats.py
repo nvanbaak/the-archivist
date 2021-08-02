@@ -636,35 +636,37 @@ class Statistics:
 
         # filter games
         games_list = self.filter_games(filter_dict)
+        sample_size = len(games_list)
+
+        output = "Analyzing {} games...\n\n".format(sample_size)
 
         # perform requested analytics
 
         # refresh stats manager game set
         if command == "reset" or command == "refresh":
-            return self.import_games("gamehistory.txt")
+            output += self.import_games("gamehistory.txt")
 
         # Tally wins
         elif command == "wins":
-            return self.tally_player_wins(games_list, filter_dict)
+            output += self.tally_player_wins(games_list, filter_dict)
 
         # Tally total games
         elif command == "games":
-            return self.tally_games(games_list)
+            output += self.tally_games(games_list)
 
         # Tally eliminations
         elif command == "elims" or command == "eliminations":
-            return self.get_eliminations(games_list, filter_dict)
+            output += self.get_eliminations(games_list, filter_dict)
 
         # Report on player statistics
         elif command in self.player_names:
 
             try:
-                return self.player_stats(command, games_list)
+                output += self.player_stats(command, games_list)
             except KeyError:
-                return "Could not retrieve gameplay stats for {}".format(command)
+                output += "Could not retrieve gameplay stats for {}".format(command)
 
-        else:
-            return ""
+        return output
 
         
 

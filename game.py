@@ -71,6 +71,10 @@ class Game:
         # if we made it through the loop without hitting anything, send a failure message
         return "Could not find any commanders named {old_name}.".format(old_name=old_name)
 
+    def add_player(self, player, cmdr):
+        self.players.append([player, cmdr])
+        return "{player} is playing {cmdr}.".format(player=player, cmdr=cmdr)
+
     # the main workhorse function of the class; performs a number of basic data commands based on user input
     def handle_command(self, alias, command, content, stats):
 
