@@ -33,7 +33,8 @@ class Statistics:
             "win" : self.games_these_guys_won,
             "-pod" : self.pods_not_this_size,
             "+pod" : self.pods_this_size,
-            "pod" : self.pods_this_size
+            "pod" : self.pods_this_size,
+            "index" : self.games_by_index
         }
 
 
@@ -312,219 +313,93 @@ class Statistics:
 
         return result_list
 
-
-
     ##################################
-    #       STATISTICS METHODS       #
+    #      MISC. GAME FILTERING      #
     ##################################
 
-    # Returns the total number of games
-    def tally_games(self, game_list):
-        
-        response = "There are {num} games matching those filters.".format(num=len(game_list))
-        
-        return response
+    def recency_filtering(self, game_list, mode, index):
 
-    # Counts wins for all players in the given list of games
-    def tally_player_wins(self, game_list, filter_dict):
+        recent_games = []
+        current_game_index = len(self.games)
 
-        # counting these guys is easier with a dictionary
-        win_totals = {}
-        
-        # for each game:
-        for game in game_list:
+        target_index = current_game_index - index
 
-            # grab the winner's name
-            winner = game.winner[0]
+        if mode == "-":
+            for game in game_list:
+                if game.index < target_index:
+                    recent_games.append(game)
+        else:
+            for game in game_list:
+                if game.index >= target_index:
+                    recent_games.append(game)
 
-            # if they're already in the total count, plus one win. Otherwise, start them at 1 win.
+        return recent_games
+
+    def games_by_index(self, game_list, filter):
+
+        result_list = []
+
+        if filter.startswith("=<") or filter.startswith("<"):
+
+            filter = filter.replace("=<", "")
+            filter = filter.replace("<=", "")
+
+            # if the assign fails it's probably because it's a simple inequality and hasn't been replaced yet
             try:
-                win_totals[winner] += 1
-            except KeyError:
-                win_totals[winner] = 1
+                target_index = int(filter)
+            except ValueError:
+                filter = filter.replace("<", "")
+                target_index = int(filter) - 1
 
-        # Now we transfer the dict to a list to sort
-        sorted_winners = []
+            # Correct for zero-indexing
+            target_index -= 1
 
-        for winner in win_totals:
-            sorted_winners.append([winner, win_totals[winner]])
-
-        # if there's a filter setting, use it to sort the list
-        try:
-            sort_type = filter_dict["sort"]
-            
-            if sort_type == "rand" or sort_type == "random":
-                random.shuffle(sorted_winners)
-            elif sort_type == "desc":
-                sorted_winners.sort(reverse=False, key=lambda p: p[1])
-            else:
-                sorted_winners.sort(reverse=True, key=lambda p: p[1])
-        # if not sort term was given, we sort most to least
-        except KeyError:
-            sorted_winners.sort(reverse=True, key=lambda p: p[1])
-
-        # finally, turn the results into a string
-        response = "Win totals:\n"
-
-        # set return limit to user-entered limit or 10 if no limit given
-        try:
-            result_limit = int(filter_dict["limit"])
-        except KeyError:
-            result_limit = 10
-
-        # iterate through winners while there's room
-        result_index = 0
-        for winner in sorted_winners:
-            if result_index < result_limit:
-                response += " • {player}: {total}\n".format(player=winner[0], total=winner[1])
-                result_index += 1
-            else:
-                break
-
-        return response
-
-    # Returns elimination stats
-    def get_eliminations(self, game_list, filter_dict):
-
-        # build dictionary of eliminated players
-
-        result_list = {}
-
-        for game in game_list:
-
-            elim_index = 1
-            for player in game.eliminated:
-
-                try:
-                    result_list[player[0]] += 1
-                except KeyError:
-                    result_list[player[0]] = 1
-
-                elim_index += 1
-    
-        # transfer dict to list for sorting
-        sorted_elims = []
-
-        for elim in result_list:
-            sorted_elims.append([elim, result_list[elim]])
-
-        # if there's a filter setting, use it to sort the list
-        try:
-            sort_type = filter_dict["sort"]
-            
-            if sort_type == "rand" or sort_type == "random":
-                random.shuffle(sorted_elims)
-            elif sort_type == "desc":
-                sorted_elims.sort(reverse=False, key=lambda p: p[1])
-            else:
-                sorted_elims.sort(reverse=True, key=lambda p: p[1])
-        # if not sort term was given, we sort most to least
-        except KeyError:
-            sorted_elims.sort(reverse=True, key=lambda p: p[1])
-
-        # set return limit to user-entered limit or 10 if no limit given
-        try:
-            result_limit = int(filter_dict["limit"])
-        except KeyError:
-            result_limit = 10
-
-        # build response string
-
-        response = "Eliminations:\n"
-
-        result_index = 0
-        for winner in sorted_elims:
-            if result_index < result_limit:
-                response += " • {player}: eliminated {total} times\n".format(player=winner[0], total=winner[1])
-                result_index += 1
-            else:
-                break
-            
-        return response
-
-    # Returns player win-rate statistics
-    def player_stats(self, player_name, games_list):
-
-        total_games = 0
-        total_duels = 0
-        total_multis = 0
-        games_won = 0
-        duel_wins = 0
-        multi_wins = 0
-        average_duel_wins = 0
-        average_multi_wins = 0
-        baseline_win_chance = 0
-
-        winning_duels = []
-        winning_multis = []
-
-        for game in games_list:
-            index = game.get_player_index(player_name)
-            if index > -1:
-                total_games += 1
-
-                pod_size = game.pod_size()
-
-                average_win = round(1 / pod_size, 2)
-                baseline_win_chance += average_win
-                
-                if pod_size > 2:
-                    total_multis += 1
-                    average_multi_wins += average_win
-
-                    if game.winner[0] == player_name:
-                        games_won += 1
-                        multi_wins += 1
-                        winning_multis.append(game)
+            for game in game_list:
+                if game.index <= target_index:
+                    result_list.append(game)
                 else:
-                    total_duels += 1
-                    average_duel_wins += average_win
+                    break
 
-                    if game.winner[0] == player_name:
-                        games_won += 1
-                        duel_wins += 1
-                        winning_duels.append(game)
-                        
-        # Stats for all games
-        expected_wins_general = baseline_win_chance = round(baseline_win_chance, 2)
-        general_efficiency = round((games_won / expected_wins_general) * 100, 0)
+        elif filter.startswith("=>") or filter.startswith(">"):
 
-        # Stats for duels; if there's no duels in the pool we skip this section
-        if total_duels > 0:        
-            duel_win_rate = round((duel_wins / total_duels) * 100, 2)
-            duel_win_efficiency = round((duel_wins / average_duel_wins)*100, 0)
+            filter = filter.replace("=>", "")
+            filter = filter.replace(">=", "")
 
-        # Stats for multis; if there's no multiplayer games in the pool we skip this section
-        if total_multis > 0:
-            multi_win_rate = round((multi_wins / total_multis) * 100, 2)
-            multi_win_efficiency = round((multi_wins / average_multi_wins) * 100, 0)
+            try:
+                target_index = int(filter)
+            except ValueError:
+                filter = filter.replace(">", "")
+                target_index = int(filter) + 1
 
-        # create a string to display the information
-        log_str = "Here are the stats on {name}:".format(name=player_name)
+            # Correct for zero-indexing
+            target_index -= 1
 
-        log_str += "\n • **{num} games** played, with {duels} duels and {multi} multiplayer games".format(num=total_games, duels=total_duels, multi=total_multis)
+            for game in game_list:
+                if game.index >= target_index:
+                    result_list.append(game)
 
-        if total_duels > 0:
-            log_str += "\n • {player} won {duel_wins} duels (statistical average: {avg_duel_wins} wins) for a win rate of {duel_win_rate}% (efficiency: {efficiency}%)".format(player=player_name,duel_wins=duel_wins,avg_duel_wins=average_duel_wins,duel_win_rate=duel_win_rate,efficiency=duel_win_efficiency)
+        elif filter.startswith("="):
 
-        if total_multis > 0:
-            log_str += "\n • {player} won {multi_wins} multiplayer games (statistical average: {avg_multi_wins} wins) for a win rate of {multi_win_rate}% (efficiency: {efficiency}%)".format(player=player_name,multi_wins=multi_wins,avg_multi_wins=round(average_multi_wins,2),multi_win_rate=multi_win_rate,efficiency=multi_win_efficiency)
+            filter = filter.replace("=", "")
+            if ";" in filter:
+                range = filter.split(";",1)
+                
+                range[0] = int(range[0])-1
+                range[1] = int(range[1])-1
 
-        log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins} ({efficiency}% efficiency)".format(actual_wins=games_won, projected_wins=baseline_win_chance,efficiency=general_efficiency)
+                for game in game_list:
+                    if range[0] <= game.index and game.index <= range[1]:
+                        result_list.append(game)
+            else:
 
-        if winning_duels:
-            example_win = random.choice(winning_duels)
-            example_note = random.choice(example_win.notes)
+                filter = int(filter) -1
 
-            log_str += '\n • A sample note from a victorious duel: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+                for game in game_list:
+                    if game.index == filter:
+                        result_list.append(game)
+                        break
 
-        if winning_multis:
-            example_win = random.choice(winning_multis)
-            example_note = random.choice(example_win.notes)
-
-            log_str += '\n • A sample note from a victorious multiplayer game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
-        
-        return log_str
+        return result_list
 
 
 
@@ -567,10 +442,27 @@ class Statistics:
                 except KeyError:
                     filter_args[filter_term] = int(filter_value)
 
+            elif "index" in term:
+                index = 6 # the value's position
+                inequality = term[index-1]
+                filter_value = term[index:]
+
+                try:
+                    error_log += " • **Filter conflict:** {term} requirement conflicts with existing {existing} requirement and was ignored. To require multiple terms, join the terms with semicolons (without spaces), e.g. ``!cmdr=\"The Gitrog Monster\";Chandra;Atraxa``\n".format(term=term, existing=filter_args["index"])
+                except KeyError:
+                    filter_args["index"] = inequality + filter_value
+
             elif "sort=" in term or "limit=" in term:
                 term = term.split("=")
                 try:
                     error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored. You may only sort one way at a time.".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
+                except KeyError:
+                    filter_args[term[0]] = term[1]
+
+            elif "recent" in term:
+                term = term.split("=")
+                try:
+                    error_log += " • **Filter conflict:** {filter}={value} requirement conflicts with existing {existing} requirement and was ignored.".format(filter=term[0], value=term[1], existing=filter_args[term[0]])
                 except KeyError:
                     filter_args[term[0]] = term[1]
 
@@ -579,6 +471,7 @@ class Statistics:
                     error_log += " • **Filter conflict:** 'player wins' filter conflicts with existing {existing} filter.".format(existing=filter_args["mode"])
                 except KeyError:
                     filter_args["mode"] = term
+
 
             # Because player conditions are more complicated than most terms, we handle them here to save the bot from checking the player list for each condition
             else:
@@ -615,6 +508,8 @@ class Statistics:
                     games_list = self.master_filter_dict[option](games_list, filter_dict[option])
                 elif "pod" in option:
                     games_list = self.master_filter_dict[option[:3]](option[3], games_list, filter_dict[option])
+                elif "index" in option:
+                    games_list = self.master_filter_dict[option](games_list, filter_dict["index"])
             except KeyError:
                 pass
         
@@ -629,8 +524,6 @@ class Statistics:
         print(error_log)
 
         return games_list
-        
-
 
     # called by the bot to invoke various methods
     async def handle_command(self, command, terms, channel):
@@ -911,6 +804,219 @@ class Statistics:
                 else:
                     return ""
 
+
+
+    ##################################
+    #       STATISTICS METHODS       #
+    ##################################
+
+    # Returns the total number of games
+    def tally_games(self, game_list):
+        
+        response = "There are {num} games matching those filters.".format(num=len(game_list))
+        
+        return response
+
+    # Counts wins for all players in the given list of games
+    def tally_player_wins(self, game_list, filter_dict):
+
+        # counting these guys is easier with a dictionary
+        win_totals = {}
+        
+        # for each game:
+        for game in game_list:
+
+            # grab the winner's name
+            winner = game.winner[0]
+
+            # if they're already in the total count, plus one win. Otherwise, start them at 1 win.
+            try:
+                win_totals[winner] += 1
+            except KeyError:
+                win_totals[winner] = 1
+
+        # Now we transfer the dict to a list to sort
+        sorted_winners = []
+
+        for winner in win_totals:
+            sorted_winners.append([winner, win_totals[winner]])
+
+        # if there's a filter setting, use it to sort the list
+        try:
+            sort_type = filter_dict["sort"]
+            
+            if sort_type == "rand" or sort_type == "random":
+                random.shuffle(sorted_winners)
+            elif sort_type == "desc":
+                sorted_winners.sort(reverse=False, key=lambda p: p[1])
+            else:
+                sorted_winners.sort(reverse=True, key=lambda p: p[1])
+        # if not sort term was given, we sort most to least
+        except KeyError:
+            sorted_winners.sort(reverse=True, key=lambda p: p[1])
+
+        # finally, turn the results into a string
+        response = "Win totals:\n"
+
+        # set return limit to user-entered limit or 10 if no limit given
+        try:
+            result_limit = int(filter_dict["limit"])
+        except KeyError:
+            result_limit = 10
+
+        # iterate through winners while there's room
+        result_index = 0
+        for winner in sorted_winners:
+            if result_index < result_limit:
+                response += " • {player}: {total}\n".format(player=winner[0], total=winner[1])
+                result_index += 1
+            else:
+                break
+
+        return response
+
+    # Returns elimination stats
+    def get_eliminations(self, game_list, filter_dict):
+
+        # build dictionary of eliminated players
+
+        result_list = {}
+
+        for game in game_list:
+
+            elim_index = 1
+            for player in game.eliminated:
+
+                try:
+                    result_list[player[0]] += 1
+                except KeyError:
+                    result_list[player[0]] = 1
+
+                elim_index += 1
+    
+        # transfer dict to list for sorting
+        sorted_elims = []
+
+        for elim in result_list:
+            sorted_elims.append([elim, result_list[elim]])
+
+        # if there's a filter setting, use it to sort the list
+        try:
+            sort_type = filter_dict["sort"]
+            
+            if sort_type == "rand" or sort_type == "random":
+                random.shuffle(sorted_elims)
+            elif sort_type == "desc":
+                sorted_elims.sort(reverse=False, key=lambda p: p[1])
+            else:
+                sorted_elims.sort(reverse=True, key=lambda p: p[1])
+        # if not sort term was given, we sort most to least
+        except KeyError:
+            sorted_elims.sort(reverse=True, key=lambda p: p[1])
+
+        # set return limit to user-entered limit or 10 if no limit given
+        try:
+            result_limit = int(filter_dict["limit"])
+        except KeyError:
+            result_limit = 10
+
+        # build response string
+
+        response = "Eliminations:\n"
+
+        result_index = 0
+        for winner in sorted_elims:
+            if result_index < result_limit:
+                response += " • {player}: eliminated {total} times\n".format(player=winner[0], total=winner[1])
+                result_index += 1
+            else:
+                break
+            
+        return response
+
+    # Returns player win-rate statistics
+    def player_stats(self, player_name, games_list):
+
+        total_games = 0
+        total_duels = 0
+        total_multis = 0
+        games_won = 0
+        duel_wins = 0
+        multi_wins = 0
+        average_duel_wins = 0
+        average_multi_wins = 0
+        baseline_win_chance = 0
+
+        winning_duels = []
+        winning_multis = []
+
+        for game in games_list:
+            index = game.get_player_index(player_name)
+            if index > -1:
+                total_games += 1
+
+                pod_size = game.pod_size()
+
+                average_win = round(1 / pod_size, 2)
+                baseline_win_chance += average_win
+                
+                if pod_size > 2:
+                    total_multis += 1
+                    average_multi_wins += average_win
+
+                    if game.winner[0] == player_name:
+                        games_won += 1
+                        multi_wins += 1
+                        winning_multis.append(game)
+                else:
+                    total_duels += 1
+                    average_duel_wins += average_win
+
+                    if game.winner[0] == player_name:
+                        games_won += 1
+                        duel_wins += 1
+                        winning_duels.append(game)
+                        
+        # Stats for all games
+        expected_wins_general = baseline_win_chance = round(baseline_win_chance, 2)
+        general_efficiency = round((games_won / expected_wins_general) * 100, 0)
+
+        # Stats for duels; if there's no duels in the pool we skip this section
+        if total_duels > 0:        
+            duel_win_rate = round((duel_wins / total_duels) * 100, 2)
+            duel_win_efficiency = round((duel_wins / average_duel_wins)*100, 0)
+
+        # Stats for multis; if there's no multiplayer games in the pool we skip this section
+        if total_multis > 0:
+            multi_win_rate = round((multi_wins / total_multis) * 100, 2)
+            multi_win_efficiency = round((multi_wins / average_multi_wins) * 100, 0)
+
+        # create a string to display the information
+        log_str = "Here are the stats on {name}:".format(name=player_name)
+
+        log_str += "\n • **{num} games** played, with {duels} duels and {multi} multiplayer games".format(num=total_games, duels=total_duels, multi=total_multis)
+
+        if total_duels > 0:
+            log_str += "\n • {player} won {duel_wins} duels (statistical average: {avg_duel_wins} wins) for a win rate of {duel_win_rate}% (efficiency: {efficiency}%)".format(player=player_name,duel_wins=duel_wins,avg_duel_wins=average_duel_wins,duel_win_rate=duel_win_rate,efficiency=duel_win_efficiency)
+
+        if total_multis > 0:
+            log_str += "\n • {player} won {multi_wins} multiplayer games (statistical average: {avg_multi_wins} wins) for a win rate of {multi_win_rate}% (efficiency: {efficiency}%)".format(player=player_name,multi_wins=multi_wins,avg_multi_wins=round(average_multi_wins,2),multi_win_rate=multi_win_rate,efficiency=multi_win_efficiency)
+
+        log_str += "\n • **{actual_wins} wins** out of an expected {projected_wins} ({efficiency}% efficiency)".format(actual_wins=games_won, projected_wins=baseline_win_chance,efficiency=general_efficiency)
+
+        if winning_duels:
+            example_win = random.choice(winning_duels)
+            example_note = random.choice(example_win.notes)
+
+            log_str += '\n • A sample note from a victorious duel: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+
+        if winning_multis:
+            example_win = random.choice(winning_multis)
+            example_note = random.choice(example_win.notes)
+
+            log_str += '\n • A sample note from a victorious multiplayer game: \n```{note_text}\n — {note_author}```'.format(note_text=example_note[1],note_author=example_note[0])
+        
+        return log_str
 
 
 
