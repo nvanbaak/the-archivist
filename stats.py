@@ -652,7 +652,7 @@ class Statistics:
 
         # Tally total games
         elif command == "games":
-            output += self.tally_games(games_list)
+            output = self.tally_games(games_list)
 
         # Tally eliminations
         elif command == "elims" or command == "eliminations":
