@@ -395,9 +395,12 @@ class State_Manager:
             content = content.replace("$ stats ", "")
             content = content.replace("$stats ", "")
 
-            # separate the command from the arguments
+            # separate the command from the arguments, if any
+            command = ""
+
             args = content.split(" ", 1)
             command = args[0]
+            
             try:
                 terms = args[1]
             except IndexError:

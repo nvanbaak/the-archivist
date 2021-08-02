@@ -438,7 +438,7 @@ class Statistics:
         return response
 
     # Returns player win-rate statistics; currently does not interact with filter arguments
-    def player_stats(self, player_name):
+    def player_stats(self, player_name, games_list):
 
         total_games = 0
         total_duels = 0
@@ -453,7 +453,7 @@ class Statistics:
         winning_duels = []
         winning_multis = []
 
-        for game in self.games:
+        for game in games_list:
             index = game.get_player_index(player_name)
             if index > -1:
                 total_games += 1
@@ -462,7 +462,6 @@ class Statistics:
 
                 average_win = round(1 / pod_size, 2)
                 baseline_win_chance += average_win
-                
                 
                 if pod_size > 2:
                     total_multis += 1
@@ -482,21 +481,17 @@ class Statistics:
                         winning_duels.append(game)
                         
         # Stats for all games
-        total_win_rate = round((games_won / total_games) * 100, 2)
         expected_wins_general = baseline_win_chance = round(baseline_win_chance, 2)
-        expected_win_rate_general = round((expected_wins_general / total_games) * 100, 2)
         general_efficiency = round((games_won / expected_wins_general) * 100, 0)
 
         # Stats for duels; if there's no duels in the pool we skip this section
         if total_duels > 0:        
             duel_win_rate = round((duel_wins / total_duels) * 100, 2)
-            average_duel_win_rate = round((average_duel_wins / total_duels), 2)
             duel_win_efficiency = round((duel_wins / average_duel_wins)*100, 0)
 
         # Stats for multis; if there's no multiplayer games in the pool we skip this section
         if total_multis > 0:
             multi_win_rate = round((multi_wins / total_multis) * 100, 2)
-            average_multi_win_rate = round((average_multi_wins / total_multis), 2)
             multi_win_efficiency = round((multi_wins / average_multi_wins) * 100, 0)
 
         # create a string to display the information
@@ -590,8 +585,6 @@ class Statistics:
                             term = term.split("=")
                             filter_args[name] = term[1].split(";")
 
-
-
         # after checking all the filters, save the error log to the dict
         filter_args["error_log"] = error_log
             
@@ -667,16 +660,10 @@ class Statistics:
         elif command in self.player_names:
 
             try:
-                if filter_dict["mode"] == "win":
-                    return self.player_stats(command, filter_dict)
-                else:
-                    return ""
-
+                return self.player_stats(command, games_list)
             except KeyError:
-                pass
-            
-
-
+                return "Could not retrieve gameplay stats for {}".format(command)
+        
             return "player win stats"
         
         else:
