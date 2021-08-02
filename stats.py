@@ -1,5 +1,6 @@
 import os
 import random
+from typing import Counter
 
 from game import Game
 
@@ -552,7 +553,7 @@ class Statistics:
 
         # Tally total games
         elif command == "games":
-            output = self.tally_games(games_list)
+            output = self.tally_games(games_list, filter_dict)
 
         # Tally eliminations
         elif command == "elims" or command == "eliminations":
@@ -565,6 +566,9 @@ class Statistics:
         # List player participation
         elif command == "players":
             output += self.tally_player(games_list, filter_dict)
+
+        elif command == "random":
+            output += ""
 
         # Report on player statistics
         elif command in self.player_names:
@@ -822,10 +826,17 @@ class Statistics:
     ##################################
 
     # Returns the total number of games
-    def tally_games(self, game_list):
-        
+    def tally_games(self, game_list, filter_dict):
+
+        try:
+            if "pod" in filter_dict["display"]:
+                response = self.tally_pods(game_list, filter_dict)
+                return response
+        except KeyError:
+            pass
+
         response = "There are {num} games matching those filters.".format(num=len(game_list))
-        
+
         return response
 
     # Counts wins for all players in the given list of games
@@ -1141,40 +1152,40 @@ class Statistics:
 
         return response_str
 
+    def tally_pods(self, games_list, filter_dict):
+
+        pod_dict = {
+            2 : 0,
+            3 : 0,
+            4 : 0,
+            5 : 0,
+            6 : 0
+        }
+
+        for game in games_list:
+            pod_size = len(game.players)
+            try:
+                pod_dict[pod_size] += 1
+            except KeyError:
+                # this only fires if you played an EDH game with 7 or more people, you utter lunatic
+                pod_dict[pod_size] = 1
+
+        sorted_sizes = []
+        for size in pod_dict:
+            sorted_sizes.append([size, pod_dict[size]])
+
+        sorted_sizes.sort(reverse=True, key=lambda d: d[1])
+
+        output_str = "Game records by participating players:"
+
+        for pod in sorted_sizes:
+            output_str += "\n • {pod} players: {count} games".format(pod=pod[0], count=pod[1])
+
+        return output_str
+
     ##################################
     #       OLD STATS METHODS        #
     ##################################
-
-
-
-    # stats reference function for analyzing game breakdown
-    def game_stats(self, args):
-
-        # "$stats games by ..."
-        if args[0] == "by":
-
-            # "...pod"
-            if args[1] == "pod":
-                # define an array of possible pod sizes, with the first index representing 1v1
-                pod_size = [0, 0, 0, 0, 0]
-                # For each game, count the players and increment appropriately
-                for game in self.games:
-                    pod_size[game.pod_size()-2] += 1
-                
-                response_str = "Here's a breakdown of my records by pod size:"
-
-                # define an index to iterate with the array
-                index = 0
-                for tally in pod_size:
-                    # if there's no games with that pod size we don't print them
-                    if tally > 0:
-                        response_str += "\n• [{index_value}]: {tally} games".format(index_value=index+2, tally=tally)
-                    # increment the index either way
-                    index += 1
-
-                return response_str
-
-        else: return ""
 
     # returns a random game from the sample set
     def random_game(self):
