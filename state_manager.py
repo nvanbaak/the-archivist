@@ -67,7 +67,7 @@ class State_Manager:
             "win" : "game",
             "restart" : "game",
             "rematch" : "game",
-            "redo" : "game"
+            "same" : "game"
         }
 
 
@@ -495,14 +495,13 @@ class State_Manager:
                         manager = self.command_dict[command]
                     # This was our last chance to recognize the command, so if it's not a game command it's not a command.
                     except KeyError:
-                        await message.channel.send("I didn't recognize that command.")
                         return
 
                     if manager == "game":
-                        # if there's no game, we might have to start one            
+                        # if there's no game, we might have to start one
                         if lobby_obj.game == None:
                             # If they're just checking on game status, let them know there's no game
-                            if content.startswith("status"):
+                            if command.startswith("status") or command.startswith("cancel"):
                                 await self.game_channel.send("**{lobby_name}** currently has no active game.".format(lobby_name=lobby_name))
                                 return
                             # otherwise start a new game in the lobby and continue
@@ -517,8 +516,6 @@ class State_Manager:
                             return
 
                         if command.startswith("rematch"):
-
-                            response += "\n"
 
                             # grab the last game
                             last_game = self.stats.games[-1]

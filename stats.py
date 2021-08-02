@@ -340,6 +340,7 @@ class Statistics:
 
         result_list = []
 
+        print(filter)
         if filter.startswith("=<") or filter.startswith("<"):
 
             filter = filter.replace("=<", "")
@@ -419,7 +420,7 @@ class Statistics:
         for term in terms:
 
             # Check filter words
-            if "player=" in term or "cmdr=" in term or "win=" in term:
+            if "player=" in term or "cmdr=" in term or "win=" in term or "display=" in term:
                 term = term.split("=")
 
                 # This is counter-intuitive; basically the code in the try block should only work if a previous filter has already added that setting to the dictionary.  That shouldn't happen, so we give them an error message.  If the setting does not exist, it throws a KeyError, which tells us it's safe to add the filter setting.
@@ -428,7 +429,7 @@ class Statistics:
                 except KeyError:
                     filter_args[term[0]] = term[1].split(";")
 
-            elif "pod=" in term or "pod>" in term or "pod<" in term:
+            elif "pod" in term:
                 # This one's handled a bit differently because we want to preserve the =/>/<, which means we can't use the split method above
 
                 # Get the endpoint of the inequality statement
@@ -470,11 +471,6 @@ class Statistics:
                 except KeyError:
                     filter_args[term[0]] = term[1]
 
-            elif term == "win" or term == "wins" or term == "decks" or term == "cmdrs":
-                try:
-                    error_log += " • **Filter conflict:** 'player wins' filter conflicts with existing {existing} filter.".format(existing=filter_args["mode"])
-                except KeyError:
-                    filter_args["mode"] = term
 
 
             # Because player conditions are more complicated than most terms, we handle them here to save the bot from checking the player list for each condition
@@ -561,6 +557,14 @@ class Statistics:
         # Tally eliminations
         elif command == "elims" or command == "eliminations":
             output += self.get_eliminations(games_list, filter_dict)
+
+        # List commanders
+        elif command == "cmdrs" or command == "decks":
+            output += self.tally_cmdrs(games_list, filter_dict)
+
+        # List player participation
+        elif command == "players":
+            output += self.tally_player(games_list, filter_dict)
 
         # Report on player statistics
         elif command in self.player_names:
@@ -882,6 +886,46 @@ class Statistics:
 
         return response
 
+    # Counts number of games each player has played
+    def tally_player(self, game_list, filter_dict):
+
+        # set up display filters
+        try:
+            disp_player = []
+            for display_option in filter_dict["display"]:
+                if display_option in self.player_names:
+                    disp_player.append(display_option)
+        except KeyError:
+            disp_player = False
+
+        # Acquire data
+        player_dict = {}
+        for game in game_list:
+            for player in game.players:
+                try:
+                    player_dict[player[0]] += 1
+                except KeyError:
+                    player_dict[player[0]] = 1
+
+        # sort data
+        result_list = []
+        for player in player_dict:
+            if disp_player:
+                if player in disp_player:
+                    result_list.append([player, player_dict[player]])
+            else:
+                result_list.append([player, player_dict[player]])
+
+        result_list.sort(reverse=True, key=lambda d: d[1])
+
+        # display data
+        output_str = "Games played:"
+        for player in result_list:
+
+            output_str += "\n • {player}: {count}".format(player=player[0], count=player[1])
+
+        return output_str
+
     # Returns elimination stats
     def get_eliminations(self, game_list, filter_dict):
 
@@ -1025,7 +1069,77 @@ class Statistics:
         
         return log_str
 
+    # Returns total games palyed with each commander
+    def tally_cmdrs(self, games_list, filter_dict):
 
+        # set up display options
+
+        # get the names of players we're interested in
+        try:
+            disp_player = []
+            for display_option in filter_dict["display"]:
+                if display_option in self.player_names:
+                    disp_player.append(display_option)
+        except KeyError:
+            disp_player = False
+
+        # we limit display using either the user value or 10 if they didn't give us one
+        try:
+            display_size = int(filter_dict["limit"])
+        except KeyError:
+            display_size = 10
+
+        cmdr_dict = {}
+
+        # first count decks
+        for game in games_list:
+            for player in game.players:
+
+                deck_str = player[1] + " (" + player[0] + ")"
+
+                try:
+                    cmdr_dict[deck_str] += 1
+                except KeyError:
+                    cmdr_dict[deck_str] = 1
+
+        # next we make a list and sort it
+        result_list = []
+
+        for deck in cmdr_dict:
+
+            # check if we're only displaying certain players
+            if disp_player:
+                for player in disp_player:
+                    if player in deck:
+                        result_list.append([deck, cmdr_dict[deck]])
+            else:
+                result_list.append([deck, cmdr_dict[deck]])
+
+        result_list.sort(reverse=True, key=lambda d: d[1])
+
+
+        # Format content for display
+        response_str = "Commanders played:"
+
+        index = 0
+        for deck in result_list:
+            if index < display_size:
+
+                # use plural if mor ethan one game
+                plural = "s"
+                if deck[1] == 1:
+                    plural =""
+
+                response_str += "\n • {cmdr}: {total} game{plural}".format(cmdr=deck[0], total=deck[1], plural=plural)
+                index += 1
+            else:
+                break
+
+        # then we close up
+        if len(result_list) > display_size:
+            response_str += "\n ...along with {arr_length} more entries.".format(arr_length=len(result_list)-display_size)
+
+        return response_str
 
     ##################################
     #       OLD STATS METHODS        #
@@ -1064,9 +1178,6 @@ class Statistics:
 
                 return response_str
 
-            # "...deck"
-            if args[1] == "deck" or args[1] == "commander":
-                return self.games_by_deck(args[2:])
 
             # "...player"
             if args[1] == "player" or args[1] == "players":
@@ -1173,126 +1284,6 @@ class Statistics:
                 return ""
 
         else: return ""
-
-    # stats reference function for analyzing games by commander; submethod of game_stats
-    def games_by_deck(self, args):
-        # Set up the filter arrays
-        require_player = []
-        require_cmdr = []
-        block_player = []
-        block_cmdr = []
-
-        # start error log
-        error_log = ""
-
-        # sort & process filter terms into their respective arrays
-        for arg in args:
-            if arg.startswith("+player="):
-                arg = arg.replace("+player=","")
-                require_player.append(arg)
-
-            elif arg.startswith("+cmdr=") or arg.startswith("+deck=") or arg.startswith("+commander="):
-                arg = arg.replace("+cmdr=","")
-                arg = arg.replace("+deck=","")
-                arg = arg.replace("+commander=","")
-
-                # commanders might have spaces in them, so we have to deal with that too
-                arg = arg.replace("_", " ")
-
-                require_cmdr.append(arg)
-
-            elif arg.startswith("-player="):
-                arg = arg.replace("-player=","")
-                block_player.append(arg)
-
-            elif arg.startswith("-cmdr=") or arg.startswith("-deck=") or arg.startswith("-commander="):
-                arg = arg.replace("-cmdr=","")
-                arg = arg.replace("-deck=","")
-                arg = arg.replace("-commander=","")
-
-                arg = arg.replace("_", " ")
-                require_cmdr.append(arg)
-
-                block_cmdr.append(arg)
-
-            # todo: add play_count argument handling
-
-            # todo: add display_count argument handling
-
-            # todo: add hide_player argument handling
-
-            else:
-                error_log += "Games by deck: ignored invalid search term '{term}'".format(term=arg)
-
-        # Empty array of commanders to start
-        commanders = []
-        arr_length = 0
-
-        # Iterate through all games
-        for game in self.games:
-
-            # Get player data from games
-            for player in game.players:
-
-                # this code determines whether to add the player information
-                fits_require = True
-                fits_block = True
-
-                # If any positive requirements exist, we assume guilty until proven innocent
-                if require_player or require_cmdr:
-                    fits_require = False
-                    if player[0] in require_player or player[1] in require_cmdr:
-                        fits_require = True
-                
-                # The block requirements
-                if player[0] in block_player or player[1] in block_cmdr:
-                    fits_block = False
-                
-                # Finally, add to array if all requirements are met
-                if fits_require and fits_block:
-                    deck_str = player[1] + " (" + player[0] + ")"
-                
-                    # search for it in the arr
-                    index = 0
-                    for deck in commanders:
-                        # if the name matches, increment the count
-                        if deck[0] == deck_str:
-                            deck[1] += 1
-                            break
-                        index += 1
-
-                    # if the index matches the array length, our target wasn't there, so we add it with a count of 1
-                    if index == len(commanders):
-                        commanders.append([deck_str, 1])
-                        arr_length += 1
-        
-        # then we sort the array
-        commanders.sort(reverse=True, key=lambda d: d[1])
-
-        # Now that we have our data, we can present it
-        response_str = "Games by commanders played:"
-        index = 0
-
-        # we limit display using either the user value or 20 if they didn't give us one
-        display_size = 20
-
-        # This code no longer works due to the changes that allow filtering; will refactor later
-        # if len(args) > 2:
-        #     display_size = int(args[2])
-        
-        for deck in commanders:
-            if index < display_size:
-                response_str += "\n • {cmdr}: {total} games".format(cmdr=deck[0], total=deck[1])
-                index += 1
-            else:
-                break
-
-        # then we close up
-        if arr_length > display_size:
-            response_str += "\n ...along with {arr_length} more entries.".format(arr_length=arr_length-display_size)
-
-        print(error_log)
-        return response_str
 
     # returns a random game from the sample set
     def random_game(self):
