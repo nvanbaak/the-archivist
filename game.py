@@ -252,7 +252,6 @@ class Game:
 
             return response
 
-
         # returns a "threat analysis" string.  While the plan is eventually to have a statistically-powered bayesian calculation, the current "analysis" is a random number generator.
         if command == "threat":    
             target = random.choice(self.players)
@@ -368,7 +367,7 @@ class Game:
     # Summarized version of game summary, intended for use after the game is over
     def game_summary(self):
 
-        output_str = "**GAME #{}**\n\nPlayers:".format(self.index)
+        output_str = "**GAME #{}**\nPlayers:".format(self.index)
 
         for player in self.players:
             elim_index = self.get_elim_index(player[0])
@@ -382,13 +381,13 @@ class Game:
             else:
                 output_str += "\n • " + player_str
 
-            output_str += "\n\n**{}** won the game.  Here's what players said:".format(self.winner[0])
+        output_str += "\n\n**{}** won the game.  Here's what players said:".format(self.winner[0])
 
-            for note in self.notes:
+        for note in self.notes:
 
-                output_str += '\n"{content}"\n—{author}\n~'.format(content=note[1], author=note[0])
+            output_str += '\n"{content}"\n—{author}\n'.format(content=note[1], author=note[0])
 
-            return output_str
+        return output_str
 
     # Parses information from stored games; essentially used as a constructor for archived games
     def parse_data(self, game_data):

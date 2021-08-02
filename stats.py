@@ -568,7 +568,7 @@ class Statistics:
             output += self.tally_player(games_list, filter_dict)
 
         elif command == "random":
-            output += ""
+            output += random.choice(games_list).game_summary()
 
         # Report on player statistics
         elif command in self.player_names:
