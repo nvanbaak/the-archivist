@@ -570,6 +570,17 @@ class Statistics:
         elif command == "random":
             output += random.choice(games_list).game_summary()
 
+        elif command == "reports" or command == "notes":
+
+            note_list = self.list_game_notes(games_list, filter_dict)
+
+            await channel.send(output + "~")
+
+            for note in note_list:
+                await channel.send(note+"\n~")
+
+            return ""
+
         # Report on player statistics
         elif command in self.player_names:
 
@@ -1152,6 +1163,7 @@ class Statistics:
 
         return response_str
 
+    # returns games sorted by number of players
     def tally_pods(self, games_list, filter_dict):
 
         pod_dict = {
@@ -1182,6 +1194,29 @@ class Statistics:
             output_str += "\n • {pod} players: {count} games".format(pod=pod[0], count=pod[1])
 
         return output_str
+
+    # returns an array of game summaries
+    def list_game_notes(self, games_list, filter_dict):
+
+        results_list = []
+
+        result_count = 1
+        if "limit" in filter_dict:
+            limit = int(filter_dict["limit"])
+
+            result_count = limit if limit <= 5 else 5
+
+        if result_count <= 0:
+            return ["Limit must be positive."]
+
+        for game in games_list:
+            if result_count > 0:
+                results_list.append(game.game_summary())
+                result_count -= 1
+            else:
+                break
+
+        return results_list
 
     ##################################
     #       OLD STATS METHODS        #
