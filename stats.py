@@ -289,24 +289,28 @@ class Statistics:
                 for player in game.eliminated:
                     if player[0] == player_name:
                         player_eliminated = True
+                        break
 
                 if not player_eliminated:
-                    # ie if we care about eliminations but didn't just find the player on the elimination list
                     continue
 
             if p_cmdr_cond:
                 player_index = game.get_player_index(player_name)
                 cmdr_name = game.players[player_index][1]
-                if not p_cmdr_cond == cmdr_name:
+
+                got_em = False
+                
+                for cmdr in p_cmdr_cond:
+                    if cmdr_name == cmdr:
+                        got_em = True
+                        break
+                if not got_em:
                     continue
 
             # if we made it here, every condition is met, so append
             result_list.append(game)
 
         return result_list
-
-
-
 
 
 
