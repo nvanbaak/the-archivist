@@ -591,22 +591,9 @@ class Statistics:
 
         return output
 
-        
+        # Impact factor stats will be refactored later, so for now this code is unreachable
 
-
-
-        # All of these commands will be refactored, so there's currently no way to reach them in the progam logic
-
-
-        if args[0] == "games" or args[0] == "game":
-            del args[0]
-            return self.game_stats(args)
-
-        elif args[0] == "player":
-            del args[0]
-            return self.player_stats(args)
-
-        elif args[0] == "deck" or args[0] == "commander" or args[0] == "cmdr":
+        if args[0] == "deck" or args[0] == "commander" or args[0] == "cmdr":
             
             # get the commander name
             cmdr_name = " ".join(args[1:])
