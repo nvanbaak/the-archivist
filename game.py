@@ -365,6 +365,31 @@ class Game:
 
         return state_str
 
+    # Summarized version of game summary, intended for use after the game is over
+    def game_summary(self):
+
+        output_str = "**GAME #{}**\n\nPlayers:".format(self.index)
+
+        for player in self.players:
+            elim_index = self.get_elim_index(player[0])
+
+            player_str = player[0] + " (" + player[1] + ")"
+
+            # if they're eliminated, add strikethrough
+            if elim_index > -1:
+                output_str += "\n • ~~" + player_str + "~~"
+            # otherwise just add the name
+            else:
+                output_str += "\n • " + player_str
+
+            output_str += "\n\n**{}** won the game.  Here's what players said:".format(self.winner[0])
+
+            for note in self.notes:
+
+                output_str += '\n"{content}"\n—{author}\n~'.format(content=note[1], author=note[0])
+
+            return output_str
+
     # Parses information from stored games; essentially used as a constructor for archived games
     def parse_data(self, game_data):
         # Break up the string into data chunks
