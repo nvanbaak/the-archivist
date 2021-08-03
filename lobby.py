@@ -1,9 +1,12 @@
+from stats import Statistics
+from game import Game
+
 class Lobby:
     def __init__(self, name):
-        self.game = None
+        self.game : Game = None
         self.name = name
         self.players = []
-    
+
     def add_player(self, player):
 
         if not player == self.players:
@@ -30,3 +33,12 @@ class Lobby:
             return response
         else:
             return ""
+
+    def handle_command(self, alias, command, content, stats_engine: Statistics):
+
+        if command.startswith("forecast"):
+
+            return stats_engine.forecast_match_result(self.game.players)
+
+        else:
+            return self.game.handle_command(alias, command, content, stats_engine)

@@ -53,7 +53,7 @@ class Statistics:
         if os.path.exists(file_location):
             with open(file_location, "r", -1, "utf8") as gamehistory:
                 history_arr = gamehistory.read().split("\n")
-                
+
                 # last list entry is empty because of the newline at the end of the file, so we delete it here
                 del history_arr[-1]
 
@@ -64,7 +64,7 @@ class Statistics:
                     new_game.parse_data(game_data)
                     self.games.append(new_game)
                     index +=1
-            
+
             print("Loaded {num} games from {location}.".format(num=len(self.games), location=file_location))
 
             return "Successfully loaded game history! Sample set now {num} games.".format(num=len(self.games))
@@ -224,7 +224,7 @@ class Statistics:
                     result_list.append(game)
         
         return result_list
-    
+
     # returns games based on not meeting the given operation and pod size
     def pods_not_this_size(self, mode, game_list, pod_size):
         result_list = []
@@ -1158,3 +1158,39 @@ class Statistics:
                 break
 
         return results_list
+
+    # Given a list of players, determines win chance
+    def forecast_match_result(self, players):
+
+        player_list = []
+
+        for player in players:
+            player_list.append(player[0])
+
+        filter_dict = { 
+            "!player=" : player_list,
+            "+recent" : 100
+        }
+
+        game_sample = self.filter_games(self.games, filter_dict)
+
+        player_dict = {}
+
+        for player in player_list:
+            player_dict[player] = 0
+
+        for game in game_sample:
+            player_dict[game.winner[0]] += 1
+
+        output_str = "Based on {} previous games with these players, here is each player's chance of victory:".format(len(game_sample))
+
+        for player in player_dict:
+
+            win_chance = round( player_dict[player] / len(game_sample), 2 ) * 100
+
+            output_str += "\n • {player_name}: {win_chance}%".format(player_name=player, win_chance=win_chance)
+
+        return output_str
+
+
+

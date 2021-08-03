@@ -526,7 +526,7 @@ class State_Manager:
                             return
                         
                         # Pass the message on to the game lobby, then store the result
-                        game_str = lobby_obj.game.handle_command(alias, command, content, self.stats)
+                        game_str = lobby_obj.handle_command(alias, command, content, self.stats)
                         
                         # If the game ended, clean up
                         if game_str == "end":
