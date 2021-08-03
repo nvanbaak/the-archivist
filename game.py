@@ -367,7 +367,7 @@ class Game:
     # Summarized version of game summary, intended for use after the game is over
     def game_summary(self):
 
-        output_str = "**GAME #{}**\nPlayers:".format(self.index)
+        output_str = "**GAME #{}**\nPlayers:".format(self.index+1)
 
         for player in self.players:
             elim_index = self.get_elim_index(player[0])
