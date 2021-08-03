@@ -103,9 +103,9 @@ Some filters affect how and which information is presented and are only implemen
 
 ![player_stats](./assets/screenshots/filter_terms.png)
 
-*an example using filter terms to compare how going first affects the win distribution for my brother's Ramos deck.*
+*An example using filter terms to compare how going first affects the win distribution for my brother's Ramos deck.*
 
-Since you probably don't have MtG game data just lying around, I've included our group's file.  I've also included an algorithm for converting game spreadsheets into the game history storage format used by The Archivist.
+Since you probably don't have MtG game data just lying around, I've included our group's file.  To get started, drop it into the main project folder and rename it to `gamehistory.txt`.  I've also included an algorithm for converting game spreadsheets into the game history storage format used by The Archivist.
 
 ### Data Manager
 
