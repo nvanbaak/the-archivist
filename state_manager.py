@@ -67,7 +67,8 @@ class State_Manager:
             "win" : "game",
             "restart" : "game",
             "rematch" : "game",
-            "same" : "game"
+            "same" : "game",
+            "forecast" : "game"
         }
 
 
