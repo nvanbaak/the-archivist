@@ -294,7 +294,7 @@ class Data_Manager:
 
         # Read game history from file
         if os.path.exists(file_location):
-            with open(file_location, "r") as gamehistory:
+            with open(file_location, "r",-1,"utf8") as gamehistory:
                 history_arr = gamehistory.read().split("\n")
                 # delete the last entry because we know it's a newline
                 del history_arr[-1]

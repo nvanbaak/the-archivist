@@ -70,9 +70,7 @@ All commands are executed using a sample set of saved games, defined by user-pro
 
 ![player_stats](./assets/screenshots/player_stats.png)
 
-*Note: the screenshot is currently out of date; for the current version of the bot, you would simply type `$stats Nik`*
-
-*The Archivist's player statistics distinguishes between 'duels' (1v1 games) and multiplayer games, since some players (like me) have a different threat level once political options are on the table.  As a side note, I was really proud of that Thantis win.*
+*The Archivist's player statistics distinguishes between 'duels' (1v1 games) and multiplayer games, since some players (like me) have a different threat level once political options are on the table.  As a side note, I was really proud of that Braids win.*
 
 #### **Filters**
 
@@ -102,6 +100,10 @@ Some filters affect how and which information is presented and are only implemen
 * `limit=[int]` tells the bot how many entries to display.
 * `sort=[argument]` tells the bot how to order results.  `sort` currently accepts `rand` (randomized) and `desc` (descending order, or lowest to highest) as arguments.  (There is no term for ascending order because it is the default)  Sort is currently implemented only for the `win` command.
 * `display=[player]` only displays entries relating to the named players.
+
+![player_stats](./assets/screenshots/filter_terms.png)
+
+*an example using filter terms to compare how going first affects the win distribution for my brother's Ramos deck.*
 
 Since you probably don't have MtG game data just lying around, I've included our group's file.  I've also included an algorithm for converting game spreadsheets into the game history storage format used by The Archivist.
 
