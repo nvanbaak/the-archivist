@@ -1172,7 +1172,7 @@ class Statistics:
             "+recent" : 100
         }
 
-        game_sample = self.filter_games(self.games, filter_dict)
+        game_sample = self.filter_games(filter_dict)
 
         player_dict = {}
 
