@@ -1167,9 +1167,12 @@ class Statistics:
         for player in players:
             player_list.append(player[0])
 
-        filter_dict = { 
-            "!player=" : player_list,
-            "+recent" : 100
+        print(player_list)
+
+        filter_dict = {
+            "!player" : player_list,
+            "+recent" : 100,
+            "error_log" : ""
         }
 
         game_sample = self.filter_games(filter_dict)
