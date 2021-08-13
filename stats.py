@@ -539,7 +539,7 @@ class Statistics:
         games_list = self.filter_games(filter_dict)
         sample_size = len(games_list)
 
-        output = "Analyzing {} games...\n\n".format(sample_size)
+        output = ""
 
         # perform requested analytics
 
@@ -589,7 +589,16 @@ class Statistics:
             except KeyError:
                 output += "Could not retrieve gameplay stats for {}".format(command)
 
-        return output
+        try:
+            if "alias" in filter_dict["display"]:
+                output = self.alias_player_names(output)
+        except KeyError:
+            pass
+
+        if output == "":
+            return ""
+        else:
+            return "Analyzing {} games...\n\n".format(sample_size) + output
 
         # Impact factor stats will be refactored later, so for now this code is unreachable
 
@@ -1195,5 +1204,16 @@ class Statistics:
 
         return output_str
 
+    ##################################
+    #         DISPLAY METHODS        #
+    ##################################
 
+    # Replaces all player names with MTG characters
+    def alias_player_names(self, output_str):
 
+        alias_list = random.shuffle(["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Elspeth","Ajani","Bolas","Vraska","Tamiyo","Nahiri"])
+
+        for name in self.player_names:
+            output_str = output_str.replace(name, alias_list.pop())
+
+        return output_str

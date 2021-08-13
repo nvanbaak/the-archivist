@@ -18,13 +18,13 @@ class State_Manager:
 
         # Channel setup
         self.game_channel = None
-        
+
         # Lobby setup; "open" libraries are potential lobbies with no activity; "active" libraries can be joined and host games; "closed" libraries have active games and are not available for the state machine to start new games
         self.open_lobbies = ["Jace","Chandra","Nissa","Liliana","Gideon","Sorin","Venser","Elspeth","Ajani","Bolas","Vraska","Tamiyo","Nahiri"]
         random.shuffle(self.open_lobbies)
         self.active_lobbies = {}
         self.closed_lobbies = []
-        
+
         # Player -> Lobby assignment
         self.player_assign = {}
 
